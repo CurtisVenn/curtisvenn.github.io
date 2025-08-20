@@ -1,10 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Curtis Venn</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Curtis Venn | Portfolio</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body>
-    <h1>Hello, world!</h1>
-    <p>This is my new GitHub Pages site 🚀</p>
+  <body class="bg-gray-50 text-gray-900">
+    <!-- Navbar -->
+    <nav class="flex items-center justify-between px-6 py-4 shadow-md bg-white">
+      <h1 class="text-2xl font-bold">Curtis Venn</h1>
+      <ul class="flex space-x-6">
+        <li><a href="#home" class="hover:text-blue-600">Home</a></li>
+        <li><a href="#photography" class="hover:text-blue-600">Photography</a></li>
+        <li><a href="#blog" class="hover:text-blue-600">Blog</a></li>
+        <li><a href="#contact" class="hover:text-blue-600">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="text-center py-20 bg-gray-100">
+      <h2 class="text-4xl font-bold mb-4">Welcome to My Portfolio</h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+        Photographer | Creator | Storyteller. Explore my work and thoughts.
+      </p>
+    </section>
+
+    <!-- Photography Grid -->
+    <section id="photography" class="px-6 py-16">
+      <h2 class="text-3xl font-bold mb-8 text-center">Photography</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <img src="https://picsum.photos/id/1015/600/400" class="rounded-xl shadow-md" alt="Photo sample" />
+        <img src="https://picsum.photos/id/1016/600/400" class="rounded-xl shadow-md" alt="Photo sample" />
+        <img src="https://picsum.photos/id/1018/600/400" class="rounded-xl shadow-md" alt="Photo sample" />
+        <img src="https://picsum.photos/id/1020/600/400" class="rounded-xl shadow-md" alt="Photo sample" />
+        <img src="https://picsum.photos/id/1024/600/400" class="rounded-xl shadow-md" alt="Photo sample" />
+        <img src="https://picsum.photos/id/1027/600/400" class="rounded-xl shadow-md" alt="Photo sample" />
+      </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="px-6 py-16 bg-gray-100">
+      <h2 class="text-3xl font-bold mb-8 text-center">Blog / Ideas</h2>
+      <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <article class="bg-white p-6 rounded-xl shadow-md">
+          <h3 class="text-xl font-semibold mb-2">First Blog Post</h3>
+          <p class="text-gray-600 mb-4">
+            This is where you can share ideas, tutorials, or thoughts. You can expand
+            this later into a real blog system.
+          </p>
+          <a href="#" class="text-blue-600 hover:underline">Read more →</a>
+        </article>
+
+        <article class="bg-white p-6 rounded-xl shadow-md">
+          <h3 class="text-xl font-semibold mb-2">Another Idea</h3>
+          <p class="text-gray-600 mb-4">
+            You might write about photography tips, creative projects, or personal
+            updates.
+          </p>
+          <a href="#" class="text-blue-600 hover:underline">Read more →</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="px-6 py-16 text-center">
+      <h2 class="text-3xl font-bold mb-6">Contact</h2>
+      <p class="text-gray-600 mb-4">Let’s connect! Reach out via email:</p>
+      <a href="mailto:youremail@example.com" class="bg-blue-600 text-white px-6 py-3 rounded-xl shadow-md hover:bg-blue-700">
+        Email Me
+      </a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 bg-gray-200 text-gray-600">
+      <p>© 2025 Curtis Venn. All rights reserved.</p>
+    </footer>
   </body>
 </html>
