@@ -9,11 +9,14 @@
   </head>
   <body class="bg-gray-50 text-gray-900">
     <!-- Navbar -->
-    <nav class="flex items-center justify-between px-6 py-4 shadow-md bg-white">
+    <nav class="flex items-center justify-between px-6 py-4 shadow-md bg-white sticky top-0 z-50">
       <h1 class="text-2xl font-bold">Curtis Venn</h1>
       <ul class="flex space-x-6">
         <li><a href="#home" class="hover:text-blue-600">Home</a></li>
-        <li><a href="#photography" class="hover:text-blue-600">Photography</a></li>
+        <li><a href="#about" class="hover:text-blue-600">About</a></li>
+        <li><a href="#portraits" class="hover:text-blue-600">Portraits</a></li>
+        <li><a href="#landscapes" class="hover:text-blue-600">Landscapes</a></li>
+        <li><a href="#vehicles" class="hover:text-blue-600">Vehicles</a></li>
         <li><a href="#blog" class="hover:text-blue-600">Blog</a></li>
         <li><a href="#contact" class="hover:text-blue-600">Contact</a></li>
       </ul>
@@ -23,20 +26,52 @@
     <section id="home" class="text-center py-20 bg-gray-100">
       <h2 class="text-4xl font-bold mb-4">Welcome to My Portfolio</h2>
       <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+        <!-- ✏️ Edit this text: short tagline about yourself -->
         Photographer | Creator | Storyteller. Explore my work and thoughts.
       </p>
     </section>
 
-    <!-- Photography Grid -->
-    <section id="photography" class="px-6 py-16">
-      <h2 class="text-3xl font-bold mb-8 text-center">Photography</h2>
+    <!-- About Section -->
+    <section id="about" class="px-6 py-16 max-w-3xl mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-6">About Me</h2>
+      <p class="text-gray-700 leading-relaxed">
+        <!-- ✏️ Edit this text: introduce yourself here -->
+        Hi, I’m Curtis! I love photography, creative projects, and documenting life
+        through portraits, landscapes, and vehicles. This section is your place to
+        tell your story, your background, and what drives your work.
+      </p>
+    </section>
+
+    <!-- Portraits Section -->
+    <section id="portraits" class="px-6 py-16">
+      <h2 class="text-3xl font-bold mb-8 text-center">Portraits</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        <img src="https://picsum.photos/id/1015/600/400" class="rounded-xl shadow-md" alt="Photo sample" />
-        <img src="https://picsum.photos/id/1016/600/400" class="rounded-xl shadow-md" alt="Photo sample" />
-        <img src="https://picsum.photos/id/1018/600/400" class="rounded-xl shadow-md" alt="Photo sample" />
-        <img src="https://picsum.photos/id/1020/600/400" class="rounded-xl shadow-md" alt="Photo sample" />
-        <img src="https://picsum.photos/id/1024/600/400" class="rounded-xl shadow-md" alt="Photo sample" />
-        <img src="https://picsum.photos/id/1027/600/400" class="rounded-xl shadow-md" alt="Photo sample" />
+        <!-- ✏️ Replace sample images with your own -->
+        <img src="https://picsum.photos/id/1011/600/400" class="rounded-xl shadow-md" alt="Portrait sample" />
+        <img src="https://picsum.photos/id/1012/600/400" class="rounded-xl shadow-md" alt="Portrait sample" />
+        <img src="https://picsum.photos/id/1013/600/400" class="rounded-xl shadow-md" alt="Portrait sample" />
+      </div>
+    </section>
+
+    <!-- Landscapes Section -->
+    <section id="landscapes" class="px-6 py-16 bg-gray-100">
+      <h2 class="text-3xl font-bold mb-8 text-center">Landscapes</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <!-- ✏️ Replace sample images with your own -->
+        <img src="https://picsum.photos/id/1015/600/400" class="rounded-xl shadow-md" alt="Landscape sample" />
+        <img src="https://picsum.photos/id/1016/600/400" class="rounded-xl shadow-md" alt="Landscape sample" />
+        <img src="https://picsum.photos/id/1018/600/400" class="rounded-xl shadow-md" alt="Landscape sample" />
+      </div>
+    </section>
+
+    <!-- Vehicles Section -->
+    <section id="vehicles" class="px-6 py-16">
+      <h2 class="text-3xl font-bold mb-8 text-center">Vehicle Fun</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <!-- ✏️ Replace sample images with your own -->
+        <img src="https://picsum.photos/id/1024/600/400" class="rounded-xl shadow-md" alt="Vehicle sample" />
+        <img src="https://picsum.photos/id/1027/600/400" class="rounded-xl shadow-md" alt="Vehicle sample" />
+        <img src="https://picsum.photos/id/1032/600/400" class="rounded-xl shadow-md" alt="Vehicle sample" />
       </div>
     </section>
 
@@ -47,6 +82,7 @@
         <article class="bg-white p-6 rounded-xl shadow-md">
           <h3 class="text-xl font-semibold mb-2">First Blog Post</h3>
           <p class="text-gray-600 mb-4">
+            <!-- ✏️ Edit this preview text for your blog -->
             This is where you can share ideas, tutorials, or thoughts. You can expand
             this later into a real blog system.
           </p>
@@ -56,6 +92,7 @@
         <article class="bg-white p-6 rounded-xl shadow-md">
           <h3 class="text-xl font-semibold mb-2">Another Idea</h3>
           <p class="text-gray-600 mb-4">
+            <!-- ✏️ Edit this preview text for another idea -->
             You might write about photography tips, creative projects, or personal
             updates.
           </p>
@@ -67,7 +104,10 @@
     <!-- Contact Section -->
     <section id="contact" class="px-6 py-16 text-center">
       <h2 class="text-3xl font-bold mb-6">Contact</h2>
-      <p class="text-gray-600 mb-4">Let’s connect! Reach out via email:</p>
+      <p class="text-gray-600 mb-4">
+        <!-- ✏️ Edit this text with your email or preferred contact method -->
+        Let’s connect! Reach out via email:
+      </p>
       <a href="mailto:youremail@example.com" class="bg-blue-600 text-white px-6 py-3 rounded-xl shadow-md hover:bg-blue-700">
         Email Me
       </a>
