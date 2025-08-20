@@ -6,28 +6,65 @@
     <title>Curtis Venn | Portfolio</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for social icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   </head>
   <body class="bg-gray-50 text-gray-900">
 
-    <!-- Navbar -->
-    <nav class="flex flex-col sm:flex-row items-center justify-between px-6 py-4 shadow-md bg-white sticky top-0 z-50">
-      <h1 class="text-2xl sm:text-3xl font-bold mb-2 sm:mb-0">Curtis Venn</h1>
-      <ul class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-6 text-center">
-        <li><a href="#home" class="hover:text-blue-600">Home</a></li>
-        <li><a href="#about" class="hover:text-blue-600">About</a></li>
-        <li><a href="#portraits" class="hover:text-blue-600">Portraits</a></li>
-        <li><a href="#landscapes" class="hover:text-blue-600">Landscapes</a></li>
-        <li><a href="#vehicles" class="hover:text-blue-600">Vehicles</a></li>
-        <li><a href="#blog" class="hover:text-blue-600">Blog</a></li>
-        <li><a href="#contact" class="hover:text-blue-600">Contact</a></li>
-      </ul>
+    <!-- Navbar with hamburger menu -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16 items-center">
+          <h1 class="text-2xl sm:text-3xl font-bold">Curtis Venn</h1>
+
+          <!-- Desktop Menu -->
+          <div class="hidden md:flex md:items-center md:space-x-6">
+            <a href="#home" class="hover:text-blue-600">Home</a>
+            <a href="#about" class="hover:text-blue-600">About</a>
+            <a href="#portraits" class="hover:text-blue-600">Portraits</a>
+            <a href="#landscapes" class="hover:text-blue-600">Landscapes</a>
+            <a href="#vehicles" class="hover:text-blue-600">Vehicles</a>
+            <a href="#blog" class="hover:text-blue-600">Blog</a>
+            <a href="#contact" class="hover:text-blue-600">Contact</a>
+            <!-- Social icons -->
+            <a href="#" class="text-gray-600 hover:text-blue-600"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-gray-600 hover:text-blue-600"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="text-gray-600 hover:text-blue-600"><i class="fab fa-linkedin"></i></a>
+          </div>
+
+          <!-- Mobile Hamburger -->
+          <div class="md:hidden flex items-center">
+            <button id="menu-btn" class="text-gray-700 focus:outline-none">
+              <i class="fas fa-bars fa-2x"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div id="mobile-menu" class="hidden md:hidden px-4 pt-2 pb-4 space-y-2">
+        <a href="#home" class="block hover:text-blue-600">Home</a>
+        <a href="#about" class="block hover:text-blue-600">About</a>
+        <a href="#portraits" class="block hover:text-blue-600">Portraits</a>
+        <a href="#landscapes" class="block hover:text-blue-600">Landscapes</a>
+        <a href="#vehicles" class="block hover:text-blue-600">Vehicles</a>
+        <a href="#blog" class="block hover:text-blue-600">Blog</a>
+        <a href="#contact" class="block hover:text-blue-600">Contact</a>
+        <!-- Social icons -->
+        <div class="flex space-x-4 mt-2">
+          <a href="#" class="text-gray-600 hover:text-blue-600"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="text-gray-600 hover:text-blue-600"><i class="fab fa-facebook"></i></a>
+          <a href="#" class="text-gray-600 hover:text-blue-600"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
     </nav>
 
-    <!-- Hero Section with subtle gradient and floating text -->
-    <section id="home" class="text-center py-20 px-4 bg-gradient-to-r from-gray-100 to-gray-200">
-      <div class="inline-block bg-white bg-opacity-70 px-6 py-6 rounded-xl shadow-lg">
+    <!-- Hero Section with background image and overlay -->
+    <section id="home" class="relative text-center py-32 px-4 bg-cover bg-center" style="background-image: url('https://picsum.photos/id/1019/1600/600');">
+      <div class="absolute inset-0 bg-black bg-opacity-30"></div>
+      <div class="relative inline-block bg-white bg-opacity-70 px-6 py-6 rounded-xl shadow-lg">
         <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Welcome to My Portfolio</h2>
-        <p class="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+        <p class="text-base sm:text-lg md:text-xl text-gray-800 max-w-2xl mx-auto">
           Photographer | Creator | Storyteller. Explore my work and thoughts.
         </p>
       </div>
@@ -43,33 +80,33 @@
       </p>
     </section>
 
-    <!-- Portraits Section with hover zoom effect -->
+    <!-- Portraits Section (horizontal scroll) -->
     <section id="portraits" class="px-4 py-16">
       <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-8 text-center">Portraits</h2>
       <div class="flex flex-nowrap overflow-x-auto space-x-4 md:grid md:grid-cols-3 md:gap-4">
-        <img src="https://picsum.photos/id/1011/600/400" class="w-64 flex-shrink-0 md:w-full rounded-xl shadow-md transition-transform transform hover:scale-105 duration-300" alt="Portrait sample" />
-        <img src="https://picsum.photos/id/1012/600/400" class="w-64 flex-shrink-0 md:w-full rounded-xl shadow-md transition-transform transform hover:scale-105 duration-300" alt="Portrait sample" />
-        <img src="https://picsum.photos/id/1013/600/400" class="w-64 flex-shrink-0 md:w-full rounded-xl shadow-md transition-transform transform hover:scale-105 duration-300" alt="Portrait sample" />
+        <img src="https://picsum.photos/id/1011/600/400" class="w-64 flex-shrink-0 md:w-full rounded-xl shadow-md" alt="Portrait sample" />
+        <img src="https://picsum.photos/id/1012/600/400" class="w-64 flex-shrink-0 md:w-full rounded-xl shadow-md" alt="Portrait sample" />
+        <img src="https://picsum.photos/id/1013/600/400" class="w-64 flex-shrink-0 md:w-full rounded-xl shadow-md" alt="Portrait sample" />
       </div>
     </section>
 
-    <!-- Landscapes Section with hover zoom -->
+    <!-- Landscapes Section -->
     <section id="landscapes" class="px-4 py-16 bg-gray-100">
       <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-8 text-center">Landscapes</h2>
       <div class="flex flex-nowrap overflow-x-auto space-x-4 md:grid md:grid-cols-3 md:gap-4">
-        <img src="https://picsum.photos/id/1015/600/400" class="w-64 flex-shrink-0 md:w-full rounded-xl shadow-md transition-transform transform hover:scale-105 duration-300" alt="Landscape sample" />
-        <img src="https://picsum.photos/id/1016/600/400" class="w-64 flex-shrink-0 md:w-full rounded-xl shadow-md transition-transform transform hover:scale-105 duration-300" alt="Landscape sample" />
-        <img src="https://picsum.photos/id/1018/600/400" class="w-64 flex-shrink-0 md:w-full rounded-xl shadow-md transition-transform transform hover:scale-105 duration-300" alt="Landscape sample" />
+        <img src="https://picsum.photos/id/1015/600/400" class="w-64 flex-shrink-0 md:w-full rounded-xl shadow-md" alt="Landscape sample" />
+        <img src="https://picsum.photos/id/1016/600/400" class="w-64 flex-shrink-0 md:w-full rounded-xl shadow-md" alt="Landscape sample" />
+        <img src="https://picsum.photos/id/1018/600/400" class="w-64 flex-shrink-0 md:w-full rounded-xl shadow-md" alt="Landscape sample" />
       </div>
     </section>
 
-    <!-- Vehicles Section with hover zoom -->
+    <!-- Vehicles Section -->
     <section id="vehicles" class="px-4 py-16">
       <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-8 text-center">Vehicle Fun</h2>
       <div class="flex flex-nowrap overflow-x-auto space-x-4 md:grid md:grid-cols-3 md:gap-4">
-        <img src="https://picsum.photos/id/1024/600/400" class="w-64 flex-shrink-0 md:w-full rounded-xl shadow-md transition-transform transform hover:scale-105 duration-300" alt="Vehicle sample" />
-        <img src="https://picsum.photos/id/1027/600/400" class="w-64 flex-shrink-0 md:w-full rounded-xl shadow-md transition-transform transform hover:scale-105 duration-300" alt="Vehicle sample" />
-        <img src="https://picsum.photos/id/1032/600/400" class="w-64 flex-shrink-0 md:w-full rounded-xl shadow-md transition-transform transform hover:scale-105 duration-300" alt="Vehicle sample" />
+        <img src="https://picsum.photos/id/1024/600/400" class="w-64 flex-shrink-0 md:w-full rounded-xl shadow-md" alt="Vehicle sample" />
+        <img src="https://picsum.photos/id/1027/600/400" class="w-64 flex-shrink-0 md:w-full rounded-xl shadow-md" alt="Vehicle sample" />
+        <img src="https://picsum.photos/id/1032/600/400" class="w-64 flex-shrink-0 md:w-full rounded-xl shadow-md" alt="Vehicle sample" />
       </div>
     </section>
 
@@ -104,10 +141,10 @@
         Let’s connect! Reach out via email or text:
       </p>
       <div class="flex flex-col sm:flex-row justify-center gap-4">
-        <a href="mailto:youremail@example.com" class="bg-blue-600 text-white px-6 py-3 rounded-xl shadow-md hover:bg-blue-700">
+        <a href="mailto:curtis.hi95@gmail.com" class="bg-blue-600 text-white px-6 py-3 rounded-xl shadow-md hover:bg-blue-700">
           Email Me
         </a>
-        <a href="sms:+1234567890" class="bg-green-600 text-white px-6 py-3 rounded-xl shadow-md hover:bg-green-700">
+        <a href="sms:+18018157592" class="bg-green-600 text-white px-6 py-3 rounded-xl shadow-md hover:bg-green-700">
           Text Me
         </a>
       </div>
@@ -117,6 +154,15 @@
     <footer class="text-center py-6 bg-gray-200 text-gray-600">
       <p>© 2025 Curtis Venn. All rights reserved.</p>
     </footer>
+
+    <!-- JS for mobile menu toggle -->
+    <script>
+      const menuBtn = document.getElementById('menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      menuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+    </script>
 
   </body>
 </html>
