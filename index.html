@@ -1,137 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Curtis Venn Portfolio</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Curtis Venn | Portfolio</title>
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-gray-50 text-gray-900 pt-16">
 
-  <!-- Navbar -->
-  <nav class="fixed top-0 left-0 w-full bg-white shadow z-50">
-    <div class="max-w-6xl mx-auto px-4">
-      <div class="flex justify-between items-center h-16">
-        
-        <!-- Logo / Name -->
-        <a href="#home" class="text-xl font-bold text-gray-800">Curtis Venn</a>
+  <!-- Navbar (fixed) -->
+  <nav class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur shadow z-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex items-center justify-between h-16">
+        <!-- Brand -->
+        <a href="#home" class="font-bold text-xl">Curtis Venn</a>
 
-        <!-- Desktop Nav -->
+        <!-- Desktop Links -->
         <div class="hidden md:flex items-center space-x-6">
-          <a href="#about" class="hover:text-gray-900">About</a>
-          <a href="#portraits" class="hover:text-gray-900">Portraits</a>
-          <a href="#landscapes" class="hover:text-gray-900">Landscapes</a>
-          <a href="#vehicles" class="hover:text-gray-900">Vehicles</a>
-          <a href="#contact" class="hover:text-gray-900">Contact</a>
-
-          <!-- Social Icons -->
-          <a href="https://www.instagram.com/curtis_venn/" target="_blank" class="text-gray-600 hover:text-pink-500">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-6 h-6" viewBox="0 0 24 24">
-              <path d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2Zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4h-9Zm9.25 1.75a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/>
-            </svg>
+          <a href="#about" class="hover:text-blue-600">About</a>
+          <a href="#portraits" class="hover:text-blue-600">Portraits</a>
+          <a href="#landscapes" class="hover:text-blue-600">Landscapes</a>
+          <a href="#vehicles" class="hover:text-blue-600">Vehicles</a>
+          <a href="#contact" class="hover:text-blue-600">Contact</a>
+          <!-- Socials -->
+          <a href="https://www.instagram.com/curtis_venn/" target="_blank" aria-label="Instagram" class="text-gray-600 hover:text-pink-500">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2Zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4h-9Zm9.25 1.75a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg>
           </a>
-          <a href="https://www.linkedin.com/in/curtis-venn" target="_blank" class="text-gray-600 hover:text-blue-600">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-6 h-6" viewBox="0 0 24 24">
-              <path d="M4.98 3.5C4.98 4.6 4.05 5.5 2.9 5.5c-1.16 0-2.08-.9-2.08-2S1.74 1.5 2.9 1.5c1.15 0 2.08.9 2.08 2ZM.5 8h4.7V24H.5V8Zm7.6 0h4.5v2.2h.1c.6-1.1 2.1-2.2 4.3-2.2 4.6 0 5.4 3 5.4 6.9V24h-4.7v-7.5c0-1.8 0-4.1-2.5-4.1-2.5 0-2.8 1.9-2.8 4V24H8.1V8Z"/>
-            </svg>
+          <a href="https://www.linkedin.com/in/curtis-venn" target="_blank" aria-label="LinkedIn" class="text-gray-600 hover:text-blue-600">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path d="M4.98 3.5c0 1.1-.93 2-2.08 2C1.74 5.5.82 4.6.82 3.5S1.74 1.5 2.9 1.5c1.15 0 2.08.9 2.08 2ZM.5 8h4.7v13.5H.5V8Zm7.6 0h4.5v2.2h.1c.6-1.1 2.1-2.2 4.3-2.2 4.6 0 5.4 3 5.4 6.9V21.5h-4.7V14c0-1.8 0-4.1-2.5-4.1-2.5 0-2.8 1.9-2.8 4v7.6H8.1V8Z"/></svg>
           </a>
         </div>
 
         <!-- Mobile Hamburger -->
-        <div class="md:hidden">
-          <button id="menu-button" class="focus:outline-none">
-            <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M4 6h16M4 12h16M4 18h16"/>
-            </svg>
-          </button>
-        </div>
+        <button id="menu-button" class="md:hidden p-2 rounded focus:outline-none focus:ring" aria-label="Open menu" aria-expanded="false">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
       </div>
     </div>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden px-4 pt-2 pb-4 space-y-2 bg-white shadow">
-      <a href="#about" class="block text-gray-700 hover:text-gray-900">About</a>
-      <a href="#portraits" class="block text-gray-700 hover:text-gray-900">Portraits</a>
-      <a href="#landscapes" class="block text-gray-700 hover:text-gray-900">Landscapes</a>
-      <a href="#vehicles" class="block text-gray-700 hover:text-gray-900">Vehicles</a>
-      <a href="#contact" class="block text-gray-700 hover:text-gray-900">Contact</a>
-      <div class="flex space-x-4 pt-2">
-        <a href="https://www.instagram.com/curtis_venn/" target="_blank" class="text-gray-600 hover:text-pink-500">Instagram</a>
-        <a href="https://www.linkedin.com/in/curtis-venn" target="_blank" class="text-gray-600 hover:text-blue-600">LinkedIn</a>
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+      <div class="px-4 py-3 space-y-2">
+        <a href="#about" class="block hover:text-blue-600">About</a>
+        <a href="#portraits" class="block hover:text-blue-600">Portraits</a>
+        <a href="#landscapes" class="block hover:text-blue-600">Landscapes</a>
+        <a href="#vehicles" class="block hover:text-blue-600">Vehicles</a>
+        <a href="#contact" class="block hover:text-blue-600">Contact</a>
+        <div class="flex items-center gap-4 pt-2">
+          <a href="https://www.instagram.com/curtis_venn/" target="_blank" class="text-gray-600 hover:text-pink-500">Instagram</a>
+          <a href="https://www.linkedin.com/in/curtis-venn" target="_blank" class="text-gray-600 hover:text-blue-600">LinkedIn</a>
+        </div>
       </div>
     </div>
   </nav>
 
-  <!-- Hero -->
-  <section id="home" class="h-screen flex items-center justify-center bg-gray-100">
-    <h1 class="text-4xl md:text-6xl font-bold">Welcome to My Portfolio</h1>
+  <!-- Hero (use your own background image) -->
+  <!-- Put your hero image in /images/hero.jpg OR change the URL below -->
+  <section id="home" class="relative h-[70vh] md:h-[80vh] flex items-center justify-center bg-center bg-cover" style="background-image: url('images/hero.jpg');">
+    <div class="absolute inset-0 bg-black/40"></div>
+    <div class="relative text-center px-6">
+      <h1 class="text-4xl md:text-6xl font-bold text-white drop-shadow">Welcome to My Portfolio</h1>
+      <p class="mt-4 text-lg md:text-xl text-gray-100 max-w-2xl mx-auto">Photographer • Creator • Storyteller</p>
+    </div>
   </section>
 
   <!-- About -->
-  <section id="about" class="max-w-4xl mx-auto py-20 px-4">
-    <h2 class="text-3xl font-bold mb-6">About Me</h2>
-    <p class="text-lg leading-relaxed">
-      Hi, I’m Curtis Venn — passionate about capturing moments through photography. 
-      This site showcases my work across portraits, landscapes, and vehicles.
+  <section id="about" class="max-w-5xl mx-auto px-4 py-16">
+    <h2 class="text-3xl md:text-4xl font-bold mb-6">About Me</h2>
+    <p class="text-lg text-gray-700 leading-relaxed">
+      Hi, I’m Curtis! I love photography, creative projects, and documenting life through portraits, landscapes, and vehicles. 
+      This site is a place to showcase my work and share ideas.
     </p>
   </section>
 
-  <!-- Portfolio -->
-  <section id="portfolio" class="bg-gray-200 py-20">
+  <!-- Portfolio wrapper with a subtle background image option -->
+  <!-- To add a faint background across the portfolio, replace bg-gray-100 with a relative section and an absolutely positioned background -->
+  <section id="portfolio" class="bg-gray-100 py-16">
     <div class="max-w-6xl mx-auto px-4">
-      <h2 class="text-3xl font-bold mb-10">Portfolio</h2>
+      <h2 class="text-3xl md:text-4xl font-bold mb-10">Portfolio</h2>
 
       <!-- Portraits -->
       <div id="portraits" class="mb-12">
         <h3 class="text-2xl font-semibold mb-4">Portraits</h3>
-        <div class="flex space-x-4 overflow-x-auto pb-4">
-          <img src="https://via.placeholder.com/400x300" class="rounded-lg shadow-md" alt="Portrait Sample">
-          <img src="https://via.placeholder.com/400x300" class="rounded-lg shadow-md" alt="Portrait Sample">
+        <div class="flex overflow-x-auto gap-4 md:grid md:grid-cols-3 md:gap-4">
+          <!-- Replace with your images -->
+          <img src="https://picsum.photos/id/1011/600/400" class="w-64 md:w-full rounded-xl shadow-md flex-shrink-0" alt="Portrait sample" />
+          <img src="https://picsum.photos/id/1012/600/400" class="w-64 md:w-full rounded-xl shadow-md flex-shrink-0" alt="Portrait sample" />
+          <img src="https://picsum.photos/id/1013/600/400" class="w-64 md:w-full rounded-xl shadow-md flex-shrink-0" alt="Portrait sample" />
+          <img src="https://picsum.photos/id/1014/600/400" class="w-64 md:w-full rounded-xl shadow-md flex-shrink-0" alt="Portrait sample" />
+          <img src="https://picsum.photos/id/1019/600/400" class="w-64 md:w-full rounded-xl shadow-md flex-shrink-0" alt="Portrait sample" />
         </div>
       </div>
 
       <!-- Landscapes -->
       <div id="landscapes" class="mb-12">
         <h3 class="text-2xl font-semibold mb-4">Landscapes</h3>
-        <div class="flex space-x-4 overflow-x-auto pb-4">
-          <img src="https://via.placeholder.com/400x300" class="rounded-lg shadow-md" alt="Landscape Sample">
-          <img src="https://via.placeholder.com/400x300" class="rounded-lg shadow-md" alt="Landscape Sample">
+        <div class="flex overflow-x-auto gap-4 md:grid md:grid-cols-3 md:gap-4">
+          <img src="https://picsum.photos/id/1015/600/400" class="w-64 md:w-full rounded-xl shadow-md flex-shrink-0" alt="Landscape sample" />
+          <img src="https://picsum.photos/id/1016/600/400" class="w-64 md:w-full rounded-xl shadow-md flex-shrink-0" alt="Landscape sample" />
+          <img src="https://picsum.photos/id/1018/600/400" class="w-64 md:w-full rounded-xl shadow-md flex-shrink-0" alt="Landscape sample" />
+          <img src="https://picsum.photos/id/1020/600/400" class="w-64 md:w-full rounded-xl shadow-md flex-shrink-0" alt="Landscape sample" />
+          <img src="https://picsum.photos/id/1021/600/400" class="w-64 md:w-full rounded-xl shadow-md flex-shrink-0" alt="Landscape sample" />
         </div>
       </div>
 
       <!-- Vehicles -->
       <div id="vehicles">
         <h3 class="text-2xl font-semibold mb-4">Vehicles</h3>
-        <div class="flex space-x-4 overflow-x-auto pb-4">
-          <img src="https://via.placeholder.com/400x300" class="rounded-lg shadow-md" alt="Vehicle Sample">
-          <img src="https://via.placeholder.com/400x300" class="rounded-lg shadow-md" alt="Vehicle Sample">
+        <div class="flex overflow-x-auto gap-4 md:grid md:grid-cols-3 md:gap-4">
+          <img src="https://picsum.photos/id/1024/600/400" class="w-64 md:w-full rounded-xl shadow-md flex-shrink-0" alt="Vehicle sample" />
+          <img src="https://picsum.photos/id/1027/600/400" class="w-64 md:w-full rounded-xl shadow-md flex-shrink-0" alt="Vehicle sample" />
+          <img src="https://picsum.photos/id/1032/600/400" class="w-64 md:w-full rounded-xl shadow-md flex-shrink-0" alt="Vehicle sample" />
+          <img src="https://picsum.photos/id/1033/600/400" class="w-64 md:w-full rounded-xl shadow-md flex-shrink-0" alt="Vehicle sample" />
         </div>
       </div>
+
     </div>
   </section>
 
   <!-- Contact -->
-  <section id="contact" class="max-w-4xl mx-auto py-20 px-4 text-center">
-    <h2 class="text-3xl font-bold mb-6">Get in Touch</h2>
-    <div class="space-y-4">
-      <a href="mailto:curtis.hi95@gmail.com" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-700">Email Me</a>
-      <a href="sms:+18018157592" class="inline-block bg-green-600 text-white px-6 py-3 rounded-lg shadow hover:bg-green-700">Text Me</a>
+  <section id="contact" class="max-w-5xl mx-auto px-4 py-16 text-center">
+    <h2 class="text-3xl md:text-4xl font-bold mb-6">Get in Touch</h2>
+    <p class="text-gray-600 mb-6">Have a project in mind or want to say hi?</p>
+    <div class="flex flex-col sm:flex-row justify-center gap-4">
+      <a href="mailto:curtis.hi95@gmail.com" class="bg-blue-600 text-white px-6 py-3 rounded-xl shadow hover:bg-blue-700">Email Me</a>
+      <a href="sms:+18018157592" class="bg-green-600 text-white px-6 py-3 rounded-xl shadow hover:bg-green-700">Text Me</a>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="bg-white py-6 text-center text-gray-600">
+  <footer class="bg-white text-center py-6 text-gray-600">
     <p>© 2025 Curtis Venn. All rights reserved.</p>
   </footer>
 
-  <!-- Mobile Menu Script -->
+  <!-- Mobile menu script -->
   <script>
     const menuButton = document.getElementById('menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
     menuButton.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
+      const isHidden = mobileMenu.classList.toggle('hidden');
+      menuButton.setAttribute('aria-expanded', String(!isHidden));
     });
+
+    // Optional: close the mobile menu when a link is clicked
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      if (!mobileMenu.classList.contains('hidden')) {
+        mobileMenu.classList.add('hidden');
+        menuButton.setAttribute('aria-expanded', 'false');
+      }
+    }));
   </script>
 </body>
 </html>
