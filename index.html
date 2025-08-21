@@ -1,158 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Curtis Venn | Portfolio</title>
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    html { scroll-behavior: smooth; }
-  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-gray-50 text-gray-900 pt-16">
+<body class="font-sans text-gray-900">
 
-  <!-- Navbar (fixed) -->
-  <nav class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur shadow z-50">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="flex items-center justify-between h-16">
-        <!-- Brand -->
-        <a href="#home" class="font-bold text-xl">Curtis Venn</a>
-
-        <!-- Desktop Links -->
-        <div class="hidden md:flex items-center space-x-6">
-          <a href="#about" class="hover:text-blue-600">About</a>
-          <a href="#portraits" class="hover:text-blue-600">Portraits</a>
-          <a href="#landscapes" class="hover:text-blue-600">Landscapes</a>
-          <a href="#vehicles" class="hover:text-blue-600">Vehicles</a>
-          <a href="#contact" class="hover:text-blue-600">Contact</a>
-          <!-- Socials -->
-          <a href="https://www.instagram.com/curtis_venn/" target="_blank" aria-label="Instagram" class="text-gray-600 hover:text-pink-500">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2Zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4h-9Zm9.25 1.75a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg>
-          </a>
-          <a href="https://www.linkedin.com/in/curtis-venn" target="_blank" aria-label="LinkedIn" class="text-gray-600 hover:text-blue-600">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path d="M4.98 3.5c0 1.1-.93 2-2.08 2C1.74 5.5.82 4.6.82 3.5S1.74 1.5 2.9 1.5c1.15 0 2.08.9 2.08 2ZM.5 8h4.7v13.5H.5V8Zm7.6 0h4.5v2.2h.1c.6-1.1 2.1-2.2 4.3-2.2 4.6 0 5.4 3 5.4 6.9V21.5h-4.7V14c0-1.8 0-4.1-2.5-4.1-2.5 0-2.8 1.9-2.8 4v7.6H8.1V8Z"/></svg>
-          </a>
-        </div>
-
-        <!-- Mobile Hamburger -->
-        <button id="menu-button" class="md:hidden p-2 rounded focus:outline-none focus:ring" aria-label="Open menu" aria-expanded="false">
-          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 w-full bg-white/90 shadow-md z-50">
+    <div class="max-w-6xl mx-auto flex items-center justify-between p-4">
+      <div class="text-xl font-bold">Curtis Venn</div>
+      <div class="hidden md:flex space-x-6">
+        <a href="#home" class="hover:text-gray-600">Home</a>
+        <a href="#about" class="hover:text-gray-600">About</a>
+        <a href="#portraits" class="hover:text-gray-600">Portraits</a>
+        <a href="#landscapes" class="hover:text-gray-600">Landscapes</a>
+        <a href="#vehicles" class="hover:text-gray-600">Vehicles</a>
+        <a href="#product" class="hover:text-gray-600">Product</a>
+        <a href="#contact" class="hover:text-gray-600">Contact</a>
       </div>
+      <div class="hidden md:flex space-x-4">
+        <a href="https://www.instagram.com/curtis_venn/" target="_blank" class="text-gray-700 hover:text-pink-500"><i class="fab fa-instagram fa-lg"></i></a>
+        <a href="https://www.linkedin.com/in/curtis-venn" target="_blank" class="text-gray-700 hover:text-blue-600"><i class="fab fa-linkedin fa-lg"></i></a>
+      </div>
+      <button id="menu-btn" class="md:hidden text-2xl focus:outline-none">
+        <i class="fas fa-bars"></i>
+      </button>
     </div>
-
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
-      <div class="px-4 py-3 space-y-2">
-        <a href="#about" class="block hover:text-blue-600">About</a>
-        <a href="#portraits" class="block hover:text-blue-600">Portraits</a>
-        <a href="#landscapes" class="block hover:text-blue-600">Landscapes</a>
-        <a href="#vehicles" class="block hover:text-blue-600">Vehicles</a>
-        <a href="#contact" class="block hover:text-blue-600">Contact</a>
-        <div class="flex items-center gap-4 pt-2">
-          <a href="https://www.instagram.com/curtis_venn/" target="_blank" class="text-gray-600 hover:text-pink-500">Instagram</a>
-          <a href="https://www.linkedin.com/in/curtis-venn" target="_blank" class="text-gray-600 hover:text-blue-600">LinkedIn</a>
-        </div>
+    <div id="menu" class="hidden md:hidden flex-col bg-white px-4 pb-4 space-y-2">
+      <a href="#home" class="hover:text-gray-600">Home</a>
+      <a href="#about" class="hover:text-gray-600">About</a>
+      <a href="#portraits" class="hover:text-gray-600">Portraits</a>
+      <a href="#landscapes" class="hover:text-gray-600">Landscapes</a>
+      <a href="#vehicles" class="hover:text-gray-600">Vehicles</a>
+      <a href="#product" class="hover:text-gray-600">Product</a>
+      <a href="#contact" class="hover:text-gray-600">Contact</a>
+      <div class="flex space-x-4 pt-2">
+        <a href="https://www.instagram.com/curtis_venn/" target="_blank" class="text-gray-700 hover:text-pink-500"><i class="fab fa-instagram fa-lg"></i></a>
+        <a href="https://www.linkedin.com/in/curtis-venn" target="_blank" class="text-gray-700 hover:text-blue-600"><i class="fab fa-linkedin fa-lg"></i></a>
       </div>
     </div>
   </nav>
 
-  <!-- Hero (use your own background image) -->
-  <!-- Put your hero image in /images/hero.jpg OR change the URL below -->
-  <section id="home" class="relative h-[70vh] md:h-[80vh] flex items-center justify-center bg-center bg-cover" style="background-image: url('images/hero.jpg');">
-    <div class="absolute inset-0 bg-black/40"></div>
-    <div class="relative text-center px-6">
-      <h1 class="text-4xl md:text-6xl font-bold text-white drop-shadow">Welcome to My Portfolio</h1>
-      <p class="mt-4 text-lg md:text-xl text-gray-100 max-w-2xl mx-auto">Photographer • Creator • Storyteller</p>
+  <!-- Hero Section -->
+  <section id="home" class="relative h-[70vh] flex items-center justify-center text-center text-white" style="background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80'); background-size: cover; background-position: center;">
+    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+    <div class="relative z-10">
+      <h1 class="text-4xl md:text-6xl font-bold">Welcome to My Portfolio</h1>
+      <p class="mt-4 text-lg md:text-2xl">Photography | Creativity | Storytelling</p>
     </div>
   </section>
 
-  <!-- About -->
-  <section id="about" class="max-w-5xl mx-auto px-4 py-16">
-    <h2 class="text-3xl md:text-4xl font-bold mb-6">About Me</h2>
-    <p class="text-lg text-gray-700 leading-relaxed">
-      Hi, I’m Curtis! I love photography, creative projects, and documenting life through portraits, landscapes, and vehicles. 
-      This site is a place to showcase my work and share ideas.
-    </p>
+  <!-- About Section -->
+  <section id="about" class="max-w-4xl mx-auto py-16 px-6 text-center">
+    <h2 class="text-3xl font-bold mb-6">About Me</h2>
+    <p class="text-gray-700 leading-relaxed">I’m Curtis, a photographer with a passion for capturing moments and telling stories through visuals. Whether it’s portraits, landscapes, vehicles, or product photography, I aim to create imagery that connects with people.</p>
   </section>
 
-  <!-- Portfolio wrapper with a subtle background image option -->
-  <!-- To add a faint background across the portfolio, replace bg-gray-100 with a relative section and an absolutely positioned background -->
-  <section id="portfolio" class="bg-gray-100 py-16">
-    <div class="max-w-6xl mx-auto px-4">
-      <h2 class="text-3xl md:text-4xl font-bold mb-10">Portfolio</h2>
-
-      <!-- Portraits -->
-      <div id="portraits" class="mb-12">
-        <h3 class="text-2xl font-semibold mb-4">Portraits</h3>
-        <div class="flex overflow-x-auto gap-4 md:grid md:grid-cols-3 md:gap-4">
-          <!-- Replace with your images -->
-          <img src="https://picsum.photos/id/1011/600/400" class="w-64 md:w-full rounded-xl shadow-md flex-shrink-0" alt="Portrait sample" />
-          <img src="https://picsum.photos/id/1012/600/400" class="w-64 md:w-full rounded-xl shadow-md flex-shrink-0" alt="Portrait sample" />
-          <img src="https://picsum.photos/id/1013/600/400" class="w-64 md:w-full rounded-xl shadow-md flex-shrink-0" alt="Portrait sample" />
-          <img src="https://picsum.photos/id/1014/600/400" class="w-64 md:w-full rounded-xl shadow-md flex-shrink-0" alt="Portrait sample" />
-          <img src="https://picsum.photos/id/1019/600/400" class="w-64 md:w-full rounded-xl shadow-md flex-shrink-0" alt="Portrait sample" />
-        </div>
-      </div>
-
-      <!-- Landscapes -->
-      <div id="landscapes" class="mb-12">
-        <h3 class="text-2xl font-semibold mb-4">Landscapes</h3>
-        <div class="flex overflow-x-auto gap-4 md:grid md:grid-cols-3 md:gap-4">
-          <img src="https://picsum.photos/id/1015/600/400" class="w-64 md:w-full rounded-xl shadow-md flex-shrink-0" alt="Landscape sample" />
-          <img src="https://picsum.photos/id/1016/600/400" class="w-64 md:w-full rounded-xl shadow-md flex-shrink-0" alt="Landscape sample" />
-          <img src="https://picsum.photos/id/1018/600/400" class="w-64 md:w-full rounded-xl shadow-md flex-shrink-0" alt="Landscape sample" />
-          <img src="https://picsum.photos/id/1020/600/400" class="w-64 md:w-full rounded-xl shadow-md flex-shrink-0" alt="Landscape sample" />
-          <img src="https://picsum.photos/id/1021/600/400" class="w-64 md:w-full rounded-xl shadow-md flex-shrink-0" alt="Landscape sample" />
-        </div>
-      </div>
-
-      <!-- Vehicles -->
-      <div id="vehicles">
-        <h3 class="text-2xl font-semibold mb-4">Vehicles</h3>
-        <div class="flex overflow-x-auto gap-4 md:grid md:grid-cols-3 md:gap-4">
-          <img src="https://picsum.photos/id/1024/600/400" class="w-64 md:w-full rounded-xl shadow-md flex-shrink-0" alt="Vehicle sample" />
-          <img src="https://picsum.photos/id/1027/600/400" class="w-64 md:w-full rounded-xl shadow-md flex-shrink-0" alt="Vehicle sample" />
-          <img src="https://picsum.photos/id/1032/600/400" class="w-64 md:w-full rounded-xl shadow-md flex-shrink-0" alt="Vehicle sample" />
-          <img src="https://picsum.photos/id/1033/600/400" class="w-64 md:w-full rounded-xl shadow-md flex-shrink-0" alt="Vehicle sample" />
-        </div>
-      </div>
-
+  <!-- Portraits Section -->
+  <section id="portraits" class="max-w-6xl mx-auto py-16 px-6">
+    <h2 class="text-3xl font-bold mb-6 text-center">Portraits</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 overflow-x-auto">
+      <img src="https://via.placeholder.com/400x300" class="rounded-lg shadow-md">
+      <img src="https://via.placeholder.com/400x300" class="rounded-lg shadow-md">
+      <img src="https://via.placeholder.com/400x300" class="rounded-lg shadow-md">
     </div>
   </section>
 
-  <!-- Contact -->
-  <section id="contact" class="max-w-5xl mx-auto px-4 py-16 text-center">
-    <h2 class="text-3xl md:text-4xl font-bold mb-6">Get in Touch</h2>
-    <p class="text-gray-600 mb-6">Have a project in mind or want to say hi?</p>
-    <div class="flex flex-col sm:flex-row justify-center gap-4">
-      <a href="mailto:curtis.hi95@gmail.com" class="bg-blue-600 text-white px-6 py-3 rounded-xl shadow hover:bg-blue-700">Email Me</a>
-      <a href="sms:+18018157592" class="bg-green-600 text-white px-6 py-3 rounded-xl shadow hover:bg-green-700">Text Me</a>
+  <!-- Landscapes Section -->
+  <section id="landscapes" class="max-w-6xl mx-auto py-16 px-6">
+    <h2 class="text-3xl font-bold mb-6 text-center">Landscapes</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 overflow-x-auto">
+      <img src="https://via.placeholder.com/400x300" class="rounded-lg shadow-md">
+      <img src="https://via.placeholder.com/400x300" class="rounded-lg shadow-md">
+      <img src="https://via.placeholder.com/400x300" class="rounded-lg shadow-md">
+    </div>
+  </section>
+
+  <!-- Vehicles Section -->
+  <section id="vehicles" class="max-w-6xl mx-auto py-16 px-6">
+    <h2 class="text-3xl font-bold mb-6 text-center">Vehicles</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 overflow-x-auto">
+      <img src="https://via.placeholder.com/400x300" class="rounded-lg shadow-md">
+      <img src="https://via.placeholder.com/400x300" class="rounded-lg shadow-md">
+      <img src="https://via.placeholder.com/400x300" class="rounded-lg shadow-md">
+    </div>
+  </section>
+
+  <!-- Product Photography Section -->
+  <section id="product" class="max-w-6xl mx-auto py-16 px-6">
+    <h2 class="text-3xl font-bold mb-6 text-center">Product Photography</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 overflow-x-auto">
+      <img src="https://via.placeholder.com/400x300" class="rounded-lg shadow-md">
+      <img src="https://via.placeholder.com/400x300" class="rounded-lg shadow-md">
+      <img src="https://via.placeholder.com/400x300" class="rounded-lg shadow-md">
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="bg-gray-100 py-16 px-6 text-center">
+    <h2 class="text-3xl font-bold mb-6">Get in Touch</h2>
+    <div class="flex flex-col md:flex-row justify-center gap-4">
+      <a href="mailto:curtis.hi95@gmail.com" class="bg-blue-600 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-700">Email Me</a>
+      <a href="sms:8018157592" class="bg-green-600 text-white px-6 py-3 rounded-lg shadow hover:bg-green-700">Text Me</a>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="bg-white text-center py-6 text-gray-600">
-    <p>© 2025 Curtis Venn. All rights reserved.</p>
+  <footer class="bg-gray-900 text-white text-center py-6">
+    <p>&copy; 2025 Curtis Venn. All rights reserved.</p>
   </footer>
 
-  <!-- Mobile menu script -->
   <script>
-    const menuButton = document.getElementById('menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-    menuButton.addEventListener('click', () => {
-      const isHidden = mobileMenu.classList.toggle('hidden');
-      menuButton.setAttribute('aria-expanded', String(!isHidden));
+    const menuBtn = document.getElementById('menu-btn');
+    const menu = document.getElementById('menu');
+
+    menuBtn.addEventListener('click', () => {
+      menu.classList.toggle('hidden');
     });
 
-    // Optional: close the mobile menu when a link is clicked
-    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-      if (!mobileMenu.classList.contains('hidden')) {
-        mobileMenu.classList.add('hidden');
-        menuButton.setAttribute('aria-expanded', 'false');
-      }
-    }));
+    document.querySelectorAll('#menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        menu.classList.add('hidden');
+      });
+    });
   </script>
+
 </body>
 </html>
