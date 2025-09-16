@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Resume Builder | Curtis Venn</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- html2pdf (bundled) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+
+  <style>
+    /* Small helper to center the printable resume */
+    .preview-wrap { display: flex; justify-content: center; padding: 1rem; }
+    /* Hide default outlines on buttons (kept accessible) */
+    button:focus { outline: 2px solid transparent; box-shadow: 0 0 0 3px rgba(59,130,246,0.25); }
+    /* Optional: make the PDF preview background exactly white */
+    .resume { background: white; }
+    /* For small devices, stack */
+    @media print {
+      /* Make print background white */
+      body { background: white; }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-900">
+
+  <!-- NAV (simple, match your site) -->
+  <header class="bg-white/90 backdrop-blur sticky top-0 z-40 shadow">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="font-bold text-lg">Curtis Venn</a>
+      <nav class="hidden md:flex gap-4 items-center">
+        <a href="index.html" class="text-sm hover:text-blue-600">Home</a>
+        <a href="about.html" class="text-sm hover:text-blue-600">About</a>
+        <a href="resume.html" class="text-sm font-semibold">Resume Builder</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main app -->
+  <main class="max-w-7xl mx-auto px-4 py-8">
+    <h1 class="text-2xl md:text-3xl font-bold mb-6">Resume Builder — free, client-side PDF export</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- LEFT: Form -->
+      <section class="space-y-4">
+        <div class="bg-white p-4 rounded-lg shadow">
+          <div class="flex items-center justify-between">
+            <h2 class="font-semibold">Personal</h2>
+            <div class="flex items-center gap-2">
+              <label class="text-sm">Template</label>
+              <select id="template-select" class="border rounded px-2 py-1 text-sm">
+                <option value="classic">Classic</option>
+                <option value="modern">Modern</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mt-3 grid grid-cols-1 gap-3">
+            <input id="full-name" class="border rounded px-3 py-2" placeholder="Full name (e.g. Curtis Venn)" />
+            <input id="role" class="border rounded px-3 py-2" placeholder="Title / Role (e.g. Photographer)" />
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <input id="email" class="border rounded px-3 py-2" placeholder="Email (e.g. curtis@...)" />
+              <input id="phone" class="border rounded px-3 py-2" placeholder="Phone (e.g. +1 801 815 7592)" />
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <input id="location" class="border rounded px-3 py-2" placeholder="Location (City, State)" />
+              <input id="website" class="border rounded px-3 py-2" placeholder="Website / portfolio URL" />
+            </div>
+            <textarea id="summary" rows="4" class="border rounded px-3 py-2" placeholder="Short summary (1-2 sentences)"></textarea>
+          </div>
+        </div>
+
+        <!-- Experience -->
+        <div class="bg-white p-4 rounded-lg shadow">
+          <div class="flex items-center justify-between">
+            <h2 class="font-semibold">Experience</h2>
+            <button id="add-exp" class="text-sm bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Add</button>
+          </div>
+
+          <div id="exp-list" class="mt-3 space-y-3">
+            <!-- JS will insert experience items here -->
+          </div>
+        </div>
+
+        <!-- Education -->
+        <div class="bg-white p-4 rounded-lg shadow">
+          <div class="flex items-center justify-between">
+            <h2 class="font-semibold">Education</h2>
+            <button id="add-edu" class="text-sm bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Add</button>
+          </div>
+
+          <div id="edu-list" class="mt-3 space-y-3">
+            <!-- JS will insert education items here -->
+          </div>
+        </div>
+
+        <!-- Skills + Controls -->
+        <div class="bg-white p-4 rounded-lg shadow space-y-3">
+          <label class="block text-sm font-medium">Skills (comma separated)</label>
+          <input id="skills" class="border rounded px-3 py-2" placeholder="e.g. portrait, retouching, Lightroom, product" />
+
+          <div class="flex gap-3 pt-2">
+            <button id="update-preview" class="flex-1 bg-gray-200 px-3 py-2 rounded hover:bg-gray-300">Update Preview</button>
+            <button id="download-pdf" class="flex-1 bg-green-600 text-white px-3 py-2 rounded hover:bg-green-700">Download PDF</button>
+          </div>
+          <div class="text-xs text-gray-500 pt-1">Tip: click Download PDF to export what's shown on the right.</div>
+        </div>
+      </section>
+
+      <!-- RIGHT: Live Preview -->
+      <section>
+        <div class="preview-wrap">
+          <div id="resume-preview" class="resume max-w-[794px] w-full border rounded shadow p-6">
+            <!-- JS builds preview here -->
+            <div class="text-center text-gray-500">Live preview will appear here. Press "Update Preview" or type in form to render.</div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="text-center text-sm text-gray-600 py-6">
+    <div class="max-w-6xl mx-auto px-4">Made with ❤️ — Download is client-side and free.</div>
+  </footer>
+
+<script>
+/* ---------------------------
+  Resume Builder JS
+  --------------------------- */
+(() => {
+  // Utilities
+  const $ = (sel, ctx=document) => ctx.querySelector(sel);
+  const $$ = (sel, ctx=document) => Array.from(ctx.querySelectorAll(sel));
+  const escapeHtml = s => String(s || '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+
+  // Counters for dynamic lists
+  let expCount = 0;
+  let eduCount = 0;
+
+  // Elements
+  const expList = $('#exp-list');
+  const eduList = $('#edu-list');
+  const preview = $('#resume-preview');
+
+  // Default sample entries (added on load)
+  function addExperience(data = {}) {
+    expCount++;
+    const wrap = document.createElement('div');
+    wrap.className = 'exp-item border rounded p-3';
+    wrap.dataset.idx = expCount;
+    wrap.innerHTML = `
+      <div class="flex items-center justify-between mb-2">
+        <div class="font-semibold">Experience ${expCount}</div>
+        <div class="flex gap-2">
+          <button type="button" class="remove-exp text-sm text-red-600">Remove</button>
+        </div>
+      </div>
+      <input placeholder="Company" class="exp-company border rounded px-2 py-1 w-full mb-2" value="${escapeHtml(data.company||'')}">
+      <input placeholder="Role / Title" class="exp-role border rounded px-2 py-1 w-full mb-2" value="${escapeHtml(data.role||'')}">
+      <div class="grid grid-cols-2 gap-2">
+        <input placeholder="Start (e.g. Jan 2020)" class="exp-start border rounded px-2 py-1" value="${escapeHtml(data.start||'')}">
+        <input placeholder="End (e.g. Present)" class="exp-end border rounded px-2 py-1" value="${escapeHtml(data.end||'')}">
+      </div>
+      <textarea placeholder="Short description" class="exp-desc border rounded px-2 py-1 w-full mt-2" rows="3">${escapeHtml(data.desc||'')}</textarea>
+    `;
+    expList.appendChild(wrap);
+    renderDebounced();
+  }
+
+  function addEducation(data = {}) {
+    eduCount++;
+    const wrap = document.createElement('div');
+    wrap.className = 'edu-item border rounded p-3';
+    wrap.dataset.idx = eduCount;
+    wrap.innerHTML = `
+      <div class="flex items-center justify-between mb-2">
+        <div class="font-semibold">Education ${eduCount}</div>
+        <div class="flex gap-2">
+          <button type="button" class="remove-edu text-sm text-red-600">Remove</button>
+        </div>
+      </div>
+      <input placeholder="School / Degree" class="edu-school border rounded px-2 py-1 w-full mb-2" value="${escapeHtml(data.school||'')}">
+      <div class="grid grid-cols-2 gap-2">
+        <input placeholder="Field / Major" class="edu-field border rounded px-2 py-1" value="${escapeHtml(data.field||'')}">
+        <input placeholder="Year or Dates" class="edu-dates border rounded px-2 py-1" value="${escapeHtml(data.dates||'')}">
+      </div>
+      <textarea placeholder="Notes (optional)" class="edu-notes border rounded px-2 py-1 w-full mt-2" rows="2">${escapeHtml(data.notes||'')}</textarea>
+    `;
+    eduList.appendChild(wrap);
+    renderDebounced();
+  }
+
+  // Remove handlers (event delegation)
+  expList.addEventListener('click', e => {
+    if (e.target.matches('.remove-exp')) {
+      e.target.closest('.exp-item').remove();
+      renderDebounced();
+    }
+  });
+  eduList.addEventListener('click', e => {
+    if (e.target.matches('.remove-edu')) {
+      e.target.closest('.edu-item').remove();
+      renderDebounced();
+    }
+  });
+
+  // Add initial samples
+  addExperience({ company: 'Freelance Photographer', role: 'Owner / Photographer', start:'2017', end:'Present', desc:'Shooting portraits and commercial work — concept to final retouch.' });
+  addExperience({ company: 'Studio XYZ', role: 'Assistant Photographer', start:'2015', end:'2017', desc:'Lighting, client prep, and editing for product & portrait shoots.' });
+  addEducation({ school:'State University', field:'B.A. Photography', dates:'2011 - 2015' });
+
+  // Gather data from form
+  function gatherData() {
+    const name = $('#full-name').value.trim();
+    const role = $('#role').value.trim();
+    const email = $('#email').value.trim();
+    const phone = $('#phone').value.trim();
+    const location = $('#location').value.trim();
+    const website = $('#website').value.trim();
+    const summary = $('#summary').value.trim();
+    const skills = $('#skills').value.split(',').map(s => s.trim()).filter(Boolean);
+
+    const experiences = $$('.exp-item').map(el => ({
+      company: el.querySelector('.exp-company').value.trim(),
+      role: el.querySelector('.exp-role').value.trim(),
+      start: el.querySelector('.exp-start').value.trim(),
+      end: el.querySelector('.exp-end').value.trim(),
+      desc: el.querySelector('.exp-desc').value.trim()
+    }));
+
+    const education = $$('.edu-item').map(el => ({
+      school: el.querySelector('.edu-school').value.trim(),
+      field: el.querySelector('.edu-field').value.trim(),
+      dates: el.querySelector('.edu-dates').value.trim(),
+      notes: el.querySelector('.edu-notes').value.trim()
+    }));
+
+    return { name, role, email, phone, location, website, summary, skills, experiences, education, template: $('#template-select').value };
+  }
+
+  // Render preview
+  function renderPreview() {
+    const data = gatherData();
+    // Build markup depending on template
+    if (data.template === 'modern') {
+      preview.innerHTML = `
+        <div class="flex gap-4">
+          <div class="w-2/5 bg-gray-100 p-4">
+            <h2 class="text-2xl font-bold mb-2">${escapeHtml(data.name || 'Your Name')}</h2>
+            <div class="text-sm text-gray-700 mb-3">${escapeHtml(data.role)}</div>
+            <div class="text-sm text-gray-700 mb-3">${escapeHtml(data.summary)}</div>
+            <div class="mt-3">
+              <h3 class="font-semibold text-sm mb-2">Contact</h3>
+              <div class="text-sm">${escapeHtml(data.email)} · ${escapeHtml(data.phone)}</div>
+              <div class="text-sm mt-1">${escapeHtml(data.location)} ${data.website ? '· ' + escapeHtml(data.website) : ''}</div>
+            </div>
+            <div class="mt-4">
+              <h3 class="font-semibold text-sm mb-2">Skills</h3>
+              <div class="flex flex-wrap gap-2">${data.skills.map(s=>`<span class="text-xs px-2 py-1 bg-white border rounded">${escapeHtml(s)}</span>`).join('')}</div>
+            </div>
+          </div>
+
+          <div class="flex-1 p-4">
+            <div class="text-right text-sm text-gray-500 mb-3">Resume</div>
+            <div>
+              ${data.experiences.map(exp=>`
+                <div class="mb-3">
+                  <div class="flex justify-between">
+                    <div><strong>${escapeHtml(exp.role)}</strong> — ${escapeHtml(exp.company)}</div>
+                    <div class="text-sm text-gray-600">${escapeHtml(exp.start)} ${exp.end ? '– ' + escapeHtml(exp.end): ''}</div>
+                  </div>
+                  <div class="text-sm text-gray-700 mt-1">${escapeHtml(exp.desc)}</div>
+                </div>
+              `).join('')}
+            </div>
+
+            <div class="mt-4">
+              <h3 class="font-semibold">Education</h3>
+              ${data.education.map(ed=>`
+                <div class="mt-2 text-sm">
+                  <div class="font-medium">${escapeHtml(ed.school)}</div>
+                  <div class="text-gray-600">${escapeHtml(ed.field)} · ${escapeHtml(ed.dates)}</div>
+                  <div class="mt-1">${escapeHtml(ed.notes)}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+    } else {
+      // Classic template
+      preview.innerHTML = `
+        <div class="text-black">
+          <header class="mb-4">
+            <h1 class="text-3xl font-bold">${escapeHtml(data.name || 'Your Name')}</h1>
+            <div class="text-gray-700">${escapeHtml(data.role)} · ${escapeHtml(data.location)}</div>
+            <div class="text-gray-700">${escapeHtml(data.email)} · ${escapeHtml(data.phone)} ${data.website ? ' · ' + escapeHtml(data.website) : ''}</div>
+          </header>
+
+          <section class="mb-4">
+            <h2 class="font-semibold">Summary</h2>
+            <div class="text-sm text-gray-700">${escapeHtml(data.summary)}</div>
+          </section>
+
+          <section class="mb-4">
+            <h2 class="font-semibold">Experience</h2>
+            ${data.experiences.map(exp=>`
+              <div class="mt-2">
+                <div class="flex justify-between">
+                  <div class="font-medium">${escapeHtml(exp.role)} — ${escapeHtml(exp.company)}</div>
+                  <div class="text-sm text-gray-600">${escapeHtml(exp.start)} ${exp.end ? '– ' + escapeHtml(exp.end): ''}</div>
+                </div>
+                <div class="text-sm text-gray-700 mt-1">${escapeHtml(exp.desc)}</div>
+              </div>
+            `).join('')}
+          </section>
+
+          <section class="mb-4">
+            <h2 class="font-semibold">Education</h2>
+            ${data.education.map(ed=>`
+              <div class="mt-2">
+                <div class="font-medium">${escapeHtml(ed.school)}</div>
+                <div class="text-sm text-gray-600">${escapeHtml(ed.field)} · ${escapeHtml(ed.dates)}</div>
+                <div class="text-sm mt-1">${escapeHtml(ed.notes)}</div>
+              </div>
+            `).join('')}
+          </section>
+
+          <section>
+            <h2 class="font-semibold">Skills</h2>
+            <div class="flex flex-wrap gap-2 mt-2">${data.skills.map(s=>`<span class="text-xs px-2 py-1 bg-gray-200 rounded">${escapeHtml(s)}</span>`).join('')}</div>
+          </section>
+        </div>
+      `;
+    }
+  }
+
+  // Debounced render
+  let debounceTimer = null;
+  function renderDebounced(ms=250) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      renderPreview();
+    }, ms);
+  }
+
+  // Hook up form events to live preview
+  document.addEventListener('input', (e) => {
+    // only rerender for inputs inside our form area
+    if (e.target.closest('#exp-list') || e.target.closest('#edu-list') || ['full-name','role','email','phone','location','website','summary','skills','template-select'].includes(e.target.id)) {
+      renderDebounced();
+    }
+  });
+
+  // Buttons
+  $('#add-exp').addEventListener('click', () => addExperience());
+  $('#add-edu').addEventListener('click', () => addEducation());
+  $('#update-preview').addEventListener('click', () => renderPreview());
+
+  // Download PDF
+  $('#download-pdf').addEventListener('click', () => {
+    // Make sure preview is up-to-date
+    renderPreview();
+
+    const element = document.getElementById('resume-preview');
+
+    // html2pdf options (A4)
+    const opt = {
+      margin:       10,
+      filename:     (($('#full-name').value || 'resume') + '.pdf').replace(/\s+/g,'_'),
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2, logging: false, useCORS: true },
+      jsPDF:        { unit: 'pt', format: 'a4', orientation: 'portrait' }
+    };
+
+    // Kick off generation
+    html2pdf().set(opt).from(element).save();
+  });
+
+  // Initialize preview once
+  renderPreview();
+
+  // Simple reset + sample filler (optional)
+  // Expose small helpers for console testing
+  window._resumeBuilder = { addExperience, addEducation, renderPreview };
+
+})();
+</script>
+</body>
+</html>
