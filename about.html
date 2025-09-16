@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Me | Curtis Venn</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="font-sans text-gray-900">
+
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 w-full bg-white/90 shadow-md z-50">
+    <div class="max-w-6xl mx-auto flex items-center justify-between p-4">
+      <div class="text-xl font-bold">Curtis Venn</div>
+      <div class="hidden md:flex space-x-6">
+        <a href="index.html#home" class="hover:text-gray-600">Home</a>
+        <a href="about.html" class="hover:text-gray-600 font-semibold">About</a>
+        <a href="index.html#portraits" class="hover:text-gray-600">Portraits</a>
+        <a href="index.html#landscapes" class="hover:text-gray-600">Landscapes</a>
+        <a href="index.html#vehicles" class="hover:text-gray-600">Vehicles</a>
+        <a href="index.html#product" class="hover:text-gray-600">Product</a>
+        <a href="index.html#contact" class="hover:text-gray-600">Contact</a>
+      </div>
+      <div class="hidden md:flex space-x-4">
+        <a href="https://www.instagram.com/curtis_venn/" target="_blank" class="text-gray-700 hover:text-pink-500"><i class="fab fa-instagram fa-lg"></i></a>
+        <a href="https://www.linkedin.com/in/curtis-venn" target="_blank" class="text-gray-700 hover:text-blue-600"><i class="fab fa-linkedin fa-lg"></i></a>
+      </div>
+      <button id="menu-btn" class="md:hidden text-2xl focus:outline-none">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    <div id="menu" class="hidden md:hidden flex-col bg-white px-4 pb-4 space-y-2">
+      <a href="index.html#home" class="hover:text-gray-600">Home</a>
+      <a href="about.html" class="hover:text-gray-600">About</a>
+      <a href="index.html#portraits" class="hover:text-gray-600">Portraits</a>
+      <a href="index.html#landscapes" class="hover:text-gray-600">Landscapes</a>
+      <a href="index.html#vehicles" class="hover:text-gray-600">Vehicles</a>
+      <a href="index.html#product" class="hover:text-gray-600">Product</a>
+      <a href="index.html#contact" class="hover:text-gray-600">Contact</a>
+      <div class="flex space-x-4 pt-2">
+        <a href="https://www.instagram.com/curtis_venn/" target="_blank" class="text-gray-700 hover:text-pink-500"><i class="fab fa-instagram fa-lg"></i></a>
+        <a href="https://www.linkedin.com/in/curtis-venn" target="_blank" class="text-gray-700 hover:text-blue-600"><i class="fab fa-linkedin fa-lg"></i></a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="relative h-[50vh] flex items-center justify-center text-center text-white" style="background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80'); background-size: cover; background-position: center;">
+    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+    <div class="relative z-10">
+      <h1 class="text-4xl md:text-6xl font-bold">About Me</h1>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="max-w-4xl mx-auto py-16 px-6 text-center">
+    <h2 class="text-3xl font-bold mb-6">Hi, I'm Curtis</h2>
+    <p class="text-gray-700 leading-relaxed text-lg">
+      I’m passionate about photography, but even more passionate about people. 
+      Whether I’m out on a motorcycle ride, exploring the outdoors, capturing the 
+      lines of a classic car, or just enjoying good company, I find joy in 
+      connections. Photography has become my way of preserving those moments — 
+      not just the scene, but the feeling that comes with it.  
+    </p>
+    <p class="mt-6 text-gray-700 leading-relaxed text-lg">
+      My work spans portraits, landscapes, vehicles, and product photography, 
+      but at its core, it’s about storytelling. Each image is a reflection of 
+      the adventure, the personality, or the story behind it. Through my lens, 
+      I aim to share experiences that resonate beyond the frame.
+    </p>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white text-center py-6">
+    <p>&copy; 2025 Curtis Venn. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const menuBtn = document.getElementById('menu-btn');
+    const menu = document.getElementById('menu');
+
+    menuBtn.addEventListener('click', () => {
+      menu.classList.toggle('hidden');
+    });
+
+    document.querySelectorAll('#menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        menu.classList.add('hidden');
+      });
+    });
+  </script>
+
+</body>
+</html>
