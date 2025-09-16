@@ -4,185 +4,248 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Resume Builder</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 </head>
-<body class="bg-gray-100 text-gray-900">
+<body class="bg-gray-100 min-h-screen flex flex-col">
 
   <!-- Navbar -->
-  <nav class="bg-white shadow-md fixed w-full top-0 z-10">
-    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-      <h1 class="text-2xl font-bold">Curtis Venn</h1>
-      <div class="space-x-6 hidden md:flex">
-        <a href="index.html" class="hover:text-blue-500">Home</a>
-        <a href="about.html" class="hover:text-blue-500">About Me</a>
-        <a href="resumebuilder.html" class="hover:text-blue-500 font-semibold">Resume Builder</a>
-      </div>
-      <div class="md:hidden">
-        <button id="menu-btn" class="focus:outline-none">☰</button>
-      </div>
-    </div>
-    <div id="mobile-menu" class="hidden px-4 pb-4 md:hidden">
-      <a href="index.html" class="block py-2 hover:text-blue-500">Home</a>
-      <a href="about.html" class="block py-2 hover:text-blue-500">About Me</a>
-      <a href="resumebuilder.html" class="block py-2 hover:text-blue-500">Resume Builder</a>
+  <nav class="bg-gray-900 text-white p-4 flex justify-between items-center">
+    <h1 class="text-lg font-bold">Resume Builder</h1>
+    <div>
+      <a href="index.html" class="px-3 hover:text-gray-300">Home</a>
+      <a href="about.html" class="px-3 hover:text-gray-300">About Me</a>
+      <a href="resumebuilder.html" class="px-3 font-semibold text-blue-400">Resume Builder</a>
     </div>
   </nav>
 
-  <!-- Page Content -->
-  <section class="pt-24 container mx-auto px-4 flex flex-col md:flex-row gap-6">
-    
-    <!-- Input Form -->
-    <div class="w-full md:w-1/2 bg-white p-6 shadow-md rounded-lg">
-      <h2 class="text-2xl font-bold mb-4">Build Your Resume</h2>
+  <!-- Builder -->
+  <div class="flex flex-1 flex-col md:flex-row">
+    <!-- Left Form -->
+    <div class="w-full md:w-1/3 bg-white p-6 border-r overflow-y-auto">
+      <h2 class="text-xl font-bold mb-4">Enter Your Details</h2>
 
-      <label class="block mb-2 font-semibold">Name</label>
-      <input type="text" id="name" class="w-full p-2 border rounded mb-4">
-
-      <label class="block mb-2 font-semibold">Title</label>
-      <input type="text" id="title" class="w-full p-2 border rounded mb-4">
-
-      <label class="block mb-2 font-semibold">Summary</label>
-      <textarea id="summary" class="w-full p-2 border rounded mb-4"></textarea>
-
-      <h3 class="text-xl font-semibold mt-4 mb-2">Work Experience</h3>
-      <div id="work-list" class="mb-2"></div>
-      <button onclick="addWork()" class="bg-blue-500 text-white px-3 py-1 rounded mb-4">+ Add Work</button>
-
-      <h3 class="text-xl font-semibold mt-4 mb-2">Education</h3>
-      <div id="edu-list" class="mb-2"></div>
-      <button onclick="addEducation()" class="bg-blue-500 text-white px-3 py-1 rounded mb-4">+ Add Education</button>
-
-      <h3 class="text-xl font-semibold mt-4 mb-2">Skills</h3>
-      <input type="text" id="skills" placeholder="Comma separated" class="w-full p-2 border rounded mb-4">
-
-      <h3 class="text-xl font-semibold mt-4 mb-2">Template</h3>
-      <select id="template" class="w-full p-2 border rounded mb-4">
+      <!-- Template Selector -->
+      <label class="block mb-2 font-semibold">Template</label>
+      <select id="template" class="w-full border rounded p-2 mb-4">
+        <option value="modern">Modern (default)</option>
         <option value="classic">Classic</option>
-        <option value="modern">Modern</option>
       </select>
 
-      <button onclick="downloadPDF()" class="bg-green-600 text-white px-4 py-2 rounded">Download PDF</button>
+      <!-- Personal Info -->
+      <label class="block mb-2 font-semibold">Name</label>
+      <input id="name" class="w-full border rounded p-2 mb-4" placeholder="John Doe">
+
+      <label class="block mb-2 font-semibold">Title</label>
+      <input id="title" class="w-full border rounded p-2 mb-4" placeholder="Software Engineer">
+
+      <label class="block mb-2 font-semibold">Summary</label>
+      <textarea id="summary" class="w-full border rounded p-2 mb-4" placeholder="Brief summary..."></textarea>
+
+      <!-- Experience -->
+      <h3 class="text-lg font-bold mt-6 mb-2">Work Experience</h3>
+      <div id="experience"></div>
+      <button onclick="addExperience()" class="bg-blue-500 text-white px-3 py-1 rounded mb-4">+ Add Job</button>
+
+      <!-- Education -->
+      <h3 class="text-lg font-bold mt-6 mb-2">Education</h3>
+      <div id="education"></div>
+      <button onclick="addEducation()" class="bg-blue-500 text-white px-3 py-1 rounded mb-4">+ Add Education</button>
+
+      <!-- Skills -->
+      <h3 class="text-lg font-bold mt-6 mb-2">Skills</h3>
+      <input id="skillInput" class="w-full border rounded p-2 mb-2" placeholder="Add a skill">
+      <button onclick="addSkill()" class="bg-green-500 text-white px-3 py-1 rounded">+ Add Skill</button>
+      <div id="skillsList" class="flex flex-wrap gap-2 mt-3"></div>
+
+      <!-- Export -->
+      <button onclick="downloadPDF()" class="bg-purple-600 text-white w-full py-2 rounded mt-6">Download PDF</button>
     </div>
 
-    <!-- Resume Preview -->
-    <div id="resume-preview" class="w-full md:w-1/2 bg-white p-6 shadow-md rounded-lg">
-      <h2 class="text-3xl font-bold" id="prev-name">Your Name</h2>
-      <p class="text-lg text-gray-600" id="prev-title">Your Title</p>
-      <p class="mt-4" id="prev-summary">Your professional summary will appear here...</p>
-
-      <h3 class="text-xl font-semibold mt-6">Work Experience</h3>
-      <ul id="prev-work" class="list-disc pl-5"></ul>
-
-      <h3 class="text-xl font-semibold mt-6">Education</h3>
-      <ul id="prev-edu" class="list-disc pl-5"></ul>
-
-      <h3 class="text-xl font-semibold mt-6">Skills</h3>
-      <ul id="prev-skills" class="flex flex-wrap gap-2"></ul>
+    <!-- Right Preview -->
+    <div class="w-full md:w-2/3 p-6 overflow-y-auto">
+      <div id="resumePreview" class="bg-white shadow-lg rounded-lg p-6">
+        <!-- Live Resume will render here -->
+      </div>
     </div>
-  </section>
+  </div>
 
-  <!-- Script -->
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white text-center py-4">
+    <p>© 2025 Resume Builder | Built with ❤️ to help people succeed</p>
+  </footer>
+
   <script>
-    const nameField = document.getElementById("name");
-    const titleField = document.getElementById("title");
-    const summaryField = document.getElementById("summary");
-    const skillsField = document.getElementById("skills");
-    const templateField = document.getElementById("template");
+    let experiences = [];
+    let education = [];
+    let skills = [];
 
-    const prevName = document.getElementById("prev-name");
-    const prevTitle = document.getElementById("prev-title");
-    const prevSummary = document.getElementById("prev-summary");
-    const prevWork = document.getElementById("prev-work");
-    const prevEdu = document.getElementById("prev-edu");
-    const prevSkills = document.getElementById("prev-skills");
-
-    function updatePreview() {
-      prevName.textContent = nameField.value || "Your Name";
-      prevTitle.textContent = titleField.value || "Your Title";
-      prevSummary.textContent = summaryField.value || "Your professional summary will appear here...";
-
-      prevSkills.innerHTML = "";
-      if (skillsField.value.trim() !== "") {
-        skillsField.value.split(",").forEach(skill => {
-          let li = document.createElement("li");
-          li.textContent = skill.trim();
-          li.className = "bg-gray-200 px-2 py-1 rounded";
-          prevSkills.appendChild(li);
-        });
-      }
-
-      // Apply template
-      if (templateField.value === "classic") {
-        document.getElementById("resume-preview").className = "w-full md:w-1/2 bg-white p-6 shadow-md rounded-lg font-serif";
-      } else {
-        document.getElementById("resume-preview").className = "w-full md:w-1/2 bg-white p-6 shadow-md rounded-lg font-sans border-l-4 border-blue-500";
-      }
-    }
-
-    // Dynamic work and education sections
-    function addWork() {
-      let div = document.createElement("div");
-      div.className = "mb-2";
-      div.innerHTML = `<input type="text" placeholder="Job Title, Company, Years" class="w-full p-2 border rounded" oninput="renderWork()">`;
-      document.getElementById("work-list").appendChild(div);
+    function addExperience() {
+      experiences.push({ job: '', company: '', years: '', details: [] });
+      renderForm();
+      renderResume();
     }
 
     function addEducation() {
-      let div = document.createElement("div");
-      div.className = "mb-2";
-      div.innerHTML = `<input type="text" placeholder="Degree, School, Years" class="w-full p-2 border rounded" oninput="renderEducation()">`;
-      document.getElementById("edu-list").appendChild(div);
+      education.push({ school: '', degree: '', years: '' });
+      renderForm();
+      renderResume();
     }
 
-    function renderWork() {
-      prevWork.innerHTML = "";
-      document.querySelectorAll("#work-list input").forEach(input => {
-        if (input.value.trim() !== "") {
-          let li = document.createElement("li");
-          li.textContent = input.value;
-          prevWork.appendChild(li);
-        }
+    function addSkill() {
+      const skill = document.getElementById("skillInput").value;
+      if (skill) {
+        skills.push(skill);
+        document.getElementById("skillInput").value = '';
+        renderResume();
+      }
+    }
+
+    function updateExperience(i, field, value) {
+      experiences[i][field] = value;
+      renderResume();
+    }
+
+    function updateExperienceDetail(i, j, value) {
+      experiences[i].details[j] = value;
+      renderResume();
+    }
+
+    function addExperienceDetail(i) {
+      experiences[i].details.push('');
+      renderForm();
+      renderResume();
+    }
+
+    function updateEducation(i, field, value) {
+      education[i][field] = value;
+      renderResume();
+    }
+
+    function renderForm() {
+      // Work Experience Inputs
+      let expHTML = '';
+      experiences.forEach((exp, i) => {
+        expHTML += `
+          <div class="border p-2 mb-2 rounded">
+            <input placeholder="Job Title" class="w-full border p-1 mb-1" oninput="updateExperience(${i}, 'job', this.value)">
+            <input placeholder="Company" class="w-full border p-1 mb-1" oninput="updateExperience(${i}, 'company', this.value)">
+            <input placeholder="Years" class="w-full border p-1 mb-1" oninput="updateExperience(${i}, 'years', this.value)">
+            <div class="ml-2">
+              ${exp.details.map((d, j) =>
+                `<input placeholder="Responsibility" class="w-full border p-1 mb-1" oninput="updateExperienceDetail(${i}, ${j}, this.value)">`
+              ).join('')}
+            </div>
+            <button onclick="addExperienceDetail(${i})" class="bg-gray-300 px-2 py-1 rounded text-sm">+ Detail</button>
+          </div>
+        `;
       });
-    }
+      document.getElementById("experience").innerHTML = expHTML;
 
-    function renderEducation() {
-      prevEdu.innerHTML = "";
-      document.querySelectorAll("#edu-list input").forEach(input => {
-        if (input.value.trim() !== "") {
-          let li = document.createElement("li");
-          li.textContent = input.value;
-          prevEdu.appendChild(li);
-        }
+      // Education Inputs
+      let eduHTML = '';
+      education.forEach((edu, i) => {
+        eduHTML += `
+          <div class="border p-2 mb-2 rounded">
+            <input placeholder="School" class="w-full border p-1 mb-1" oninput="updateEducation(${i}, 'school', this.value)">
+            <input placeholder="Degree/Program" class="w-full border p-1 mb-1" oninput="updateEducation(${i}, 'degree', this.value)">
+            <input placeholder="Years" class="w-full border p-1 mb-1" oninput="updateEducation(${i}, 'years', this.value)">
+          </div>
+        `;
       });
+      document.getElementById("education").innerHTML = eduHTML;
     }
 
-    // Update preview as user types
-    [nameField, titleField, summaryField, skillsField, templateField].forEach(el => {
-      el.addEventListener("input", updatePreview);
-    });
+    function renderResume() {
+      const template = document.getElementById("template").value;
+      const name = document.getElementById("name").value;
+      const title = document.getElementById("title").value;
+      const summary = document.getElementById("summary").value;
+
+      let resumeHTML = '';
+
+      if (template === 'modern') {
+        resumeHTML = `
+          <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 rounded-t-lg">
+            <h1 class="text-2xl font-bold">${name || 'John Doe'}</h1>
+            <p class="text-lg">${title || 'Your Title'}</p>
+          </div>
+          <div class="grid grid-cols-2 gap-6 p-4">
+            <div>
+              <h2 class="text-xl font-bold border-b pb-1 mb-2">Summary</h2>
+              <p>${summary || 'Write a short professional summary here.'}</p>
+
+              <h2 class="text-xl font-bold border-b pb-1 mt-4 mb-2">Work Experience</h2>
+              ${experiences.map(exp => `
+                <div class="mb-3">
+                  <p class="font-semibold">${exp.job || 'Job Title'} - ${exp.company || 'Company'}</p>
+                  <p class="text-sm text-gray-600">${exp.years || 'Years'}</p>
+                  <ul class="list-disc ml-5 text-sm">
+                    ${exp.details.map(d => `<li>${d || 'Responsibility'}</li>`).join('')}
+                  </ul>
+                </div>
+              `).join('')}
+            </div>
+            <div>
+              <h2 class="text-xl font-bold border-b pb-1 mb-2">Education</h2>
+              ${education.map(edu => `
+                <div class="mb-3">
+                  <p class="font-semibold">${edu.school || 'School'}</p>
+                  <p class="text-sm">${edu.degree || 'Degree/Program'} | ${edu.years || 'Years'}</p>
+                </div>
+              `).join('')}
+
+              <h2 class="text-xl font-bold border-b pb-1 mt-4 mb-2">Skills</h2>
+              <div class="flex flex-wrap gap-2">
+                ${skills.map(s => `<span class="bg-blue-200 text-blue-800 px-2 py-1 rounded text-sm">${s}</span>`).join('')}
+              </div>
+            </div>
+          </div>
+        `;
+      } else {
+        resumeHTML = `
+          <div class="p-4 text-center">
+            <h1 class="text-2xl font-bold">${name || 'John Doe'}</h1>
+            <p class="italic">${title || 'Your Title'}</p>
+          </div>
+          <div class="p-4">
+            <h2 class="font-bold text-lg">Summary</h2>
+            <p>${summary || 'Write a short professional summary here.'}</p>
+
+            <h2 class="font-bold text-lg mt-4">Work Experience</h2>
+            ${experiences.map(exp => `
+              <div class="mb-3">
+                <p><strong>${exp.job || 'Job Title'}</strong>, ${exp.company || 'Company'} (${exp.years || 'Years'})</p>
+                <ul class="list-disc ml-5 text-sm">
+                  ${exp.details.map(d => `<li>${d || 'Responsibility'}</li>`).join('')}
+                </ul>
+              </div>
+            `).join('')}
+
+            <h2 class="font-bold text-lg mt-4">Education</h2>
+            ${education.map(edu => `
+              <div class="mb-2">
+                <p><strong>${edu.school || 'School'}</strong> — ${edu.degree || 'Degree/Program'} (${edu.years || 'Years'})</p>
+              </div>
+            `).join('')}
+
+            <h2 class="font-bold text-lg mt-4">Skills</h2>
+            <p>${skills.join(', ')}</p>
+          </div>
+        `;
+      }
+
+      document.getElementById("resumePreview").innerHTML = resumeHTML;
+    }
 
     function downloadPDF() {
-      var element = document.getElementById("resume-preview");
-      var opt = {
-        margin:       0.5,
-        filename:     'resume.pdf',
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2 },
-        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
-      };
-      html2pdf().set(opt).from(element).save();
+      const element = document.getElementById("resumePreview");
+      html2pdf().from(element).save("resume.pdf");
     }
 
-    // Mobile menu toggle
-    const menuBtn = document.getElementById("menu-btn");
-    const mobileMenu = document.getElementById("mobile-menu");
-    menuBtn.addEventListener("click", () => {
-      mobileMenu.classList.toggle("hidden");
-    });
-
-    // Initial preview
-    updatePreview();
+    // Initial render
+    renderForm();
+    renderResume();
   </script>
 </body>
 </html>
