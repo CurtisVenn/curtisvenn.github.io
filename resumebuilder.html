@@ -1,5 +1,3 @@
-Yes. Here is what we have so far. 
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -13,13 +11,17 @@ Yes. Here is what we have so far.
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
   <style>
-    /* Layout for printable resume sizing */
-    .resume-frame {
-      width: 794px; /* approx A4 width in px at 96dpi — gives good PDF results */
-      margin: 0 auto;
-      background: white;
-    }
-
+@media print {
+  .resume-frame {
+    width: 100% !important; 
+    max-width: 794px;
+    page-break-inside: avoid;
+  }
+  .resume-frame * {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+}
     /* Small visual niceties */
     .small-muted { font-size: 0.85rem; color: #6b7280; }
     .pill { font-size: 0.85rem; padding: 0.25rem 0.5rem; border-radius: 9999px; }
@@ -477,32 +479,19 @@ renderPreview();
 
 /* ---------- Download (PDF) ---------- */
 function downloadPDF() {
-  // Force render to ensure latest content
   renderPreview();
-
   const element = document.getElementById('resumePreview');
 
-  // Make a clone so we can adjust styles for printing if needed without changing page
-  const clone = element.cloneNode(true);
-  clone.style.boxSizing = 'border-box';
-  clone.style.background = 'white';
-  clone.style.width = '794px'; // important for correct PDF scale
-  clone.style.margin = '0 auto';
-  // Optional: remove any buttons or interactive bits (there are none inside preview currently)
-
-  const wrapper = document.createElement('div');
-  wrapper.appendChild(clone);
-
   const opt = {
-    margin:       [10,10,10,10],
-    filename:     ( ($('#inputName').value || 'resume').trim().replace(/\s+/g,'_') + '.pdf' ),
-    image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { scale: 2, useCORS: true, logging: false },
-    jsPDF:        { unit: 'pt', format: 'a4', orientation: 'portrait' }
+    margin: [10, 10, 10, 10],
+    filename: ( ($('#inputName').value || 'resume').trim().replace(/\s+/g,'_') + '.pdf' ),
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true, logging: false },
+    jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' },
+    pagebreak: { mode: ['css','legacy'] } // 👈 forces multi-page support
   };
 
-  // Use html2pdf on the wrapper's child (clone)
-  html2pdf().set(opt).from(clone).save();
+  html2pdf().set(opt).from(element).save();
 }
 
 </script>
