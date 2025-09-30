@@ -31,19 +31,32 @@
         <i class="fas fa-bars"></i>
       </button>
     </div>
-    <div id="menu" class="hidden md:hidden flex-col bg-white px-4 pb-4 space-y-2">
-      <a href="#home" class="hover:text-gray-600">Home</a>
-      <a href="#about" class="hover:text-gray-600">About</a>
-      <a href="#portraits" class="hover:text-gray-600">Portraits</a>
-      <a href="#landscapes" class="hover:text-gray-600">Landscapes</a>
-      <a href="#vehicles" class="hover:text-gray-600">Vehicles</a>
-      <a href="#product" class="hover:text-gray-600">Product</a>
-      <a href="#contact" class="hover:text-gray-600">Contact</a>
-      <div class="flex space-x-4 pt-2">
-        <a href="https://www.instagram.com/curtis_venn/" target="_blank" class="text-gray-700 hover:text-pink-500"><i class="fab fa-instagram fa-lg"></i></a>
-        <a href="https://www.linkedin.com/in/curtis-venn" target="_blank" class="text-gray-700 hover:text-blue-600"><i class="fab fa-linkedin fa-lg"></i></a>
-      </div>
+  <!-- Mobile menu with dividers (replace existing <div id="menu"> block) -->
+<div id="menu" class="hidden md:hidden flex-col bg-white px-4 pb-4 divide-y divide-gray-300 shadow-lg">
+  <!-- links -->
+  <div class="flex flex-col">
+    <a href="#home" class="px-4 py-3">Home</a>
+    <a href="about.html" class="px-4 py-3">About Me</a>
+    <a href="#portraits" class="px-4 py-3">Portraits</a>
+    <a href="#landscapes" class="px-4 py-3">Landscapes</a>
+    <a href="#vehicles" class="px-4 py-3">Vehicles</a>
+    <a href="#product" class="px-4 py-3">Product</a>
+    <a href="resumebuilder.html" class="px-4 py-3">Resume Builder</a>
+    <a href="#contact" class="px-4 py-3">Contact</a>
+  </div>
+
+  <!-- socials / extras -->
+  <div class="px-4 py-3">
+    <div class="flex items-center space-x-4">
+      <a href="https://www.instagram.com/curtis_venn/" target="_blank" class="text-gray-700 hover:text-pink-500">
+        <i class="fab fa-instagram fa-lg"></i>
+      </a>
+      <a href="https://www.linkedin.com/in/curtis-venn" target="_blank" class="text-gray-700 hover:text-blue-600">
+        <i class="fab fa-linkedin fa-lg"></i>
+      </a>
     </div>
+  </div>
+</div>
   </nav>
 
   <!-- Hero Section -->
