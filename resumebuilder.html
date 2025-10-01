@@ -12,16 +12,32 @@
 
   <style>
 @media print {
-  .resume-frame {
-    width: 100% !important; 
-    max-width: 794px;
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact; /* keeps background colors */
+  }
+
+  /* Ensure the main resume container fits on the page */
+  #resume-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 20px !important;
+    box-sizing: border-box;
     page-break-inside: avoid;
   }
-  .resume-frame * {
+
+  /* Prevent content from being cut off */
+  * {
+    overflow: visible !important;
+  }
+
+  /* Each section stays whole, doesn’t split across pages */
+  section, div, article {
     page-break-inside: avoid;
-    page-break-after: auto;
   }
 }
+
     /* Small visual niceties */
     .small-muted { font-size: 0.85rem; color: #6b7280; }
     .pill { font-size: 0.85rem; padding: 0.25rem 0.5rem; border-radius: 9999px; }
