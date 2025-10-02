@@ -90,10 +90,10 @@
         <input id="inputTitle" class="w-full border rounded px-3 py-2 mb-3" placeholder="Photographer / Creator">
 
         <label class="block text-sm font-medium">Email</label>
-        <input id="inputEmail" class="w-full border rounded px-3 py-2 mb-3" placeholder="curtis.hi95@gmail.com">
+        <input id="inputEmail" class="w-full border rounded px-3 py-2 mb-3" placeholder="inserthere@gmail.com">
 
         <label class="block text-sm font-medium">Phone</label>
-        <input id="inputPhone" class="w-full border rounded px-3 py-2 mb-3" placeholder="+1 801 815 7592">
+        <input id="inputPhone" class="w-full border rounded px-3 py-2 mb-3" placeholder="+ Number here">
 
         <label class="block text-sm font-medium">Location</label>
         <input id="inputLocation" class="w-full border rounded px-3 py-2 mb-3" placeholder="Salt Lake City, UT">
@@ -474,7 +474,7 @@ $('#menuBtn').addEventListener('click', () => $('#mobileMenu').classList.toggle(
 $('#template').addEventListener('change', renderPreview);
 
 /* ---------- Initialization ---------- */
-function addJob() { // wrapper to add then re-render
+function addJob() { 
   jobs.push({ job:'Photographer', company:'Client / Studio', years:'2020 — Present', details:['Lead photoshoots from concept to delivery','Client communication and retouching'] });
   renderForm();
   renderPreview();
@@ -484,14 +484,13 @@ function addEdu() {
   renderForm();
   renderPreview();
 }
-function addSkill() {
-  addSkill(); // replaced by handler above; not used — keep for legacy
-}
+// ❌ no addSkill() here — keep only the good one above
 
 // populate sample data and render
 loadSampleData();
 renderForm();
 renderPreview();
+
 
 /* ---------- Download (PDF) ---------- */
 function downloadPDF() {
