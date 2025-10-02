@@ -494,20 +494,35 @@ renderPreview();
 
 /* ---------- Download (PDF) ---------- */
 function downloadPDF() {
-  renderPreview();
+  renderPreview(); // make sure latest changes are applied
   const element = document.getElementById('resumePreview');
+
+  // Create a temporary wrapper to inject watermark
+  const wrapper = element.cloneNode(true);
+  const watermark = document.createElement('div');
+  watermark.innerText = 'Generated via curtisvenn.com';
+  watermark.style.position = 'absolute';
+  watermark.style.bottom = '10px';
+  watermark.style.right = '10px';
+  watermark.style.fontSize = '10px';
+  watermark.style.color = 'rgba(0,0,0,0.2)';
+  watermark.style.pointerEvents = 'none';
+  wrapper.style.position = 'relative';
+  wrapper.appendChild(watermark);
 
   const opt = {
     margin: [10, 10, 10, 10],
     filename: ( ($('#inputName').value || 'resume').trim().replace(/\s+/g,'_') + '.pdf' ),
     image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true, logging: false },
+    html2canvas: { scale: 2, useCORS: true, logging: false, scrollY: -window.scrollY },
     jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' },
-    pagebreak: { mode: ['css','legacy'] } // 👈 forces multi-page support
+    pagebreak: { mode: ['css','legacy'] }
   };
 
-  html2pdf().set(opt).from(element).save();
+  html2pdf().set(opt).from(wrapper).save();
 }
+
+
 
 </script>
 </body>
