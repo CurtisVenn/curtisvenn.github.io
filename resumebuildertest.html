@@ -48,11 +48,10 @@
     .pill { font-size: 0.85rem; padding: 0.25rem 0.5rem; border-radius: 9999px; }
     .form-scroll { max-height: calc(100vh - 12rem); overflow:auto; padding-right: .5rem; }
     
-    /* Better resume preview sizing */
     .resume-frame {
       background: white;
       min-height: 800px;
-      aspect-ratio: 210/297; /* A4 ratio */
+      aspect-ratio: 210/297;
     }
   </style>
 </head>
@@ -167,7 +166,6 @@
 
 <script>
 const $ = sel => document.querySelector(sel);
-const $$ = sel => Array.from(document.querySelectorAll(sel));
 const escapeHtml = s => String(s||'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
 
 let jobs = [];
@@ -213,26 +211,74 @@ function renderForm() {
     wrap.innerHTML = `
       <div class="flex justify-between items-center mb-2">
         <strong class="text-sm">Job ${i+1}</strong>
-        <div class="flex gap-2">
-          <button class="text-xs text-red-600" onclick="removeJob(${i})">Remove</button>
-        </div>
+        <button class="text-xs text-red-600 removeJobBtn" data-index="${i}">Remove</button>
       </div>
-      <input oninput="updateJob(${i}, 'job', this.value)" value="${escapeHtml(job.job)}" placeholder="Job Title" class="w-full border p-1 mb-1 rounded"/>
-      <input oninput="updateJob(${i}, 'company', this.value)" value="${escapeHtml(job.company)}" placeholder="Company" class="w-full border p-1 mb-1 rounded"/>
-      <input oninput="updateJob(${i}, 'years', this.value)" value="${escapeHtml(job.years)}" placeholder="Years (e.g. 2020 — Present)" class="w-full border p-1 mb-2 rounded"/>
-      <div class="ml-2 mb-2">
+      <input class="w-full border p-1 mb-1 rounded jobField" data-index="${i}" data-field="job" value="${escapeHtml(job.job)}" placeholder="Job Title"/>
+      <input class="w-full border p-1 mb-1 rounded jobField" data-index="${i}" data-field="company" value="${escapeHtml(job.company)}" placeholder="Company"/>
+      <input class="w-full border p-1 mb-2 rounded jobField" data-index="${i}" data-field="years" value="${escapeHtml(job.years)}" placeholder="Years (e.g. 2020 — Present)"/>
+      <div class="ml-2 mb-2" id="jobDetails${i}">
         ${job.details.map((d,j) => `
           <div class="flex gap-2 mb-1">
-            <input oninput="updateJobDetail(${i}, ${j}, this.value)" value="${escapeHtml(d)}" placeholder="Responsibility / achievement" class="flex-1 border p-1 rounded"/>
-            <button class="text-xs text-red-600" onclick="removeJobDetail(${i}, ${j})">✕</button>
+            <input class="flex-1 border p-1 rounded jobDetail" data-job="${i}" data-detail="${j}" value="${escapeHtml(d)}" placeholder="Responsibility / achievement"/>
+            <button class="text-xs text-red-600 removeDetailBtn" data-job="${i}" data-detail="${j}">✕</button>
           </div>
         `).join('')}
-        <button class="text-xs bg-gray-200 px-2 py-1 rounded" onclick="addJobDetail(${i})">+ Add responsibility</button>
       </div>
+      <button class="text-xs bg-gray-200 px-2 py-1 rounded addDetailBtn" data-index="${i}">+ Add responsibility</button>
     `;
     workContainer.appendChild(wrap);
   });
 
+  // Add event listeners for job fields
+  document.querySelectorAll('.jobField').forEach(input => {
+    input.addEventListener('input', function() {
+      const i = parseInt(this.dataset.index);
+      const field = this.dataset.field;
+      jobs[i][field] = this.value;
+      renderPreview();
+    });
+  });
+
+  // Add event listeners for job details
+  document.querySelectorAll('.jobDetail').forEach(input => {
+    input.addEventListener('input', function() {
+      const i = parseInt(this.dataset.job);
+      const j = parseInt(this.dataset.detail);
+      jobs[i].details[j] = this.value;
+      renderPreview();
+    });
+  });
+
+  // Add event listeners for remove buttons
+  document.querySelectorAll('.removeJobBtn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const i = parseInt(this.dataset.index);
+      jobs.splice(i, 1);
+      renderForm();
+      renderPreview();
+    });
+  });
+
+  document.querySelectorAll('.removeDetailBtn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const i = parseInt(this.dataset.job);
+      const j = parseInt(this.dataset.detail);
+      jobs[i].details.splice(j, 1);
+      renderForm();
+      renderPreview();
+    });
+  });
+
+  document.querySelectorAll('.addDetailBtn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const i = parseInt(this.dataset.index);
+      jobs[i].details.push('');
+      renderForm();
+      renderPreview();
+    });
+  });
+
+  // Education
   const eduContainer = $('#eduContainer');
   eduContainer.innerHTML = '';
   edus.forEach((ed, i) => {
@@ -241,50 +287,55 @@ function renderForm() {
     wrap.innerHTML = `
       <div class="flex justify-between items-center mb-2">
         <strong class="text-sm">Education ${i+1}</strong>
-        <button class="text-xs text-red-600" onclick="removeEdu(${i})">Remove</button>
+        <button class="text-xs text-red-600 removeEduBtn" data-index="${i}">Remove</button>
       </div>
-      <input oninput="updateEdu(${i}, 'school', this.value)" value="${escapeHtml(ed.school)}" placeholder="School" class="w-full border p-1 mb-1 rounded"/>
-      <input oninput="updateEdu(${i}, 'degree', this.value)" value="${escapeHtml(ed.degree)}" placeholder="Degree / Program" class="w-full border p-1 mb-1 rounded"/>
-      <input oninput="updateEdu(${i}, 'years', this.value)" value="${escapeHtml(ed.years)}" placeholder="Years" class="w-full border p-1 rounded"/>
+      <input class="w-full border p-1 mb-1 rounded eduField" data-index="${i}" data-field="school" value="${escapeHtml(ed.school)}" placeholder="School"/>
+      <input class="w-full border p-1 mb-1 rounded eduField" data-index="${i}" data-field="degree" value="${escapeHtml(ed.degree)}" placeholder="Degree / Program"/>
+      <input class="w-full border p-1 rounded eduField" data-index="${i}" data-field="years" value="${escapeHtml(ed.years)}" placeholder="Years"/>
     `;
     eduContainer.appendChild(wrap);
   });
 
+  document.querySelectorAll('.eduField').forEach(input => {
+    input.addEventListener('input', function() {
+      const i = parseInt(this.dataset.index);
+      const field = this.dataset.field;
+      edus[i][field] = this.value;
+      renderPreview();
+    });
+  });
+
+  document.querySelectorAll('.removeEduBtn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const i = parseInt(this.dataset.index);
+      edus.splice(i, 1);
+      renderForm();
+      renderPreview();
+    });
+  });
+
+  // Skills
   const skillList = $('#skillList');
   skillList.innerHTML = '';
   skills.forEach((s, i) => {
     const span = document.createElement('div');
     span.className = 'flex items-center gap-2 bg-gray-100 px-2 py-1 rounded text-sm';
-    span.innerHTML = `<span>${escapeHtml(s)}</span> <button class="text-xs text-red-600" onclick="removeSkill(${i})">✕</button>`;
+    span.innerHTML = `<span>${escapeHtml(s)}</span> <button class="text-xs text-red-600 removeSkillBtn" data-index="${i}">✕</button>`;
     skillList.appendChild(span);
+  });
+
+  document.querySelectorAll('.removeSkillBtn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const i = parseInt(this.dataset.index);
+      skills.splice(i, 1);
+      renderForm();
+      renderPreview();
+    });
   });
 }
 
-function updateJob(i, field, value) {
-  jobs[i][field] = value;
-  renderPreview();
-}
-function updateJobDetail(i, j, value) {
-  jobs[i].details[j] = value;
-  renderPreview();
-}
-function addJobDetail(i) {
-  jobs[i].details.push('');
-  renderForm();
-  renderPreview();
-}
-function removeJobDetail(i, j) {
-  jobs[i].details.splice(j,1);
-  renderForm();
-  renderPreview();
-}
 function addJob() {
   jobs.push({ job:'New Job Title', company:'Company', years:'Year — Year', details:['Responsibility example'] });
-  renderForm();
-  renderPreview();
-}
-function removeJob(i) {
-  jobs.splice(i,1);
   renderForm();
   renderPreview();
 }
@@ -294,26 +345,12 @@ function addEdu() {
   renderForm();
   renderPreview();
 }
-function updateEdu(i, field, value) {
-  edus[i][field] = value;
-  renderPreview();
-}
-function removeEdu(i) {
-  edus.splice(i,1);
-  renderForm();
-  renderPreview();
-}
 
 function addSkill() {
   const v = $('#skillInput').value.trim();
   if (!v) return;
   skills.push(v);
   $('#skillInput').value = '';
-  renderForm();
-  renderPreview();
-}
-function removeSkill(i) {
-  skills.splice(i,1);
   renderForm();
   renderPreview();
 }
@@ -332,7 +369,6 @@ function renderPreview() {
   let html = '';
 
   if (tmpl === 'modern') {
-    // Modern: gradient header + two-column
     html = `
       <div class="bg-gradient-to-r from-amber-200 to-stone-300 p-6 text-gray-800">
         <h1 class="text-3xl font-bold m-0">${s(name)}</h1>
@@ -395,7 +431,6 @@ function renderPreview() {
       </div>
     `;
   } else if (tmpl === 'classic') {
-    // Classic: simple single-column
     html = `
       <div class="p-8">
         <div class="text-center mb-6 border-b-2 border-gray-800 pb-4">
@@ -438,10 +473,165 @@ function renderPreview() {
       </div>
     `;
   } else if (tmpl === 'minimal') {
-    // Minimal: clean, lots of whitespace, thin lines
     html = `
       <div class="p-8">
         <div class="mb-6">
+          <h3 class="text-sm font-bold uppercase tracking-widest mb-3 text-gray-900">Professional Experience</h3>
+          ${jobs.map(job => `
+            <div class="mb-4 pl-3 border-l-2 border-gray-300">
+              <div class="flex justify-between items-baseline">
+                <div>
+                  <div class="font-bold text-base">${s(job.job)}</div>
+                  <div class="text-sm text-gray-600 italic">${s(job.company)}</div>
+                </div>
+                <div class="text-sm text-gray-600">${s(job.years)}</div>
+              </div>
+              <ul class="list-disc ml-5 mt-2 text-sm text-gray-700 space-y-1">
+                ${job.details.map(d => `<li>${s(d)}</li>`).join('')}
+              </ul>
+            </div>
+          `).join('')}
+        </div>
+        <div class="mb-6">
+          <h3 class="text-sm font-bold uppercase tracking-widest mb-3 text-gray-900">Education</h3>
+          ${edus.map(ed => `
+            <div class="mb-3 pl-3 border-l-2 border-gray-300">
+              <div class="font-bold">${s(ed.school)}</div>
+              <div class="text-sm text-gray-600">${s(ed.degree)} • ${s(ed.years)}</div>
+            </div>
+          `).join('')}
+        </div>
+        <div>
+          <h3 class="text-sm font-bold uppercase tracking-widest mb-3 text-gray-900">Core Competencies</h3>
+          <div class="grid grid-cols-3 gap-2">
+            ${skills.map(k => `<div class="text-sm text-gray-700 py-1 px-3 bg-gray-100 text-center">${s(k)}</div>`).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+  } else if (tmpl === 'creative') {
+    html = `
+      <div class="bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 p-8">
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-4">
+          <h1 class="text-4xl font-bold mb-1 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">${s(name)}</h1>
+          <div class="text-lg text-gray-700 mb-3">${s(title)}</div>
+          <div class="flex flex-wrap gap-3 text-sm text-gray-600">
+            <span class="flex items-center gap-1">📧 ${s(email)}</span>
+            <span class="flex items-center gap-1">📱 ${s(phone)}</span>
+            <span class="flex items-center gap-1">📍 ${s(location)}</span>
+            ${website ? `<span class="flex items-center gap-1">🌐 ${s(website)}</span>` : ''}
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-4">
+          <h3 class="text-lg font-bold mb-2 text-purple-600">✨ About Me</h3>
+          <p class="text-sm text-gray-700 leading-relaxed">${s(summary)}</p>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-4">
+          <h3 class="text-lg font-bold mb-3 text-purple-600">💼 Work Experience</h3>
+          ${jobs.map(job => `
+            <div class="mb-4 pb-4 border-b border-gray-200 last:border-0">
+              <div class="flex justify-between items-start mb-2">
+                <div>
+                  <div class="font-bold text-base text-gray-900">${s(job.job)}</div>
+                  <div class="text-sm text-pink-600">${s(job.company)}</div>
+                </div>
+                <div class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">${s(job.years)}</div>
+              </div>
+              <ul class="space-y-1 text-sm text-gray-700">
+                ${job.details.map(d => `<li class="flex gap-2"><span class="text-pink-500">▸</span><span>${s(d)}</span></li>`).join('')}
+              </ul>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-white rounded-lg shadow-lg p-6">
+            <h3 class="text-lg font-bold mb-3 text-purple-600">🎓 Education</h3>
+            ${edus.map(ed => `
+              <div class="mb-3">
+                <div class="font-semibold text-gray-900">${s(ed.school)}</div>
+                <div class="text-sm text-gray-600">${s(ed.degree)}</div>
+                <div class="text-xs text-pink-600">${s(ed.years)}</div>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="bg-white rounded-lg shadow-lg p-6">
+            <h3 class="text-lg font-bold mb-3 text-purple-600">🚀 Skills</h3>
+            <div class="flex flex-wrap gap-2">
+              ${skills.map(k => `<span class="text-sm px-3 py-1 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700 rounded-full font-medium">${s(k)}</span>`).join('')}
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  $('#resumePreview').innerHTML = html;
+}
+
+function downloadPDF() {
+  renderPreview();
+  const element = document.getElementById('resumePreview');
+
+  const wrapper = element.cloneNode(true);
+  const watermark = document.createElement('div');
+  watermark.innerText = 'Generated via curtisvenn.com';
+  watermark.style.position = 'absolute';
+  watermark.style.bottom = '10px';
+  watermark.style.right = '10px';
+  watermark.style.fontSize = '10px';
+  watermark.style.color = 'rgba(0,0,0,0.2)';
+  watermark.style.pointerEvents = 'none';
+  wrapper.style.position = 'relative';
+  wrapper.appendChild(watermark);
+
+  const opt = {
+    margin: [10, 10, 10, 10],
+    filename: ( ($('#inputName').value || 'resume').trim().replace(/\s+/g,'_') + '.pdf' ),
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true, logging: false, scrollY: -window.scrollY },
+    jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' },
+    pagebreak: { mode: ['css','legacy'] }
+  };
+
+  html2pdf().set(opt).from(wrapper).save();
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+  loadSampleData();
+  renderForm();
+  renderPreview();
+
+  // Main form inputs
+  $('#addJobBtn').addEventListener('click', addJob);
+  $('#addEduBtn').addEventListener('click', addEdu);
+  $('#addSkillBtn').addEventListener('click', addSkill);
+  $('#downloadBtn').addEventListener('click', downloadPDF);
+  $('#menuBtn').addEventListener('click', () => $('#mobileMenu').classList.toggle('hidden'));
+
+  // Live preview for main fields
+  ['inputName','inputTitle','inputEmail','inputPhone','inputLocation','inputWebsite','inputSummary'].forEach(id => {
+    document.getElementById(id).addEventListener('input', renderPreview);
+  });
+
+  // Template selector
+  $('#template').addEventListener('change', renderPreview);
+
+  // Enter key on skill input
+  $('#skillInput').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      addSkill();
+    }
+  });
+});
+</script>
+</body>
+</html>">
           <h1 class="text-4xl font-light tracking-tight mb-1">${s(name)}</h1>
           <div class="text-sm text-gray-600 mb-3">${s(title)}</div>
           <div class="text-xs text-gray-500 space-x-3">
@@ -489,7 +679,6 @@ function renderPreview() {
       </div>
     `;
   } else if (tmpl === 'bold') {
-    // Bold: dark sidebar with accent color
     html = `
       <div class="grid grid-cols-3 min-h-full">
         <div class="col-span-1 bg-slate-800 text-white p-6">
@@ -546,7 +735,6 @@ function renderPreview() {
       </div>
     `;
   } else if (tmpl === 'executive') {
-    // Executive: professional serif-inspired, clean
     html = `
       <div class="p-8 bg-white">
         <div class="text-center mb-6 pb-4 border-b-4 border-gray-900">
@@ -560,16 +748,4 @@ function renderPreview() {
           <h3 class="text-sm font-bold uppercase tracking-widest mb-2 text-gray-900">Executive Summary</h3>
           <p class="text-sm text-gray-700 leading-relaxed border-l-4 border-gray-900 pl-3">${s(summary)}</p>
         </div>
-        <div class="mb-6">
-          <h3 class="text-sm font-bold uppercase tracking-widest mb-3 text-gray-900">Professional Experience</h3>
-          ${jobs.map(job => `
-            <div class="mb-4 pl-3 border-l-2 border-gray-300">
-              <div class="flex justify-between items-baseline">
-                <div>
-                  <div class="font-bold text-base">${s(job.job)}</div>
-                  <div class="text-sm text-gray-600 italic">${s(job.company)}</div>
-                </div>
-                <div class="text-sm text-gray-600">${s(job.years)}</div>
-              </div>
-              <ul class="list-disc ml-5 mt-2 text-sm text-gray-700 space-y-1">
-                ${job.details.map(d => `<li>${s(d)}</li>`).
+        <div class="mb-6
