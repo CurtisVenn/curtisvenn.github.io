@@ -51,7 +51,6 @@
     .resume-frame {
       background: white;
       min-height: 800px;
-      aspect-ratio: 210/297;
     }
   </style>
 </head>
@@ -229,7 +228,6 @@ function renderForm() {
     workContainer.appendChild(wrap);
   });
 
-  // Add event listeners for job fields
   document.querySelectorAll('.jobField').forEach(input => {
     input.addEventListener('input', function() {
       const i = parseInt(this.dataset.index);
@@ -239,7 +237,6 @@ function renderForm() {
     });
   });
 
-  // Add event listeners for job details
   document.querySelectorAll('.jobDetail').forEach(input => {
     input.addEventListener('input', function() {
       const i = parseInt(this.dataset.job);
@@ -249,7 +246,6 @@ function renderForm() {
     });
   });
 
-  // Add event listeners for remove buttons
   document.querySelectorAll('.removeJobBtn').forEach(btn => {
     btn.addEventListener('click', function() {
       const i = parseInt(this.dataset.index);
@@ -278,7 +274,6 @@ function renderForm() {
     });
   });
 
-  // Education
   const eduContainer = $('#eduContainer');
   eduContainer.innerHTML = '';
   edus.forEach((ed, i) => {
@@ -314,7 +309,6 @@ function renderForm() {
     });
   });
 
-  // Skills
   const skillList = $('#skillList');
   skillList.innerHTML = '';
   skills.forEach((s, i) => {
@@ -476,162 +470,6 @@ function renderPreview() {
     html = `
       <div class="p-8">
         <div class="mb-6">
-          <h3 class="text-sm font-bold uppercase tracking-widest mb-3 text-gray-900">Professional Experience</h3>
-          ${jobs.map(job => `
-            <div class="mb-4 pl-3 border-l-2 border-gray-300">
-              <div class="flex justify-between items-baseline">
-                <div>
-                  <div class="font-bold text-base">${s(job.job)}</div>
-                  <div class="text-sm text-gray-600 italic">${s(job.company)}</div>
-                </div>
-                <div class="text-sm text-gray-600">${s(job.years)}</div>
-              </div>
-              <ul class="list-disc ml-5 mt-2 text-sm text-gray-700 space-y-1">
-                ${job.details.map(d => `<li>${s(d)}</li>`).join('')}
-              </ul>
-            </div>
-          `).join('')}
-        </div>
-        <div class="mb-6">
-          <h3 class="text-sm font-bold uppercase tracking-widest mb-3 text-gray-900">Education</h3>
-          ${edus.map(ed => `
-            <div class="mb-3 pl-3 border-l-2 border-gray-300">
-              <div class="font-bold">${s(ed.school)}</div>
-              <div class="text-sm text-gray-600">${s(ed.degree)} • ${s(ed.years)}</div>
-            </div>
-          `).join('')}
-        </div>
-        <div>
-          <h3 class="text-sm font-bold uppercase tracking-widest mb-3 text-gray-900">Core Competencies</h3>
-          <div class="grid grid-cols-3 gap-2">
-            ${skills.map(k => `<div class="text-sm text-gray-700 py-1 px-3 bg-gray-100 text-center">${s(k)}</div>`).join('')}
-          </div>
-        </div>
-      </div>
-    `;
-  } else if (tmpl === 'creative') {
-    html = `
-      <div class="bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 p-8">
-        <div class="bg-white rounded-lg shadow-lg p-6 mb-4">
-          <h1 class="text-4xl font-bold mb-1 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">${s(name)}</h1>
-          <div class="text-lg text-gray-700 mb-3">${s(title)}</div>
-          <div class="flex flex-wrap gap-3 text-sm text-gray-600">
-            <span class="flex items-center gap-1">📧 ${s(email)}</span>
-            <span class="flex items-center gap-1">📱 ${s(phone)}</span>
-            <span class="flex items-center gap-1">📍 ${s(location)}</span>
-            ${website ? `<span class="flex items-center gap-1">🌐 ${s(website)}</span>` : ''}
-          </div>
-        </div>
-        
-        <div class="bg-white rounded-lg shadow-lg p-6 mb-4">
-          <h3 class="text-lg font-bold mb-2 text-purple-600">✨ About Me</h3>
-          <p class="text-sm text-gray-700 leading-relaxed">${s(summary)}</p>
-        </div>
-
-        <div class="bg-white rounded-lg shadow-lg p-6 mb-4">
-          <h3 class="text-lg font-bold mb-3 text-purple-600">💼 Work Experience</h3>
-          ${jobs.map(job => `
-            <div class="mb-4 pb-4 border-b border-gray-200 last:border-0">
-              <div class="flex justify-between items-start mb-2">
-                <div>
-                  <div class="font-bold text-base text-gray-900">${s(job.job)}</div>
-                  <div class="text-sm text-pink-600">${s(job.company)}</div>
-                </div>
-                <div class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">${s(job.years)}</div>
-              </div>
-              <ul class="space-y-1 text-sm text-gray-700">
-                ${job.details.map(d => `<li class="flex gap-2"><span class="text-pink-500">▸</span><span>${s(d)}</span></li>`).join('')}
-              </ul>
-            </div>
-          `).join('')}
-        </div>
-
-        <div class="grid grid-cols-2 gap-4">
-          <div class="bg-white rounded-lg shadow-lg p-6">
-            <h3 class="text-lg font-bold mb-3 text-purple-600">🎓 Education</h3>
-            ${edus.map(ed => `
-              <div class="mb-3">
-                <div class="font-semibold text-gray-900">${s(ed.school)}</div>
-                <div class="text-sm text-gray-600">${s(ed.degree)}</div>
-                <div class="text-xs text-pink-600">${s(ed.years)}</div>
-              </div>
-            `).join('')}
-          </div>
-
-          <div class="bg-white rounded-lg shadow-lg p-6">
-            <h3 class="text-lg font-bold mb-3 text-purple-600">🚀 Skills</h3>
-            <div class="flex flex-wrap gap-2">
-              ${skills.map(k => `<span class="text-sm px-3 py-1 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700 rounded-full font-medium">${s(k)}</span>`).join('')}
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
-  $('#resumePreview').innerHTML = html;
-}
-
-function downloadPDF() {
-  renderPreview();
-  const element = document.getElementById('resumePreview');
-
-  const wrapper = element.cloneNode(true);
-  const watermark = document.createElement('div');
-  watermark.innerText = 'Generated via curtisvenn.com';
-  watermark.style.position = 'absolute';
-  watermark.style.bottom = '10px';
-  watermark.style.right = '10px';
-  watermark.style.fontSize = '10px';
-  watermark.style.color = 'rgba(0,0,0,0.2)';
-  watermark.style.pointerEvents = 'none';
-  wrapper.style.position = 'relative';
-  wrapper.appendChild(watermark);
-
-  const opt = {
-    margin: [10, 10, 10, 10],
-    filename: ( ($('#inputName').value || 'resume').trim().replace(/\s+/g,'_') + '.pdf' ),
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true, logging: false, scrollY: -window.scrollY },
-    jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' },
-    pagebreak: { mode: ['css','legacy'] }
-  };
-
-  html2pdf().set(opt).from(wrapper).save();
-}
-
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', function() {
-  loadSampleData();
-  renderForm();
-  renderPreview();
-
-  // Main form inputs
-  $('#addJobBtn').addEventListener('click', addJob);
-  $('#addEduBtn').addEventListener('click', addEdu);
-  $('#addSkillBtn').addEventListener('click', addSkill);
-  $('#downloadBtn').addEventListener('click', downloadPDF);
-  $('#menuBtn').addEventListener('click', () => $('#mobileMenu').classList.toggle('hidden'));
-
-  // Live preview for main fields
-  ['inputName','inputTitle','inputEmail','inputPhone','inputLocation','inputWebsite','inputSummary'].forEach(id => {
-    document.getElementById(id).addEventListener('input', renderPreview);
-  });
-
-  // Template selector
-  $('#template').addEventListener('change', renderPreview);
-
-  // Enter key on skill input
-  $('#skillInput').addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      addSkill();
-    }
-  });
-});
-</script>
-</body>
-</html>">
           <h1 class="text-4xl font-light tracking-tight mb-1">${s(name)}</h1>
           <div class="text-sm text-gray-600 mb-3">${s(title)}</div>
           <div class="text-xs text-gray-500 space-x-3">
@@ -655,8 +493,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="text-xs text-gray-500">${s(job.years)}</div>
               </div>
               <div class="text-sm text-gray-600 mb-2">${s(job.company)}</div>
-              <ul class="space-y-1 ml-4">
-                ${job.details.map(d => `<li class="text-sm text-gray-600 before:content-['—'] before:mr-2 before:text-gray-400">${s(d)}</li>`).join('')}
+              <ul class="space-y-1">
+                ${job.details.map(d => `<li class="text-sm text-gray-600 ml-4">— ${s(d)}</li>`).join('')}
               </ul>
             </div>
           `).join('')}
@@ -741,11 +579,170 @@ document.addEventListener('DOMContentLoaded', function() {
           <h1 class="text-4xl font-bold mb-2 tracking-tight" style="font-family: Georgia, serif">${s(name)}</h1>
           <div class="text-base text-gray-700">${s(title)}</div>
           <div class="text-sm text-gray-600 mt-2">
-            ${s(email)} | ${s(phone)} | ${s(location)} ${website ? '| ' + s(website) : ''}
+            ${s(email)} | ${s(phone)} | ${s(location)}${website ? ' | ' + s(website) : ''}
           </div>
         </div>
         <div class="mb-6">
           <h3 class="text-sm font-bold uppercase tracking-widest mb-2 text-gray-900">Executive Summary</h3>
           <p class="text-sm text-gray-700 leading-relaxed border-l-4 border-gray-900 pl-3">${s(summary)}</p>
         </div>
-        <div class="mb-6
+        <div class="mb-6">
+          <h3 class="text-sm font-bold uppercase tracking-widest mb-3 text-gray-900">Professional Experience</h3>
+          ${jobs.map(job => `
+            <div class="mb-4 pl-3 border-l-2 border-gray-300">
+              <div class="flex justify-between items-baseline">
+                <div>
+                  <div class="font-bold text-base">${s(job.job)}</div>
+                  <div class="text-sm text-gray-600 italic">${s(job.company)}</div>
+                </div>
+                <div class="text-sm text-gray-600">${s(job.years)}</div>
+              </div>
+              <ul class="list-disc ml-5 mt-2 text-sm text-gray-700 space-y-1">
+                ${job.details.map(d => `<li>${s(d)}</li>`).join('')}
+              </ul>
+            </div>
+          `).join('')}
+        </div>
+        <div class="mb-6">
+          <h3 class="text-sm font-bold uppercase tracking-widest mb-3 text-gray-900">Education</h3>
+          ${edus.map(ed => `
+            <div class="mb-3 pl-3 border-l-2 border-gray-300">
+              <div class="font-bold">${s(ed.school)}</div>
+              <div class="text-sm text-gray-600">${s(ed.degree)} • ${s(ed.years)}</div>
+            </div>
+          `).join('')}
+        </div>
+        <div>
+          <h3 class="text-sm font-bold uppercase tracking-widest mb-3 text-gray-900">Core Competencies</h3>
+          <div class="grid grid-cols-3 gap-2">
+            ${skills.map(k => `<div class="text-sm text-gray-700 py-1 px-3 bg-gray-100 text-center">${s(k)}</div>`).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+  } else if (tmpl === 'creative') {
+    html = `
+      <div class="bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 p-8">
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-4">
+          <h1 class="text-4xl font-bold mb-1 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">${s(name)}</h1>
+          <div class="text-lg text-gray-700 mb-3">${s(title)}</div>
+          <div class="flex flex-wrap gap-3 text-sm text-gray-600">
+            <span>📧 ${s(email)}</span>
+            <span>📱 ${s(phone)}</span>
+            <span>📍 ${s(location)}</span>
+            ${website ? `<span>🌐 ${s(website)}</span>` : ''}
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-4">
+          <h3 class="text-lg font-bold mb-2 text-purple-600">✨ About Me</h3>
+          <p class="text-sm text-gray-700 leading-relaxed">${s(summary)}</p>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-4">
+          <h3 class="text-lg font-bold mb-3 text-purple-600">💼 Work Experience</h3>
+          ${jobs.map(job => `
+            <div class="mb-4 pb-4 border-b border-gray-200 last:border-0">
+              <div class="flex justify-between items-start mb-2">
+                <div>
+                  <div class="font-bold text-base text-gray-900">${s(job.job)}</div>
+                  <div class="text-sm text-pink-600">${s(job.company)}</div>
+                </div>
+                <div class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">${s(job.years)}</div>
+              </div>
+              <ul class="space-y-1 text-sm text-gray-700">
+                ${job.details.map(d => `<li class="flex gap-2"><span class="text-pink-500">▸</span><span>${s(d)}</span></li>`).join('')}
+              </ul>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-white rounded-lg shadow-lg p-6">
+            <h3 class="text-lg font-bold mb-3 text-purple-600">🎓 Education</h3>
+            ${edus.map(ed => `
+              <div class="mb-3">
+                <div class="font-semibold text-gray-900">${s(ed.school)}</div>
+                <div class="text-sm text-gray-600">${s(ed.degree)}</div>
+                <div class="text-xs text-pink-600">${s(ed.years)}</div>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="bg-white rounded-lg shadow-lg p-6">
+            <h3 class="text-lg font-bold mb-3 text-purple-600">🚀 Skills</h3>
+            <div class="flex flex-wrap gap-2">
+              ${skills.map(k => `<span class="text-sm px-3 py-1 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700 rounded-full font-medium">${s(k)}</span>`).join('')}
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  $('#resumePreview').innerHTML = html;
+}
+
+function downloadPDF() {
+  const element = document.getElementById('resumePreview');
+  
+  // Clone the element
+  const wrapper = element.cloneNode(true);
+  
+  // Add watermark
+  const watermark = document.createElement('div');
+  watermark.innerText = 'Generated via curtisvenn.com';
+  watermark.style.cssText = 'position: absolute; bottom: 10px; right: 10px; font-size: 10px; color: rgba(0,0,0,0.2); pointer-events: none;';
+  wrapper.style.position = 'relative';
+  wrapper.appendChild(watermark);
+
+  const opt = {
+    margin: 10,
+    filename: (($('#inputName').value || 'resume').trim().replace(/\s+/g,'_') + '.pdf'),
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { 
+      scale: 2, 
+      useCORS: true, 
+      logging: false,
+      windowWidth: element.scrollWidth,
+      windowHeight: element.scrollHeight
+    },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+  };
+
+  html2pdf().set(opt).from(wrapper).save();
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+  loadSampleData();
+  renderForm();
+  renderPreview();
+
+  // Main form inputs
+  $('#addJobBtn').addEventListener('click', addJob);
+  $('#addEduBtn').addEventListener('click', addEdu);
+  $('#addSkillBtn').addEventListener('click', addSkill);
+  $('#downloadBtn').addEventListener('click', downloadPDF);
+  $('#menuBtn').addEventListener('click', () => $('#mobileMenu').classList.toggle('hidden'));
+
+  // Live preview for main fields
+  ['inputName','inputTitle','inputEmail','inputPhone','inputLocation','inputWebsite','inputSummary'].forEach(id => {
+    document.getElementById(id).addEventListener('input', renderPreview);
+  });
+
+  // Template selector
+  $('#template').addEventListener('change', renderPreview);
+
+  // Enter key on skill input
+  $('#skillInput').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      addSkill();
+    }
+  });
+});
+</script>
+</body>
+</html>
