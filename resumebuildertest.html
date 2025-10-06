@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Resume Builder | Curtis Venn</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- html2pdf -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <style>
+@media print {
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  #resume-container, #resumePreview {
+    width: 210mm !important;
+    min-height: 297mm !important;
+    max-width: 210mm !important;
+    padding: 15mm !important;
+    margin: 0 !important;
+    box-sizing: border-box;
+    page-break-inside: avoid;
+    overflow: visible !important;
+  }
+
+  * {
+    overflow: visible !important;
+  }
+
+  section, div, article {
+    page-break-inside: avoid;
+  }
+
+  .resume-frame {
+    box-shadow: none !important;
+    border: none !important;
+  }
+}
+
+    .small-muted { font-size: 0.85rem; color: #6b7280; }
+    .pill { font-size: 0.85rem; padding: 0.25rem 0.5rem; border-radius: 9999px; }
+    .form-scroll { max-height: calc(100vh - 12rem); overflow:auto; padding-right: .5rem; }
+    
+    /* Better resume preview sizing */
+    .resume-frame {
+      background: white;
+      min-height: 800px;
+      aspect-ratio: 210/297; /* A4 ratio */
+    }
+  </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-900 flex flex-col min-h-screen">
+
+  <!-- NAV -->
+  <header class="bg-white/90 backdrop-blur sticky top-0 z-40 shadow">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="font-bold text-lg">Curtis Venn</a>
+      <nav class="hidden md:flex gap-4 items-center text-sm">
+        <a href="index.html" class="hover:text-blue-600">Home</a>
+        <a href="about.html" class="hover:text-blue-600">About Me</a>
+        <a href="resumebuilder.html" class="font-semibold text-blue-600">Resume Builder</a>
+      </nav>
+      <button id="menuBtn" class="md:hidden text-xl px-2">☰</button>
+    </div>
+    <div id="mobileMenu" class="hidden md:hidden px-4 pb-4">
+      <a href="index.html" class="block py-2">Home</a>
+      <a href="about.html" class="block py-2">About Me</a>
+      <a href="resumebuilder.html" class="block py-2">Resume Builder</a>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="max-w-6xl mx-auto px-4 py-6 flex-1 w-full">
+    <h1 class="text-2xl md:text-3xl font-bold mb-4">Resume Builder — for free! Build your resume! PDF export</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- FORM (left) -->
+      <aside class="md:col-span-1 bg-white p-4 rounded-lg shadow form-scroll">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="font-semibold text-lg">Your Info</h2>
+        </div>
+
+        <label class="block text-sm font-medium mb-1">Template</label>
+        <select id="template" class="w-full border rounded p-2 mb-3">
+          <option value="modern">Modern (Gradient Header)</option>
+          <option value="classic">Classic (Traditional)</option>
+          <option value="minimal">Minimal (Clean Lines)</option>
+          <option value="bold">Bold (Accent Sidebar)</option>
+          <option value="executive">Executive (Professional)</option>
+          <option value="creative">Creative (Colorful)</option>
+        </select>
+
+        <label class="block text-sm font-medium">Full name</label>
+        <input id="inputName" class="w-full border rounded px-3 py-2 mb-3" placeholder="Curtis Venn">
+
+        <label class="block text-sm font-medium">Title / Role</label>
+        <input id="inputTitle" class="w-full border rounded px-3 py-2 mb-3" placeholder="Photographer / Creator">
+
+        <label class="block text-sm font-medium">Email</label>
+        <input id="inputEmail" class="w-full border rounded px-3 py-2 mb-3" placeholder="inserthere@gmail.com">
+
+        <label class="block text-sm font-medium">Phone</label>
+        <input id="inputPhone" class="w-full border rounded px-3 py-2 mb-3" placeholder="+ Number here">
+
+        <label class="block text-sm font-medium">Location</label>
+        <input id="inputLocation" class="w-full border rounded px-3 py-2 mb-3" placeholder="Salt Lake City, UT">
+
+        <label class="block text-sm font-medium">Website / Portfolio</label>
+        <input id="inputWebsite" class="w-full border rounded px-3 py-2 mb-3" placeholder="https://curtisvenn.com">
+
+        <label class="block text-sm font-medium">Professional summary</label>
+        <textarea id="inputSummary" rows="4" class="w-full border rounded px-3 py-2 mb-3" placeholder="Short summary that highlights you in 1-2 lines..."></textarea>
+
+        <!-- Work -->
+        <div class="mt-4">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">Work Experience</h3>
+            <button id="addJobBtn" class="text-sm bg-blue-600 text-white rounded px-2 py-1">+ Add Job</button>
+          </div>
+          <div id="workContainer" class="space-y-3"></div>
+        </div>
+
+        <!-- Education -->
+        <div class="mt-4">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">Education</h3>
+            <button id="addEduBtn" class="text-sm bg-blue-600 text-white rounded px-2 py-1">+ Add Education</button>
+          </div>
+          <div id="eduContainer" class="space-y-3"></div>
+        </div>
+
+        <!-- Skills -->
+        <div class="mt-4">
+          <div class="flex items-center gap-2">
+            <input id="skillInput" class="flex-1 border rounded px-2 py-1" placeholder="Type a skill and press Add">
+            <button id="addSkillBtn" class="bg-green-600 text-white px-3 py-1 rounded">Add</button>
+          </div>
+          <div id="skillList" class="flex flex-wrap gap-2 mt-3"></div>
+        </div>
+
+        <div class="mt-6">
+          <button id="downloadBtn" class="w-full bg-purple-700 text-white py-2 rounded">Download PDF</button>
+        </div>
+
+        <p class="text-xs text-gray-500 mt-4">Tip: edits update live. Use the Download button to export the preview to PDF.</p>
+      </aside>
+
+      <!-- PREVIEW (right) -->
+      <section class="md:col-span-2">
+        <div id="resumePreview" class="resume-frame rounded-lg overflow-hidden shadow"> 
+          <!-- preview content injected here -->
+        </div>
+
+        <p class="text-xs text-gray-500 text-center mt-2">Made on curtisvenn.com</p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="text-center text-xs text-gray-500 py-4">© 2025 curtisvenn.com</footer>
+
+<script>
+const $ = sel => document.querySelector(sel);
+const $$ = sel => Array.from(document.querySelectorAll(sel));
+const escapeHtml = s => String(s||'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+
+let jobs = [];
+let edus = [];
+let skills = [];
+
+function loadSampleData() {
+  jobs = [
+    {
+      job: 'Freelance Photographer',
+      company: 'Self-employed',
+      years: '2017 — Present',
+      details: [
+        'Shoot portraits, lifestyle, and product imagery from concept to final retouch.',
+        'Manage client relations, scheduling, and on-location logistics.',
+        'Deliver high-quality, color-corrected images optimized for web and print.'
+      ]
+    },
+    {
+      job: 'Assistant Photographer',
+      company: 'Studio Collective',
+      years: '2015 — 2017',
+      details: [
+        'Prepared studio lighting setups and assisted with commercial shoots.',
+        'Handled post-production workflow and color grading for client deliverables.'
+      ]
+    }
+  ];
+
+  edus = [
+    { school: 'State University', degree: 'B.A. Photography', years: '2011 — 2015' }
+  ];
+
+  skills = ['Photography','Adobe Lightroom','Retouching','Client Relations','Composition'];
+}
+
+function renderForm() {
+  const workContainer = $('#workContainer');
+  workContainer.innerHTML = '';
+  jobs.forEach((job, i) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'border rounded p-2 bg-gray-50';
+    wrap.innerHTML = `
+      <div class="flex justify-between items-center mb-2">
+        <strong class="text-sm">Job ${i+1}</strong>
+        <div class="flex gap-2">
+          <button class="text-xs text-red-600" onclick="removeJob(${i})">Remove</button>
+        </div>
+      </div>
+      <input oninput="updateJob(${i}, 'job', this.value)" value="${escapeHtml(job.job)}" placeholder="Job Title" class="w-full border p-1 mb-1 rounded"/>
+      <input oninput="updateJob(${i}, 'company', this.value)" value="${escapeHtml(job.company)}" placeholder="Company" class="w-full border p-1 mb-1 rounded"/>
+      <input oninput="updateJob(${i}, 'years', this.value)" value="${escapeHtml(job.years)}" placeholder="Years (e.g. 2020 — Present)" class="w-full border p-1 mb-2 rounded"/>
+      <div class="ml-2 mb-2">
+        ${job.details.map((d,j) => `
+          <div class="flex gap-2 mb-1">
+            <input oninput="updateJobDetail(${i}, ${j}, this.value)" value="${escapeHtml(d)}" placeholder="Responsibility / achievement" class="flex-1 border p-1 rounded"/>
+            <button class="text-xs text-red-600" onclick="removeJobDetail(${i}, ${j})">✕</button>
+          </div>
+        `).join('')}
+        <button class="text-xs bg-gray-200 px-2 py-1 rounded" onclick="addJobDetail(${i})">+ Add responsibility</button>
+      </div>
+    `;
+    workContainer.appendChild(wrap);
+  });
+
+  const eduContainer = $('#eduContainer');
+  eduContainer.innerHTML = '';
+  edus.forEach((ed, i) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'border rounded p-2 bg-gray-50';
+    wrap.innerHTML = `
+      <div class="flex justify-between items-center mb-2">
+        <strong class="text-sm">Education ${i+1}</strong>
+        <button class="text-xs text-red-600" onclick="removeEdu(${i})">Remove</button>
+      </div>
+      <input oninput="updateEdu(${i}, 'school', this.value)" value="${escapeHtml(ed.school)}" placeholder="School" class="w-full border p-1 mb-1 rounded"/>
+      <input oninput="updateEdu(${i}, 'degree', this.value)" value="${escapeHtml(ed.degree)}" placeholder="Degree / Program" class="w-full border p-1 mb-1 rounded"/>
+      <input oninput="updateEdu(${i}, 'years', this.value)" value="${escapeHtml(ed.years)}" placeholder="Years" class="w-full border p-1 rounded"/>
+    `;
+    eduContainer.appendChild(wrap);
+  });
+
+  const skillList = $('#skillList');
+  skillList.innerHTML = '';
+  skills.forEach((s, i) => {
+    const span = document.createElement('div');
+    span.className = 'flex items-center gap-2 bg-gray-100 px-2 py-1 rounded text-sm';
+    span.innerHTML = `<span>${escapeHtml(s)}</span> <button class="text-xs text-red-600" onclick="removeSkill(${i})">✕</button>`;
+    skillList.appendChild(span);
+  });
+}
+
+function updateJob(i, field, value) {
+  jobs[i][field] = value;
+  renderPreview();
+}
+function updateJobDetail(i, j, value) {
+  jobs[i].details[j] = value;
+  renderPreview();
+}
+function addJobDetail(i) {
+  jobs[i].details.push('');
+  renderForm();
+  renderPreview();
+}
+function removeJobDetail(i, j) {
+  jobs[i].details.splice(j,1);
+  renderForm();
+  renderPreview();
+}
+function addJob() {
+  jobs.push({ job:'New Job Title', company:'Company', years:'Year — Year', details:['Responsibility example'] });
+  renderForm();
+  renderPreview();
+}
+function removeJob(i) {
+  jobs.splice(i,1);
+  renderForm();
+  renderPreview();
+}
+
+function addEdu() {
+  edus.push({ school:'New School', degree:'Degree/Program', years:'Year — Year' });
+  renderForm();
+  renderPreview();
+}
+function updateEdu(i, field, value) {
+  edus[i][field] = value;
+  renderPreview();
+}
+function removeEdu(i) {
+  edus.splice(i,1);
+  renderForm();
+  renderPreview();
+}
+
+function addSkill() {
+  const v = $('#skillInput').value.trim();
+  if (!v) return;
+  skills.push(v);
+  $('#skillInput').value = '';
+  renderForm();
+  renderPreview();
+}
+function removeSkill(i) {
+  skills.splice(i,1);
+  renderForm();
+  renderPreview();
+}
+
+function renderPreview() {
+  const tmpl = $('#template').value;
+  const name = $('#inputName').value || 'Curtis Venn';
+  const title = $('#inputTitle').value || 'Photographer • Creator';
+  const email = $('#inputEmail').value || 'curtis.hi95@gmail.com';
+  const phone = $('#inputPhone').value || '801-815-7592';
+  const location = $('#inputLocation').value || 'Salt Lake City, UT';
+  const website = $('#inputWebsite').value || 'curtisvenn.com';
+  const summary = $('#inputSummary').value || 'Photographer who focuses on connecting with people and telling stories through imagery. Skilled with studio and natural light, retouching, and visual storytelling.';
+
+  const s = escapeHtml;
+  let html = '';
+
+  if (tmpl === 'modern') {
+    // Modern: gradient header + two-column
+    html = `
+      <div class="bg-gradient-to-r from-amber-200 to-stone-300 p-6 text-gray-800">
+        <h1 class="text-3xl font-bold m-0">${s(name)}</h1>
+        <div class="text-lg mt-1">${s(title)}</div>
+      </div>
+      <div class="p-6 grid grid-cols-3 gap-6">
+        <div class="col-span-1">
+          <div class="mb-4">
+            <h3 class="text-sm font-semibold uppercase tracking-wide border-b pb-1 mb-2">Contact</h3>
+            <div class="small-muted space-y-1">
+              <div>${s(email)}</div>
+              <div>${s(phone)}</div>
+              <div>${s(location)}</div>
+              <div>${s(website)}</div>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-sm font-semibold uppercase tracking-wide border-b pb-1 mb-2">Skills</h3>
+            <div class="mt-2 flex flex-wrap gap-2">
+              ${skills.map(k => `<span class="pill bg-amber-100 text-gray-800">${s(k)}</span>`).join('')}
+            </div>
+          </div>
+        </div>
+        <div class="col-span-2">
+          <div class="mb-4">
+            <h3 class="text-sm font-semibold uppercase tracking-wide border-b pb-1 mb-2">Summary</h3>
+            <p class="small-muted mt-2">${s(summary)}</p>
+          </div>
+          <div class="mb-4">
+            <h3 class="text-sm font-semibold uppercase tracking-wide border-b pb-1 mb-2">Work Experience</h3>
+            <div class="mt-3">
+              ${jobs.map(job => `
+                <div class="mb-4">
+                  <div class="flex justify-between items-baseline">
+                    <div>
+                      <div class="font-semibold text-base">${s(job.job)}</div>
+                      <div class="small-muted">${s(job.company)}</div>
+                    </div>
+                    <div class="small-muted text-sm">${s(job.years)}</div>
+                  </div>
+                  <ul class="list-disc ml-5 mt-2 text-sm small-muted space-y-1">
+                    ${job.details.map(d => `<li>${s(d)}</li>`).join('')}
+                  </ul>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+          <div>
+            <h3 class="text-sm font-semibold uppercase tracking-wide border-b pb-1 mb-2">Education</h3>
+            <div class="mt-3">
+              ${edus.map(ed => `
+                <div class="mb-3">
+                  <div class="font-semibold">${s(ed.school)}</div>
+                  <div class="small-muted text-sm">${s(ed.degree)} • ${s(ed.years)}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  } else if (tmpl === 'classic') {
+    // Classic: simple single-column
+    html = `
+      <div class="p-8">
+        <div class="text-center mb-6 border-b-2 border-gray-800 pb-4">
+          <h1 class="text-3xl font-bold mb-1">${s(name)}</h1>
+          <div class="small-muted">${s(title)}</div>
+          <div class="small-muted mt-1">${s(email)} • ${s(phone)} • ${s(location)}</div>
+          ${website ? `<div class="small-muted">${s(website)}</div>` : ''}
+        </div>
+        <div class="mb-5">
+          <h3 class="font-bold text-base uppercase mb-2 border-b border-gray-400 pb-1">Professional Summary</h3>
+          <p class="small-muted">${s(summary)}</p>
+        </div>
+        <div class="mb-5">
+          <h3 class="font-bold text-base uppercase mb-2 border-b border-gray-400 pb-1">Work Experience</h3>
+          ${jobs.map(job => `
+            <div class="mt-3">
+              <div class="flex justify-between">
+                <div><strong>${s(job.job)}</strong> — ${s(job.company)}</div>
+                <div class="small-muted">${s(job.years)}</div>
+              </div>
+              <ul class="list-disc ml-5 mt-1 small-muted space-y-1">
+                ${job.details.map(d => `<li>${s(d)}</li>`).join('')}
+              </ul>
+            </div>
+          `).join('')}
+        </div>
+        <div class="mb-5">
+          <h3 class="font-bold text-base uppercase mb-2 border-b border-gray-400 pb-1">Education</h3>
+          ${edus.map(ed => `
+            <div class="mt-2">
+              <div><strong>${s(ed.school)}</strong></div>
+              <div class="small-muted">${s(ed.degree)} • ${s(ed.years)}</div>
+            </div>
+          `).join('')}
+        </div>
+        <div>
+          <h3 class="font-bold text-base uppercase mb-2 border-b border-gray-400 pb-1">Skills</h3>
+          <p class="small-muted">${skills.map(k => s(k)).join(' • ')}</p>
+        </div>
+      </div>
+    `;
+  } else if (tmpl === 'minimal') {
+    // Minimal: clean, lots of whitespace, thin lines
+    html = `
+      <div class="p-8">
+        <div class="mb-6">
+          <h1 class="text-4xl font-light tracking-tight mb-1">${s(name)}</h1>
+          <div class="text-sm text-gray-600 mb-3">${s(title)}</div>
+          <div class="text-xs text-gray-500 space-x-3">
+            <span>${s(email)}</span>
+            <span>•</span>
+            <span>${s(phone)}</span>
+            <span>•</span>
+            <span>${s(location)}</span>
+            ${website ? `<span>•</span><span>${s(website)}</span>` : ''}
+          </div>
+        </div>
+        <div class="mb-6 pb-4 border-b border-gray-200">
+          <p class="text-sm text-gray-700 leading-relaxed">${s(summary)}</p>
+        </div>
+        <div class="mb-6">
+          <h3 class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-3">Experience</h3>
+          ${jobs.map(job => `
+            <div class="mb-4">
+              <div class="flex justify-between items-baseline mb-1">
+                <div class="font-medium">${s(job.job)}</div>
+                <div class="text-xs text-gray-500">${s(job.years)}</div>
+              </div>
+              <div class="text-sm text-gray-600 mb-2">${s(job.company)}</div>
+              <ul class="space-y-1 ml-4">
+                ${job.details.map(d => `<li class="text-sm text-gray-600 before:content-['—'] before:mr-2 before:text-gray-400">${s(d)}</li>`).join('')}
+              </ul>
+            </div>
+          `).join('')}
+        </div>
+        <div class="mb-6">
+          <h3 class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-3">Education</h3>
+          ${edus.map(ed => `
+            <div class="mb-3">
+              <div class="font-medium">${s(ed.school)}</div>
+              <div class="text-sm text-gray-600">${s(ed.degree)} • ${s(ed.years)}</div>
+            </div>
+          `).join('')}
+        </div>
+        <div>
+          <h3 class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-3">Skills</h3>
+          <div class="flex flex-wrap gap-2">
+            ${skills.map(k => `<span class="text-sm text-gray-700 px-3 py-1 border border-gray-300 rounded-full">${s(k)}</span>`).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+  } else if (tmpl === 'bold') {
+    // Bold: dark sidebar with accent color
+    html = `
+      <div class="grid grid-cols-3 min-h-full">
+        <div class="col-span-1 bg-slate-800 text-white p-6">
+          <div class="mb-6">
+            <h1 class="text-2xl font-bold mb-2 text-amber-400">${s(name)}</h1>
+            <div class="text-sm text-amber-200">${s(title)}</div>
+          </div>
+          <div class="mb-6">
+            <h3 class="text-xs font-bold uppercase tracking-wide mb-3 text-amber-400 border-b border-amber-400 pb-1">Contact</h3>
+            <div class="text-sm space-y-2">
+              <div class="break-all">${s(email)}</div>
+              <div>${s(phone)}</div>
+              <div>${s(location)}</div>
+              <div class="break-all">${s(website)}</div>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-xs font-bold uppercase tracking-wide mb-3 text-amber-400 border-b border-amber-400 pb-1">Skills</h3>
+            <div class="space-y-2">
+              ${skills.map(k => `<div class="text-sm py-1 px-2 bg-slate-700 rounded">${s(k)}</div>`).join('')}
+            </div>
+          </div>
+        </div>
+        <div class="col-span-2 p-6">
+          <div class="mb-5">
+            <h3 class="text-sm font-bold uppercase tracking-wide mb-2 text-slate-800 border-b-2 border-amber-400 pb-1">Summary</h3>
+            <p class="text-sm text-gray-700 mt-2">${s(summary)}</p>
+          </div>
+          <div class="mb-5">
+            <h3 class="text-sm font-bold uppercase tracking-wide mb-3 text-slate-800 border-b-2 border-amber-400 pb-1">Work Experience</h3>
+            ${jobs.map(job => `
+              <div class="mb-4">
+                <div class="flex justify-between items-baseline mb-1">
+                  <div class="font-semibold text-base">${s(job.job)}</div>
+                  <div class="text-xs text-gray-500">${s(job.years)}</div>
+                </div>
+                <div class="text-sm text-gray-600 mb-2">${s(job.company)}</div>
+                <ul class="list-disc ml-5 text-sm text-gray-700 space-y-1">
+                  ${job.details.map(d => `<li>${s(d)}</li>`).join('')}
+                </ul>
+              </div>
+            `).join('')}
+          </div>
+          <div>
+            <h3 class="text-sm font-bold uppercase tracking-wide mb-3 text-slate-800 border-b-2 border-amber-400 pb-1">Education</h3>
+            ${edus.map(ed => `
+              <div class="mb-3">
+                <div class="font-semibold">${s(ed.school)}</div>
+                <div class="text-sm text-gray-600">${s(ed.degree)} • ${s(ed.years)}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+  } else if (tmpl === 'executive') {
+    // Executive: professional serif-inspired, clean
+    html = `
+      <div class="p-8 bg-white">
+        <div class="text-center mb-6 pb-4 border-b-4 border-gray-900">
+          <h1 class="text-4xl font-bold mb-2 tracking-tight" style="font-family: Georgia, serif">${s(name)}</h1>
+          <div class="text-base text-gray-700">${s(title)}</div>
+          <div class="text-sm text-gray-600 mt-2">
+            ${s(email)} | ${s(phone)} | ${s(location)} ${website ? '| ' + s(website) : ''}
+          </div>
+        </div>
+        <div class="mb-6">
+          <h3 class="text-sm font-bold uppercase tracking-widest mb-2 text-gray-900">Executive Summary</h3>
+          <p class="text-sm text-gray-700 leading-relaxed border-l-4 border-gray-900 pl-3">${s(summary)}</p>
+        </div>
+        <div class="mb-6">
+          <h3 class="text-sm font-bold uppercase tracking-widest mb-3 text-gray-900">Professional Experience</h3>
+          ${jobs.map(job => `
+            <div class="mb-4 pl-3 border-l-2 border-gray-300">
+              <div class="flex justify-between items-baseline">
+                <div>
+                  <div class="font-bold text-base">${s(job.job)}</div>
+                  <div class="text-sm text-gray-600 italic">${s(job.company)}</div>
+                </div>
+                <div class="text-sm text-gray-600">${s(job.years)}</div>
+              </div>
+              <ul class="list-disc ml-5 mt-2 text-sm text-gray-700 space-y-1">
+                ${job.details.map(d => `<li>${s(d)}</li>`).
