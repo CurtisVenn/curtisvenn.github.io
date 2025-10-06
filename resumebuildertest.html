@@ -101,6 +101,7 @@
           <option value="minimal">Minimal (ATS-Friendly)</option>
           <option value="creative">Creative (With Sidebar)</option>
           <option value="compact">Compact (Dense Layout)</option>
+          <option value="professional">Professional (Two-column)</option>
         </select>
 
         <label class="block text-sm font-medium">Full name</label>
@@ -189,31 +190,46 @@ function loadSampleData() {
   // sample jobs with details
   jobs = [
     {
-      job: 'Freelance Photographer',
-      company: 'Self-employed',
-      years: '2017 — Present',
+      job: 'Operations / Fraud & Claims Specialist',
+      company: 'LendingClub',
+      years: 'June 2025 — Present',
       details: [
-        'Shoot portraits, lifestyle, and product imagery from concept to final retouch.',
-        'Manage client relations, scheduling, and on-location logistics.',
-        'Deliver high-quality, color-corrected images optimized for web and print.'
+        'Fraud Investigations',
+        'Worked with onboarding applications and their risk factors',
+        'Account Management and closure pertaining to fraud and risk',
+        'Card Management and disputes',
+        'Check Fraud Investigations'
       ]
     },
     {
-      job: 'Assistant Photographer',
-      company: 'Studio Collective',
-      years: '2015 — 2017',
+      job: 'Data Analyst',
+      company: 'Tesla',
+      years: 'April 2024 — October 2024',
       details: [
-        'Prepared studio lighting setups and assisted with commercial shoots.',
-        'Handled post-production workflow and color grading for client deliverables.'
+        'Identified, analyzed and interpreted trends or patterns in complex data sets.',
+        'Improved decision-making processes with accurate data analysis and visualization techniques.',
+        'Upheld security and confidentiality of documents and data within area of responsibility',
+        'Helped train AI models by annotating data'
+      ]
+    },
+    {
+      job: 'SMB Banking Specialist',
+      company: 'Bluevine',
+      years: 'February 2021 — October 2023',
+      details: [
+        'Specialization in Banking software, ACH, Wires, PPP loans and documentation',
+        'Working closely with other departments for solving technical issues with flow of site/logic',
+        'Working directly with clients with applications, banking software, banking issues.'
       ]
     }
   ];
 
   edus = [
-    { school: 'State University', degree: 'B.A. Photography', years: '2011 — 2015' }
+    { school: 'Salt Lake Community College (SLCC)', degree: 'Computer Science and Information Technology', years: '' },
+    { school: 'Weber State University', degree: 'Generals', years: '' }
   ];
 
-  skills = ['Photography','Adobe Lightroom','Retouching','Client Relations','Composition'];
+  skills = ['Client Relations','Onboarding','Data Entry','HTML','Research','Document proofreading','CPR, First Aid, Triage','CRM Software','AI Prompting','Photography','Consulting','Website building','Tool building','Secondary language: Spanish'];
 }
 
 /* ---------- DOM helpers to render form inputs ---------- */
@@ -339,12 +355,12 @@ function removeSkill(i) {
 function renderPreview() {
   const tmpl = $('#template').value;
   const name = $('#inputName').value || 'Curtis Venn';
-  const title = $('#inputTitle').value || 'Photographer • Creator';
-  const email = $('#inputEmail').value || 'curtis.hi95@gmail.com';
+  const title = $('#inputTitle').value || 'Creator | Leader | Fintech Forward | Consultant';
+  const email = $('#inputEmail').value || 'curtis.h95@gmail.com';
   const phone = $('#inputPhone').value || '801-815-7592';
-  const location = $('#inputLocation').value || 'Salt Lake City, UT';
+  const location = $('#inputLocation').value || 'Bountiful, UT';
   const website = $('#inputWebsite').value || 'curtisvenn.com';
-  const summary = $('#inputSummary').value || 'Photographer who focuses on connecting with people and telling stories through imagery. Skilled with studio and natural light, retouching, and visual storytelling.';
+  const summary = $('#inputSummary').value || 'Collaborative leader and creator. Helping to simply work life and seeing the bigger picture. Documented strengths in building and maintaining relationships with diverse range of stakeholders in dynamic, fast-paced settings.';
 
   // sanitize function for text content inside html strings
   const s = escapeHtml;
@@ -606,6 +622,78 @@ function renderPreview() {
         <div>
           <h3 class="font-semibold text-sm">Skills</h3>
           <p class="small-muted text-xs">${skills.map(k => s(k)).join(', ')}</p>
+        </div>
+      </div>
+    `;
+  } else if (tmpl === 'professional') {
+    // Professional: similar to modern but with lighter gray gradient, black text, centered and larger name
+    html = `
+      <div class="bg-gradient-to-r from-gray-100 to-gray-300 p-6 text-gray-900">
+        <div class="resume-header text-center">
+          <h1 class="text-3xl font-bold m-0">${s(name)}</h1>
+          <div class="small-muted mt-1">${s(title)}</div>
+        </div>
+      </div>
+
+      <div class="p-6 grid grid-cols-3 gap-6">
+        <!-- Left column: contact + skills (1/3) -->
+        <div class="col-span-1">
+          <div class="mb-4">
+            <h3 class="text-sm font-semibold text-gray-800">Contact</h3>
+            <div class="small-muted mt-2">
+              <div>${s(email)}</div>
+              <div>${s(phone)}</div>
+              <div>${s(location)}</div>
+              <div>${s(website)}</div>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-sm font-semibold text-gray-800">Skills</h3>
+            <div class="mt-2 flex flex-wrap gap-2">
+              ${skills.map(k => `<span class="pill bg-white text-gray-800 border border-gray-300">${s(k)}</span>`).join('')}
+            </div>
+          </div>
+        </div>
+
+        <!-- Right column: summary, work, education (2/3) -->
+        <div class="col-span-2">
+          <div class="mb-4">
+            <h3 class="text-sm font-semibold text-gray-800">Summary</h3>
+            <p class="small-muted mt-2">${s(summary)}</p>
+          </div>
+
+          <div class="mb-4">
+            <h3 class="text-sm font-semibold text-gray-800">Work Experience</h3>
+            <div class="mt-3">
+              ${jobs.map(job => `
+                <div class="mb-3">
+                  <div class="flex justify-between items-baseline">
+                    <div>
+                      <div class="font-semibold">${s(job.job)}</div>
+                      <div class="small-muted">${s(job.company)}</div>
+                    </div>
+                    <div class="small-muted text-sm">${s(job.years)}</div>
+                  </div>
+                  <ul class="list-disc ml-5 mt-2 text-sm small-muted">
+                    ${job.details.map(d => `<li>${s(d)}</li>`).join('')}
+                  </ul>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-sm font-semibold text-gray-800">Education</h3>
+            <div class="mt-3">
+              ${edus.map(ed => `
+                <div class="mb-3">
+                  <div class="font-semibold">${s(ed.school)}</div>
+                  <div class="small-muted text-sm">${s(ed.degree)} • ${s(ed.years)}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
         </div>
       </div>
     `;
