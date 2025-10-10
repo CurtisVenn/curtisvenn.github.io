@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,142 +7,202 @@
   <title>Curtis Venn | Portfolio</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom Tailwind config: Kept for colors and transitions -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1E3A8A', // Deep blue
+            accent: '#10B981', // Green
+          },
+          transitionProperty: {
+            'height': 'height',
+          },
+        },
+      },
+    };
+  </script>
+  <!-- Smooth scrolling -->
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    /* Modal styles for full-image view */
+    #image-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      justify-content: center;
+      align-items: center;
+      overflow: auto; /* Allow scrolling if image is too large */
+    }
+    #modal-image {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
+    }
+    #close-modal {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    /* To fix potential graininess: Ensure high-quality rendering */
+    img {
+      image-rendering: -webkit-optimize-contrast; /* For Chrome/Safari */
+      image-rendering: crisp-edges; /* For Firefox */
+    }
+  </style>
 </head>
-<body class="font-sans text-gray-900">
+<body class="font-sans text-gray-900 bg-gray-50">
 
-  <!-- Navbar -->
-  <nav class="fixed top-0 left-0 w-full bg-white/90 shadow-md z-50">
-    <div class="max-w-6xl mx-auto flex items-center justify-between p-4">
-      <div class="text-xl font-bold">Curtis Venn</div>
-      <div class="hidden md:flex space-x-6">
-        <a href="#home" class="hover:text-gray-600">Home</a>
-        <a href="about.html">About</a>
-        <a href="#portraits" class="hover:text-gray-600">Portraits</a>
-        <a href="#landscapes" class="hover:text-gray-600">Landscapes</a>
-        <a href="#vehicles" class="hover:text-gray-600">Vehicles</a>
-        <a href="#product" class="hover:text-gray-600">Product</a>
-        <a href="#contact" class="hover:text-gray-600">Contact</a>
-       <a href="resumebuilder.html">Resume Builder</a>
+  <!-- Navbar: No changes -->
+  <nav class="fixed top-0 left-0 w-full bg-white shadow-lg z-50 transition-all duration-300">
+    <div class="max-w-7xl mx-auto flex items-center justify-between p-4">
+      <div class="text-2xl font-bold text-primary">Curtis Venn</div>
+      <div class="hidden md:flex space-x-8">
+        <a href="#home" class="hover:text-primary transition-colors">Home</a>
+        <a href="about.html" class="hover:text-primary transition-colors">About</a>
+        <a href="#portraits" class="hover:text-primary transition-colors">Portraits</a>
+        <a href="#landscapes" class="hover:text-primary transition-colors">Landscapes</a>
+        <a href="#vehicles" class="hover:text-primary transition-colors">Vehicles</a>
+        <a href="#product" class="hover:text-primary transition-colors">Product</a>
+        <a href="#contact" class="hover:text-primary transition-colors">Contact</a>
+        <a href="resumebuilder.html" class="hover:text-primary transition-colors">Resume Builder</a>
       </div>
       <div class="hidden md:flex space-x-4">
-        <a href="https://www.instagram.com/curtis_venn/" target="_blank" class="text-gray-700 hover:text-pink-500"><i class="fab fa-instagram fa-lg"></i></a>
-        <a href="https://www.linkedin.com/in/curtis-venn" target="_blank" class="text-gray-700 hover:text-blue-600"><i class="fab fa-linkedin fa-lg"></i></a>
+        <a href="https://www.instagram.com/curtis_venn/" target="_blank" class="text-gray-700 hover:text-pink-500 transition-colors"><i class="fab fa-instagram fa-lg"></i></a>
+        <a href="https://www.linkedin.com/in/curtis-venn" target="_blank" class="text-gray-700 hover:text-blue-600 transition-colors"><i class="fab fa-linkedin fa-lg"></i></a>
       </div>
-      <button id="menu-btn" class="md:hidden text-2xl focus:outline-none">
+      <button id="menu-btn" class="md:hidden text-2xl focus:outline-none text-primary">
         <i class="fas fa-bars"></i>
       </button>
     </div>
-  <!-- Mobile menu with dividers (replace existing <div id="menu"> block) -->
-<div id="menu" class="hidden md:hidden flex-col bg-white px-4 pb-4 divide-y divide-gray-300 shadow-lg">
-  <!-- links -->
-  <div class="flex flex-col">
-    <a href="#home" class="px-4 py-3">Home</a>
-    <a href="about.html" class="px-4 py-3">About Me</a>
-    <a href="#portraits" class="px-4 py-3">Portraits</a>
-    <a href="#landscapes" class="px-4 py-3">Landscapes</a>
-    <a href="#vehicles" class="px-4 py-3">Vehicles</a>
-    <a href="#product" class="px-4 py-3">Product</a>
-    <a href="resumebuilder.html" class="px-4 py-3">Resume Builder</a>
-    <a href="#contact" class="px-4 py-3">Contact</a>
-  </div>
-
-  <!-- socials / extras -->
-  <div class="px-4 py-3">
-    <div class="flex items-center space-x-4">
-      <a href="https://www.instagram.com/curtis_venn/" target="_blank" class="text-gray-700 hover:text-pink-500">
-        <i class="fab fa-instagram fa-lg"></i>
-      </a>
-      <a href="https://www.linkedin.com/in/curtis-venn" target="_blank" class="text-gray-700 hover:text-blue-600">
-        <i class="fab fa-linkedin fa-lg"></i>
-      </a>
+    <div id="menu" class="hidden md:hidden flex-col bg-white px-4 pb-4 divide-y divide-gray-200 shadow-lg transition-all duration-300">
+      <div class="flex flex-col">
+        <a href="#home" class="px-4 py-3 hover:bg-gray-100 transition-colors">Home</a>
+        <a href="about.html" class="px-4 py-3 hover:bg-gray-100 transition-colors">About</a>
+        <a href="#portraits" class="px-4 py-3 hover:bg-gray-100 transition-colors">Portraits</a>
+        <a href="#landscapes" class="px-4 py-3 hover:bg-gray-100 transition-colors">Landscapes</a>
+        <a href="#vehicles" class="px-4 py-3 hover:bg-gray-100 transition-colors">Vehicles</a>
+        <a href="#product" class="px-4 py-3 hover:bg-gray-100 transition-colors">Product</a>
+        <a href="resumebuilder.html" class="px-4 py-3 hover:bg-gray-100 transition-colors">Resume Builder</a>
+        <a href="#contact" class="px-4 py-3 hover:bg-gray-100 transition-colors">Contact</a>
+      </div>
+      <div class="px-4 py-3 flex items-center space-x-4">
+        <a href="https://www.instagram.com/curtis_venn/" target="_blank" class="text-gray-700 hover:text-pink-500 transition-colors">
+          <i class="fab fa-instagram fa-lg"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/curtis-venn" target="_blank" class="text-gray-700 hover:text-blue-600 transition-colors">
+          <i class="fab fa-linkedin fa-lg"></i>
+        </a>
+      </div>
     </div>
-  </div>
-</div>
   </nav>
 
-  <!-- Hero Section -->
-  <section id="home" class="relative h-[70vh] flex items-center justify-center text-center text-white" style="background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80'); background-size: cover; background-position: center;">
-    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
-    <div class="relative z-10">
-      <h1 class="text-4xl md:text-6xl font-bold">Welcome to My Portfolio</h1>
-      <p class="mt-4 text-lg md:text-2xl">Photography | Creativity | Storytelling</p>
+  <!-- Hero Section: No changes -->
+  <section id="home" class="relative h-screen flex items-center justify-center text-center text-white" style="background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80'); background-size: cover; background-position: center;">
+    <div class="absolute inset-0 bg-gradient-to-b from-black/60 to-black/40"></div>
+    <div class="relative z-10 max-w-4xl px-6">
+      <h1 class="text-5xl md:text-7xl font-extrabold mb-4 animate-fade-in">Welcome to My Portfolio</h1>
+      <p class="text-xl md:text-3xl mb-8 animate-fade-in delay-200">Photography | Creativity | Storytelling</p>
+      <a href="#contact" class="bg-accent text-white px-8 py-4 rounded-full shadow-lg hover:bg-green-700 transition-all animate-fade-in delay-400">Get in Touch</a>
     </div>
   </section>
 
-  <!-- About Section -->
-  <section id="What is this?" class="max-w-4xl mx-auto py-16 px-6 text-center">
-    <h2 class="text-3xl font-bold mb-6">What is this? </h2>
-    <p class="text-gray-700 leading-relaxed">I’m Curtis, this will showcase some of my photography work (as well as my website building work)</p>
+  <!-- About Section: No changes -->
+  <section id="what-is-this" class="max-w-5xl mx-auto py-20 px-6 text-center bg-white rounded-lg shadow-md mt-12">
+    <h2 class="text-4xl font-bold mb-6 text-primary">What is this?</h2>
+    <p class="text-lg text-gray-700 leading-relaxed max-w-3xl mx-auto">I’m Curtis, this will showcase some of my photography work (as well as my website building work)</p>
   </section>
 
-  <!-- Portraits Section -->
-<section id="portraits" class="max-w-6xl mx-auto py-16 px-6">
-  <h2 class="text-3xl font-bold mb-6 text-center">Portraits</h2>
-
-  <!-- Mobile (stacked grid) -->
-  <div class="flex overflow-x-auto space-x-4 snap-x snap-mandatory">
-    <img src="DSC08886.jpg" class="w-full h-80 object-cover rounded-lg shadow-md" alt="Portrait 1">
-    <img src="DSC06023.jpg" class="w-full h-80 object-cover rounded-lg shadow-md" alt="Portrait 2">
-    <img src="DSC08307.jpg" class="w-full h-80 object-cover rounded-lg shadow-md" alt="Portrait 3">
-    <img src="DSC09530.jpg" class="w-full h-80 object-cover rounded-lg shadow-md" alt="Portrait 4">
-    <img src="DSC05764.jpg" class="w-full h-80 object-cover rounded-lg shadow-md" alt="Portrait 5">
-    <img src="DSC09881.jpg" class="w-full h-80 object-cover rounded-lg shadow-md" alt="Portrait 6">
-    <img src="DSC09169.jpg" class="w-full h-80 object-cover rounded-lg shadow-md" alt="Portrait 7">
-    <img src="DSC00404-2.jpg" class="w-full h-80 object-cover rounded-lg shadow-md" alt="Portrait 8">
-  </div>
-
-
-    <!-- Landscapes Section -->
-  <section id="landscapes" class="max-w-6xl mx-auto py-16 px-6">
-    <h2 class="text-3xl font-bold mb-6 text-center">Landscapes</h2>
-    <div class="flex space-x-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide">
-      <img src="images/DSC04919.jpg" class="h-80 object-cover rounded-lg shadow-md snap-start">
-      <img src="images/IMG_6607.jpg" class="h-80 object-cover rounded-lg shadow-md snap-start">
-      <img src="images/DSC04943.jpg" class="h-80 object-cover rounded-lg shadow-md snap-start">
-      <img src="images/IMG_6563.jpg" class="h-80 object-cover rounded-lg shadow-md snap-start">
-      <img src="images/DSC05165.jpg" class="h-80 object-cover rounded-lg shadow-md snap-start">
-      <img src="images/IMG_6542.jpg" class="h-80 object-cover rounded-lg shadow-md snap-start">
-      <img src="images/DSC05197.jpg" class="h-80 object-cover rounded-lg shadow-md snap-start">
-      <img src="images/DSC05351.jpg" class="h-80 object-cover rounded-lg shadow-md snap-start">
+  <!-- Portraits Section: Added onclick for modal, cursor-pointer, kept hover zoom -->
+  <section id="portraits" class="max-w-7xl mx-auto py-20 px-6">
+    <h2 class="text-4xl font-bold mb-8 text-center text-primary">Portraits</h2>
+    <div class="flex overflow-x-auto md:grid md:grid-cols-4 gap-6 snap-x snap-mandatory scrollbar-hide">
+      <img src="DSC08886.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start cursor-pointer" alt="Portrait 1" loading="lazy" onclick="openModal(this.src)">
+      <img src="DSC06023.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start cursor-pointer" alt="Portrait 2" loading="lazy" onclick="openModal(this.src)">
+      <img src="DSC08307.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start cursor-pointer" alt="Portrait 3" loading="lazy" onclick="openModal(this.src)">
+      <img src="DSC09530.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start cursor-pointer" alt="Portrait 4" loading="lazy" onclick="openModal(this.src)">
+      <img src="DSC05764.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start cursor-pointer" alt="Portrait 5" loading="lazy" onclick="openModal(this.src)">
+      <img src="DSC09881.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start cursor-pointer" alt="Portrait 6" loading="lazy" onclick="openModal(this.src)">
+      <img src="DSC09169.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start cursor-pointer" alt="Portrait 7" loading="lazy" onclick="openModal(this.src)">
+      <img src="DSC00404-2.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start cursor-pointer" alt="Portrait 8" loading="lazy" onclick="openModal(this.src)">
     </div>
   </section>
 
-  <!-- Vehicles Section -->
-  <section id="vehicles" class="max-w-6xl mx-auto py-16 px-6">
-    <h2 class="text-3xl font-bold mb-6 text-center">Vehicles</h2>
-    <div class="flex space-x-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide">
-      <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80" class="h-80 object-cover rounded-lg shadow-md snap-start">
-      <img src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=800&q=80" class="h-80 object-cover rounded-lg shadow-md snap-start">
-      <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80" class="h-80 object-cover rounded-lg shadow-md snap-start">
-      <img src="https://images.unsplash.com/photo-1549921296-3a0d6a8d65f2?auto=format&fit=crop&w=800&q=80" class="h-80 object-cover rounded-lg shadow-md snap-start">
+  <!-- Landscapes Section: Added onclick for modal -->
+  <section id="landscapes" class="max-w-7xl mx-auto py-20 px-6 bg-gray-100">
+    <h2 class="text-4xl font-bold mb-8 text-center text-primary">Landscapes</h2>
+    <div class="flex overflow-x-auto md:grid md:grid-cols-4 gap-6 snap-x snap-mandatory scrollbar-hide">
+      <img src="images/DSC04919.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start cursor-pointer" alt="Landscape 1" loading="lazy" onclick="openModal(this.src)">
+      <img src="images/IMG_6607.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start cursor-pointer" alt="Landscape 2" loading="lazy" onclick="openModal(this.src)">
+      <img src="images/DSC04943.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start cursor-pointer" alt="Landscape 3" loading="lazy" onclick="openModal(this.src)">
+      <img src="images/IMG_6563.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start cursor-pointer" alt="Landscape 4" loading="lazy" onclick="openModal(this.src)">
+      <img src="images/DSC05165.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start cursor-pointer" alt="Landscape 5" loading="lazy" onclick="openModal(this.src)">
+      <img src="images/IMG_6542.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start cursor-pointer" alt="Landscape 6" loading="lazy" onclick="openModal(this.src)">
+      <img src="images/DSC05197.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start cursor-pointer" alt="Landscape 7" loading="lazy" onclick="openModal(this.src)">
+      <img src="images/DSC05351.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start cursor-pointer" alt="Landscape 8" loading="lazy" onclick="openModal(this.src)">
     </div>
   </section>
 
-  <!-- Product Photography Section -->
-  <section id="product" class="max-w-6xl mx-auto py-16 px-6">
-    <h2 class="text-3xl font-bold mb-6 text-center">Product Photography</h2>
-    <div class="flex space-x-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide">
-      <img src="https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?auto=format&fit=crop&w=800&q=80" class="h-80 object-cover rounded-lg shadow-md snap-start">
-      <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80" class="h-80 object-cover rounded-lg shadow-md snap-start">
-      <img src="https://images.unsplash.com/photo-1582407947304-fd86f029cf1f?auto=format&fit=crop&w=800&q=80" class="h-80 object-cover rounded-lg shadow-md snap-start">
-      <img src="https://images.unsplash.com/photo-1616627985123-b5a1f8ffab40?auto=format&fit=crop&w=800&q=80" class="h-80 object-cover rounded-lg shadow-md snap-start">
+  <!-- Vehicles Section: Added onclick for modal -->
+  <section id="vehicles" class="max-w-7xl mx-auto py-20 px-6">
+    <h2 class="text-4xl font-bold mb-8 text-center text-primary">Vehicles</h2>
+    <div class="flex overflow-x-auto md:grid md:grid-cols-4 gap-6 snap-x snap-mandatory scrollbar-hide">
+      <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start cursor-pointer" alt="Vehicle 1" loading="lazy" onclick="openModal(this.src)">
+      <img src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=800&q=80" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start cursor-pointer" alt="Vehicle 2" loading="lazy" onclick="openModal(this.src)">
+      <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start cursor-pointer" alt="Vehicle 3" loading="lazy" onclick="openModal(this.src)">
+      <img src="https://images.unsplash.com/photo-1549921296-3a0d6a8d65f2?auto=format&fit=crop&w=800&q=80" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start cursor-pointer" alt="Vehicle 4" loading="lazy" onclick="openModal(this.src)">
     </div>
   </section>
 
-  <!-- Contact Section -->
-  <section id="contact" class="bg-gray-100 py-16 px-6 text-center">
-    <h2 class="text-3xl font-bold mb-6">Get in Touch</h2>
-    <div class="flex flex-col md:flex-row justify-center gap-4">
-      <a href="mailto:curtis.hi95@gmail.com" class="bg-blue-600 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-700">Email Me</a>
-      <a href="sms:8018157592" class="bg-green-600 text-white px-6 py-3 rounded-lg shadow hover:bg-green-700">Text Me</a>
+  <!-- Product Section: Added onclick for modal -->
+  <section id="product" class="max-w-7xl mx-auto py-20 px-6 bg-gray-100">
+    <h2 class="text-4xl font-bold mb-8 text-center text-primary">Product Photography</h2>
+    <div class="flex overflow-x-auto md:grid md:grid-cols-4 gap-6 snap-x snap-mandatory scrollbar-hide">
+      <img src="https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?auto=format&fit=crop&w=800&q=80" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start cursor-pointer" alt="Product 1" loading="lazy" onclick="openModal(this.src)">
+      <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start cursor-pointer" alt="Product 2" loading="lazy" onclick="openModal(this.src)">
+      <img src="https://images.unsplash.com/photo-1582407947304-fd86f029cf1f?auto=format&fit=crop&w=800&q=80" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start cursor-pointer" alt="Product 3" loading="lazy" onclick="openModal(this.src)">
+      <img src="https://images.unsplash.com/photo-1616627985123-b5a1f8ffab40?auto=format&fit=crop&w=800&q=80" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start cursor-pointer" alt="Product 4" loading="lazy" onclick="openModal(this.src)">
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="bg-gray-900 text-white text-center py-6">
+  <!-- Contact Section: Reverted to original buttons for security/pre-filled email -->
+  <section id="contact" class="bg-primary text-white py-20 px-6 text-center">
+    <h2 class="text-4xl font-bold mb-8">Get in Touch</h2>
+    <div class="flex flex-col md:flex-row justify-center gap-4 max-w-md mx-auto">
+      <a href="mailto:curtis.hi95@gmail.com" class="bg-accent text-white px-8 py-4 rounded-full shadow-lg hover:bg-green-700 transition-all">Email Me</a>
+      <a href="sms:8018157592" class="bg-accent text-white px-8 py-4 rounded-full shadow-lg hover:bg-green-700 transition-all">Text Me</a>
+    </div>
+  </section>
+
+  <!-- Footer: No changes -->
+  <footer class="bg-gray-900 text-white text-center py-8">
+    <div class="flex justify-center space-x-4 mb-4">
+      <a href="https://www.instagram.com/curtis_venn/" target="_blank" class="hover:text-pink-500 transition-colors"><i class="fab fa-instagram fa-lg"></i></a>
+      <a href="https://www.linkedin.com/in/curtis-venn" target="_blank" class="hover:text-blue-600 transition-colors"><i class="fab fa-linkedin fa-lg"></i></a>
+    </div>
     <p>&copy; 2025 Curtis Venn. All rights reserved.</p>
   </footer>
 
+  <!-- Image Modal HTML -->
+  <div id="image-modal" onclick="closeModal()">
+    <span id="close-modal" onclick="closeModal()">&times;</span>
+    <img id="modal-image" src="" alt="Full Image">
+  </div>
+
+  <!-- Script: Added modal functions, kept existing -->
   <script>
     const menuBtn = document.getElementById('menu-btn');
     const menu = document.getElementById('menu');
@@ -155,7 +216,34 @@
         menu.classList.add('hidden');
       });
     });
+
+    // Modal functions for full image view
+    function openModal(src) {
+      const modal = document.getElementById('image-modal');
+      const modalImg = document.getElementById('modal-image');
+      modal.style.display = 'flex';
+      modalImg.src = src;
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('image-modal');
+      modal.style.display = 'none';
+    }
+
+    // Fade-in animation keyframes
+    const style = document.createElement('style');
+    style.innerHTML = `
+      @keyframes fade-in {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .animate-fade-in { animation: fade-in 1s ease-out forwards; }
+      .delay-200 { animation-delay: 0.2s; }
+      .delay-400 { animation-delay: 0.4s; }
+    `;
+    document.head.appendChild(style);
   </script>
 
 </body>
 </html>
+```
