@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curtis Venn | Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom Tailwind config for a more professional look: added primary color, smoother transitions -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1E3A8A', // Deep blue for accents (professional vibe)
+            accent: '#10B981', // Green for buttons (matches contact theme)
+          },
+          transitionProperty: {
+            'height': 'height',
+          },
+        },
+      },
+    };
+  </script>
+  <!-- Smooth scrolling for anchor links -->
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body class="font-sans text-gray-900 bg-gray-50"> <!-- Light background for modern feel -->
+
+  <!-- Navbar: Kept fixed, added subtle shadow and primary color hover for pop -->
+  <nav class="fixed top-0 left-0 w-full bg-white shadow-lg z-50 transition-all duration-300">
+    <div class="max-w-7xl mx-auto flex items-center justify-between p-4">
+      <div class="text-2xl font-bold text-primary">Curtis Venn</div> <!-- Bolder title with primary color -->
+      <div class="hidden md:flex space-x-8">
+        <a href="#home" class="hover:text-primary transition-colors">Home</a>
+        <a href="about.html" class="hover:text-primary transition-colors">About</a>
+        <a href="#portraits" class="hover:text-primary transition-colors">Portraits</a>
+        <a href="#landscapes" class="hover:text-primary transition-colors">Landscapes</a>
+        <a href="#vehicles" class="hover:text-primary transition-colors">Vehicles</a>
+        <a href="#product" class="hover:text-primary transition-colors">Product</a>
+        <a href="#contact" class="hover:text-primary transition-colors">Contact</a>
+        <a href="resumebuilder.html" class="hover:text-primary transition-colors">Resume Builder</a>
+      </div>
+      <div class="hidden md:flex space-x-4">
+        <a href="https://www.instagram.com/curtis_venn/" target="_blank" class="text-gray-700 hover:text-pink-500 transition-colors"><i class="fab fa-instagram fa-lg"></i></a>
+        <a href="https://www.linkedin.com/in/curtis-venn" target="_blank" class="text-gray-700 hover:text-blue-600 transition-colors"><i class="fab fa-linkedin fa-lg"></i></a>
+      </div>
+      <button id="menu-btn" class="md:hidden text-2xl focus:outline-none text-primary">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    <!-- Mobile menu: Kept structure, added smooth transitions and dividers -->
+    <div id="menu" class="hidden md:hidden flex-col bg-white px-4 pb-4 divide-y divide-gray-200 shadow-lg transition-all duration-300">
+      <div class="flex flex-col">
+        <a href="#home" class="px-4 py-3 hover:bg-gray-100 transition-colors">Home</a>
+        <a href="about.html" class="px-4 py-3 hover:bg-gray-100 transition-colors">About</a>
+        <a href="#portraits" class="px-4 py-3 hover:bg-gray-100 transition-colors">Portraits</a>
+        <a href="#landscapes" class="px-4 py-3 hover:bg-gray-100 transition-colors">Landscapes</a>
+        <a href="#vehicles" class="px-4 py-3 hover:bg-gray-100 transition-colors">Vehicles</a>
+        <a href="#product" class="px-4 py-3 hover:bg-gray-100 transition-colors">Product</a>
+        <a href="resumebuilder.html" class="px-4 py-3 hover:bg-gray-100 transition-colors">Resume Builder</a>
+        <a href="#contact" class="px-4 py-3 hover:bg-gray-100 transition-colors">Contact</a>
+      </div>
+      <div class="px-4 py-3 flex items-center space-x-4">
+        <a href="https://www.instagram.com/curtis_venn/" target="_blank" class="text-gray-700 hover:text-pink-500 transition-colors">
+          <i class="fab fa-instagram fa-lg"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/curtis-venn" target="_blank" class="text-gray-700 hover:text-blue-600 transition-colors">
+          <i class="fab fa-linkedin fa-lg"></i>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section: Made taller, added fade-in text for pop, CTA button for professionalism -->
+  <section id="home" class="relative h-screen flex items-center justify-center text-center text-white" style="background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80'); background-size: cover; background-position: center;">
+    <div class="absolute inset-0 bg-gradient-to-b from-black/60 to-black/40"></div> <!-- Gradient overlay for better text contrast -->
+    <div class="relative z-10 max-w-4xl px-6">
+      <h1 class="text-5xl md:text-7xl font-extrabold mb-4 animate-fade-in">Welcome to My Portfolio</h1> <!-- Larger, bolder title with animation -->
+      <p class="text-xl md:text-3xl mb-8 animate-fade-in delay-200">Photography | Creativity | Storytelling</p>
+      <a href="#contact" class="bg-accent text-white px-8 py-4 rounded-full shadow-lg hover:bg-green-700 transition-all animate-fade-in delay-400">Get in Touch</a> <!-- CTA button to make it pop -->
+    </div>
+  </section>
+
+  <!-- About Section: Renamed ID, fixed typo, added card-like styling for professionalism -->
+  <section id="what-is-this" class="max-w-5xl mx-auto py-20 px-6 text-center bg-white rounded-lg shadow-md mt-12"> <!-- Card effect -->
+    <h2 class="text-4xl font-bold mb-6 text-primary">What is this?</h2>
+    <p class="text-lg text-gray-700 leading-relaxed max-w-3xl mx-auto">I’m Curtis, this will showcase some of my photography work (as well as my website building work)</p>
+  </section>
+
+  <!-- Portraits Section: Responsive (scroll mobile, grid desktop), added hover zoom for pop -->
+  <section id="portraits" class="max-w-7xl mx-auto py-20 px-6">
+    <h2 class="text-4xl font-bold mb-8 text-center text-primary">Portraits</h2>
+    <div class="flex overflow-x-auto md:grid md:grid-cols-4 gap-6 snap-x snap-mandatory scrollbar-hide">
+      <img src="DSC08886.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start" alt="Portrait 1" loading="lazy">
+      <img src="DSC06023.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start" alt="Portrait 2" loading="lazy">
+      <img src="DSC08307.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start" alt="Portrait 3" loading="lazy">
+      <img src="DSC09530.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start" alt="Portrait 4" loading="lazy">
+      <img src="DSC05764.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start" alt="Portrait 5" loading="lazy">
+      <img src="DSC09881.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start" alt="Portrait 6" loading="lazy">
+      <img src="DSC09169.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start" alt="Portrait 7" loading="lazy">
+      <img src="DSC00404-2.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start" alt="Portrait 8" loading="lazy">
+    </div>
+  </section>
+
+  <!-- Landscapes Section: Similar enhancements, kept paths in images/ -->
+  <section id="landscapes" class="max-w-7xl mx-auto py-20 px-6 bg-gray-100"> <!-- Alternating background for section separation -->
+    <h2 class="text-4xl font-bold mb-8 text-center text-primary">Landscapes</h2>
+    <div class="flex overflow-x-auto md:grid md:grid-cols-4 gap-6 snap-x snap-mandatory scrollbar-hide">
+      <img src="images/DSC04919.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start" alt="Landscape 1" loading="lazy">
+      <img src="images/IMG_6607.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start" alt="Landscape 2" loading="lazy">
+      <img src="images/DSC04943.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start" alt="Landscape 3" loading="lazy">
+      <img src="images/IMG_6563.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start" alt="Landscape 4" loading="lazy">
+      <img src="images/DSC05165.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start" alt="Landscape 5" loading="lazy">
+      <img src="images/IMG_6542.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start" alt="Landscape 6" loading="lazy">
+      <img src="images/DSC05197.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start" alt="Landscape 7" loading="lazy">
+      <img src="images/DSC05351.jpg" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start" alt="Landscape 8" loading="lazy">
+    </div>
+  </section>
+
+  <!-- Vehicles Section: Kept Unsplash placeholders, same enhancements -->
+  <section id="vehicles" class="max-w-7xl mx-auto py-20 px-6">
+    <h2 class="text-4xl font-bold mb-8 text-center text-primary">Vehicles</h2>
+    <div class="flex overflow-x-auto md:grid md:grid-cols-4 gap-6 snap-x snap-mandatory scrollbar-hide">
+      <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start" alt="Vehicle 1" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=800&q=80" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start" alt="Vehicle 2" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start" alt="Vehicle 3" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1549921296-3a0d6a8d65f2?auto=format&fit=crop&w=800&q=80" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start" alt="Vehicle 4" loading="lazy">
+    </div>
+  </section>
+
+  <!-- Product Section: Kept Unsplash, alternating background -->
+  <section id="product" class="max-w-7xl mx-auto py-20 px-6 bg-gray-100">
+    <h2 class="text-4xl font-bold mb-8 text-center text-primary">Product Photography</h2>
+    <div class="flex overflow-x-auto md:grid md:grid-cols-4 gap-6 snap-x snap-mandatory scrollbar-hide">
+      <img src="https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?auto=format&fit=crop&w=800&q=80" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start" alt="Product 1" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start" alt="Product 2" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1582407947304-fd86f029cf1f?auto=format&fit=crop&w=800&q=80" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start" alt="Product 3" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1616627985123-b5a1f8ffab40?auto=format&fit=crop&w=800&q=80" class="w-full md:w-auto h-96 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 snap-start" alt="Product 4" loading="lazy">
+    </div>
+  </section>
+
+  <!-- Contact Section: Added simple form for more professionalism (no backend needed yet, uses mailto) -->
+  <section id="contact" class="bg-primary text-white py-20 px-6 text-center">
+    <h2 class="text-4xl font-bold mb-8">Get in Touch</h2>
+    <form action="mailto:curtis.hi95@gmail.com" method="post" enctype="text/plain" class="max-w-md mx-auto space-y-4">
+      <input type="text" name="name" placeholder="Your Name" class="w-full p-4 rounded-lg bg-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-accent">
+      <input type="email" name="email" placeholder="Your Email" class="w-full p-4 rounded-lg bg-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-accent">
+      <textarea name="message" placeholder="Your Message" rows="4" class="w-full p-4 rounded-lg bg-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-accent"></textarea>
+      <button type="submit" class="bg-accent text-white px-8 py-4 rounded-full shadow-lg hover:bg-green-700 transition-all w-full">Send Message</button>
+    </form>
+    <p class="mt-6">Or <a href="sms:8018157592" class="underline hover:text-accent">text me</a></p>
+  </section>
+
+  <!-- Footer: Added social links, primary color text -->
+  <footer class="bg-gray-900 text-white text-center py-8">
+    <div class="flex justify-center space-x-4 mb-4">
+      <a href="https://www.instagram.com/curtis_venn/" target="_blank" class="hover:text-pink-500 transition-colors"><i class="fab fa-instagram fa-lg"></i></a>
+      <a href="https://www.linkedin.com/in/curtis-venn" target="_blank" class="hover:text-blue-600 transition-colors"><i class="fab fa-linkedin fa-lg"></i></a>
+    </div>
+    <p>&copy; 2025 Curtis Venn. All rights reserved.</p>
+  </footer>
+
+  <!-- Script: Kept menu toggle, added simple fade-in animation class -->
+  <script>
+    const menuBtn = document.getElementById('menu-btn');
+    const menu = document.getElementById('menu');
+
+    menuBtn.addEventListener('click', () => {
+      menu.classList.toggle('hidden');
+    });
+
+    document.querySelectorAll('#menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        menu.classList.add('hidden');
+      });
+    });
+
+    // Simple fade-in animation (Tailwind doesn't have built-in, so CSS keyframes)
+    const style = document.createElement('style');
+    style.innerHTML = `
+      @keyframes fade-in {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .animate-fade-in { animation: fade-in 1s ease-out forwards; }
+      .delay-200 { animation-delay: 0.2s; }
+      .delay-400 { animation-delay: 0.4s; }
+    `;
+    document.head.appendChild(style);
+  </script>
+
+</body>
+</html>
