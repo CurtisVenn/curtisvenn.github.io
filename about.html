@@ -3,105 +3,144 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About Me</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>About Me | Curtis Venn</title> <!-- Updated title for consistency with portfolio branding -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom Tailwind config: Matches the index.html for consistent colors (primary blue, accent green) and transitions -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1E3A8A', // Deep blue for accents
+            accent: '#10B981', // Green for buttons
+          },
+          transitionProperty: {
+            'height': 'height',
+          },
+        },
+      },
+    };
+  </script>
+  <!-- Smooth scrolling for any anchor links -->
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-      color: #333;
-    }
-
-    /* Navbar */
-    nav {
-      background: #111;
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-    }
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 1rem;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
-
-    /* Hero section */
-    .hero {
-      height: 60vh;
-      background: url('your-hero-photo.jpg') center/cover no-repeat;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      color: white;
-    }
-    .hero h1 {
-      font-size: 3rem;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 1rem 2rem;
-      border-radius: 8px;
-    }
-
-    /* About text */
-    .about {
-      max-width: 800px;
-      margin: 3rem auto;
-      padding: 0 1rem;
-      line-height: 1.8;
-      font-size: 1.1rem;
-    }
-
-    /* Footer */
-    footer {
-      text-align: center;
-      padding: 1rem;
-      background: #111;
-      color: white;
-      margin-top: 3rem;
+    html {
+      scroll-behavior: smooth;
     }
   </style>
 </head>
-<body>
-  <!-- Navbar -->
-  <nav>
-    <div class="logo"><a href="index.html">My Portfolio</a></div>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="resumebuilder.html">Resume Builder</a>
+<body class="font-sans text-gray-900 bg-gray-50"> <!-- Matches index.html body styles for light, modern background -->
+
+  <!-- Navbar: Copied from index.html for full consistency – fixed position, mobile menu, all links, social icons -->
+  <nav class="fixed top-0 left-0 w-full bg-white shadow-lg z-50 transition-all duration-300">
+    <div class="max-w-7xl mx-auto flex items-center justify-between p-4">
+      <div class="text-2xl font-bold text-primary">Curtis Venn</div> <!-- Logo in primary color -->
+      <div class="hidden md:flex space-x-8">
+        <a href="index.html#home" class="hover:text-primary transition-colors">Home</a> <!-- Updated to link back to index sections -->
+        <a href="about.html" class="hover:text-primary transition-colors">About</a>
+        <a href="index.html#portraits" class="hover:text-primary transition-colors">Portraits</a>
+        <a href="index.html#landscapes" class="hover:text-primary transition-colors">Landscapes</a>
+        <a href="index.html#vehicles" class="hover:text-primary transition-colors">Vehicles</a>
+        <a href="index.html#product" class="hover:text-primary transition-colors">Product</a>
+        <a href="index.html#contact" class="hover:text-primary transition-colors">Contact</a>
+        <a href="resumebuilder.html" class="hover:text-primary transition-colors">Resume Builder</a>
+      </div>
+      <div class="hidden md:flex space-x-4">
+        <a href="https://www.instagram.com/curtis_venn/" target="_blank" class="text-gray-700 hover:text-pink-500 transition-colors"><i class="fab fa-instagram fa-lg"></i></a>
+        <a href="https://www.linkedin.com/in/curtis-venn" target="_blank" class="text-gray-700 hover:text-blue-600 transition-colors"><i class="fab fa-linkedin fa-lg"></i></a>
+      </div>
+      <button id="menu-btn" class="md:hidden text-2xl focus:outline-none text-primary">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    <!-- Mobile menu: Matches index.html with hover effects and socials -->
+    <div id="menu" class="hidden md:hidden flex-col bg-white px-4 pb-4 divide-y divide-gray-200 shadow-lg transition-all duration-300">
+      <div class="flex flex-col">
+        <a href="index.html#home" class="px-4 py-3 hover:bg-gray-100 transition-colors">Home</a>
+        <a href="about.html" class="px-4 py-3 hover:bg-gray-100 transition-colors">About</a>
+        <a href="index.html#portraits" class="px-4 py-3 hover:bg-gray-100 transition-colors">Portraits</a>
+        <a href="index.html#landscapes" class="px-4 py-3 hover:bg-gray-100 transition-colors">Landscapes</a>
+        <a href="index.html#vehicles" class="px-4 py-3 hover:bg-gray-100 transition-colors">Vehicles</a>
+        <a href="index.html#product" class="px-4 py-3 hover:bg-gray-100 transition-colors">Product</a>
+        <a href="resumebuilder.html" class="px-4 py-3 hover:bg-gray-100 transition-colors">Resume Builder</a>
+        <a href="index.html#contact" class="px-4 py-3 hover:bg-gray-100 transition-colors">Contact</a>
+      </div>
+      <div class="px-4 py-3 flex items-center space-x-4">
+        <a href="https://www.instagram.com/curtis_venn/" target="_blank" class="text-gray-700 hover:text-pink-500 transition-colors">
+          <i class="fab fa-instagram fa-lg"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/curtis-venn" target="_blank" class="text-gray-700 hover:text-blue-600 transition-colors">
+          <i class="fab fa-linkedin fa-lg"></i>
+        </a>
+      </div>
     </div>
   </nav>
 
-  <!-- Hero -->
-  <section class="hero">
-    <h1>About Me</h1>
+  <!-- Hero Section: Reworked to match index.html's hero – full screen height, gradient overlay, fade-in animations, centered text -->
+  <section id="hero" class="relative h-screen flex items-center justify-center text-center text-white" style="background-image: url('your-hero-photo.jpg'); background-size: cover; background-position: center;"> <!-- Kept your image path; replace with a real photo or Unsplash placeholder if needed -->
+    <div class="absolute inset-0 bg-gradient-to-b from-black/60 to-black/40"></div> <!-- Gradient for better text visibility -->
+    <div class="relative z-10 max-w-4xl px-6">
+      <h1 class="text-5xl md:text-7xl font-extrabold mb-4 animate-fade-in">About Me</h1> <!-- Larger, bolder heading with fade-in -->
+      <p class="text-xl md:text-3xl mb-8 animate-fade-in delay-200">Capturing Moments, Telling Stories</p> <!-- Added a subtitle for more pop; you can edit -->
+    </div>
   </section>
 
-  <!-- About text -->
-  <section class="about">
-    <p>
-      I like motorcycles, cars, and the outdoors — but most importantly, people. 
-      I love making connections and capturing moments that can be shared and remembered. 
-      Photography has given me the opportunity to blend creativity with authenticity, 
-      and I strive to tell a story with every shot.
-    </p>
-    <p>
-      Beyond the camera, I bring passion, dedication, and curiosity into every project. 
-      Whether it’s working with individuals, families, or brands, I focus on creating 
-      genuine experiences and images that feel natural yet powerful. My goal is simple: 
-      to help people see themselves and their stories in the best light possible.
-    </p>
+  <!-- About Section: Matches index.html's about/what-is-this section – card-like, centered, with primary color accents -->
+  <section id="about" class="max-w-5xl mx-auto py-20 px-6 text-center bg-white rounded-lg shadow-md mt-12"> <!-- Card effect for professionalism -->
+    <h2 class="text-4xl font-bold mb-6 text-primary">A Bit More About Curtis</h2> <!-- Added a subheading for structure; optional -->
+    <div class="text-lg text-gray-700 leading-relaxed max-w-3xl mx-auto space-y-6"> <!-- Increased spacing between paragraphs for readability -->
+      <p>
+        I like motorcycles, cars, and the outdoors — but most importantly, people. 
+        I love making connections and capturing moments that can be shared and remembered. 
+        Photography has given me the opportunity to blend creativity with authenticity, 
+        and I strive to tell a story with every shot.
+      </p>
+      <p>
+        Beyond the camera, I bring passion, dedication, and curiosity into every project. 
+        Whether it’s working with individuals, families, or brands, I focus on creating 
+        genuine experiences and images that feel natural yet powerful. My goal is simple: 
+        to help people see themselves and their stories in the best light possible.
+      </p>
+    </div>
   </section>
 
-  <!-- Footer -->
-  <footer>
-    <p>&copy; 2025 My Portfolio</p>
+  <!-- Footer: Matches index.html exactly – social links and copyright -->
+  <footer class="bg-gray-900 text-white text-center py-8">
+    <div class="flex justify-center space-x-4 mb-4">
+      <a href="https://www.instagram.com/curtis_venn/" target="_blank" class="hover:text-pink-500 transition-colors"><i class="fab fa-instagram fa-lg"></i></a>
+      <a href="https://www.linkedin.com/in/curtis-venn" target="_blank" class="hover:text-blue-600 transition-colors"><i class="fab fa-linkedin fa-lg"></i></a>
+    </div>
+    <p>&copy; 2025 Curtis Venn. All rights reserved.</p> <!-- Updated copyright to match your name -->
   </footer>
+
+  <!-- Script: Matches index.html – menu toggle and fade-in animations -->
+  <script>
+    const menuBtn = document.getElementById('menu-btn');
+    const menu = document.getElementById('menu');
+
+    menuBtn.addEventListener('click', () => {
+      menu.classList.toggle('hidden');
+    });
+
+    document.querySelectorAll('#menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        menu.classList.add('hidden');
+      });
+    });
+
+    // Fade-in animation keyframes (same as index.html for consistency)
+    const style = document.createElement('style');
+    style.innerHTML = `
+      @keyframes fade-in {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .animate-fade-in { animation: fade-in 1s ease-out forwards; }
+      .delay-200 { animation-delay: 0.2s; }
+      .delay-400 { animation-delay: 0.4s; }
+    `;
+    document.head.appendChild(style);
+  </script>
+
 </body>
 </html>
