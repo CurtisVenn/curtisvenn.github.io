@@ -22,7 +22,6 @@
   /* Fix container sizing for A4 (210mm x 297mm) */
   #resumePreview {
     width: 210mm !important;
-    min-height: 297mm !important;
     max-width: none !important;
     padding: 0 !important;
     margin: 0 auto !important;
@@ -50,7 +49,7 @@
   .small-muted { font-size: 0.85rem; color: #6b7280; }
   .pill { font-size: 0.85rem; padding: 0.25rem 0.5rem; border-radius: 9999px; }
   /* Keep inputs visible on smaller screens */
-  .form-scroll { min-height: 11in; overflow: auto; padding-right: .5rem; }
+  .form-scroll { max-height: calc(100vh - 12rem); overflow:auto; padding-right: .5rem; }
 
   /* Add this for preview in browser (non-print) */
   #resumePreview {
@@ -86,7 +85,7 @@
   <main class="max-w-6xl mx-auto px-4 py-6 flex-1 w-full">
     <h1 class="text-2xl md:text-3xl font-bold mb-4">Resume Builder — for free! Build your resume! PDF export</h1>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <!-- FORM (left) -->
       <aside class="md:col-span-1 bg-white p-4 rounded-lg shadow form-scroll">
         <div class="flex items-center justify-between mb-3">
@@ -154,7 +153,10 @@
 
         <div class="mt-6">
           <button id="downloadBtn" class="w-full bg-purple-700 text-white py-2 rounded">Download PDF</button>
-          <button id="clearBtn" class="w-full bg-red-600 text-white py-2 rounded mt-2">Clear All</button>
+        </div>
+
+        <div class="mt-2">
+          <button id="clearBtn" class="w-full bg-red-600 text-white py-2 rounded">Clear All</button>
         </div>
 
         <p class="text-xs text-gray-500 mt-4">Tip: edits update live. Use the Download button to export the preview to PDF.</p>
@@ -188,12 +190,21 @@ let skills = [];
 
 /* ---------- Sample (initial) content ---------- */
 function loadSampleData() {
+  // Set main fields
+  $('#inputName').value = 'Curtis Venn';
+  $('#inputTitle').value = 'Creator | Leader | Fintech Forward | Consultant';
+  $('#inputEmail').value = 'curtis.h95@gmail.com';
+  $('#inputPhone').value = '801-815-7592';
+  $('#inputLocation').value = 'Bountiful, UT';
+  $('#inputWebsite').value = 'curtisvenn.com';
+  $('#inputSummary').value = 'Collaborative leader and creator. Helping to simply work life and seeing the bigger picture. Documented strengths in building and maintaining relationships with diverse range of stakeholders in dynamic, fast-paced settings.';
+
   // sample jobs with details
   jobs = [
     {
-      job: 'Operations / Fraud & Claims Specialist',
+      job: 'Operations Fraud & Claims Specialist',
       company: 'LendingClub',
-      years: 'June 2025 — Present',
+      years: 'June 2025 - Present',
       details: [
         'Fraud Investigations',
         'Worked with onboarding applications and their risk factors',
@@ -205,7 +216,7 @@ function loadSampleData() {
     {
       job: 'Data Analyst',
       company: 'Tesla',
-      years: 'April 2024 — October 2024',
+      years: 'April 2024 - October 2024',
       details: [
         'Identified, analyzed and interpreted trends or patterns in complex data sets.',
         'Improved decision-making processes with accurate data analysis and visualization techniques.',
@@ -216,7 +227,7 @@ function loadSampleData() {
     {
       job: 'SMB Banking Specialist',
       company: 'Bluevine',
-      years: 'February 2021 — October 2023',
+      years: 'February 2021 - October 2023',
       details: [
         'Specialization in Banking software, ACH, Wires, PPP loans and documentation',
         'Working closely with other departments for solving technical issues with flow of site/logic',
@@ -353,13 +364,16 @@ function removeSkill(i) {
 }
 
 function clearAll() {
+  $('#inputName').value = '';
+  $('#inputTitle').value = '';
+  $('#inputEmail').value = '';
+  $('#inputPhone').value = '';
+  $('#inputLocation').value = '';
+  $('#inputWebsite').value = '';
+  $('#inputSummary').value = '';
   jobs = [];
   edus = [];
   skills = [];
-  ['inputName','inputTitle','inputEmail','inputPhone','inputLocation','inputWebsite'].forEach(id => {
-    document.getElementById(id).value = '';
-  });
-  $('#inputSummary').value = '';
   renderForm();
   renderPreview();
 }
@@ -367,13 +381,13 @@ function clearAll() {
 /* ---------- Render the resume preview ---------- */
 function renderPreview() {
   const tmpl = $('#template').value;
-  const name = $('#inputName').value || 'Curtis Venn';
-  const title = $('#inputTitle').value || 'Creator | Leader | Fintech Forward | Consultant';
-  const email = $('#inputEmail').value || 'curtis.h95@gmail.com';
-  const phone = $('#inputPhone').value || '801-815-7592';
-  const location = $('#inputLocation').value || 'Bountiful, UT';
-  const website = $('#inputWebsite').value || 'curtisvenn.com';
-  const summary = $('#inputSummary').value || 'Collaborative leader and creator. Helping to simply work life and seeing the bigger picture. Documented strengths in building and maintaining relationships with diverse range of stakeholders in dynamic, fast-paced settings.';
+  const name = $('#inputName').value;
+  const title = $('#inputTitle').value;
+  const email = $('#inputEmail').value;
+  const phone = $('#inputPhone').value;
+  const location = $('#inputLocation').value;
+  const website = $('#inputWebsite').value;
+  const summary = $('#inputSummary').value;
 
   // sanitize function for text content inside html strings
   const s = escapeHtml;
@@ -721,7 +735,7 @@ $('#addJobBtn').addEventListener('click', () => { addJob(); });
 $('#addEduBtn').addEventListener('click', () => { addEdu(); });
 $('#addSkillBtn').addEventListener('click', () => { addSkill(); });
 $('#downloadBtn').addEventListener('click', () => { downloadPDF(); });
-$('#clearBtn').addEventListener('click', () => { clearAll(); });
+$('#clearBtn').addEventListener('click', clearAll);
 
 // Enter key for skills
 $('#skillInput').addEventListener('keydown', (e) => {
@@ -755,7 +769,6 @@ function downloadPDF() {
   // Create a temporary wrapper to inject watermark and ensure full height capture
   const wrapper = document.createElement('div');
   wrapper.style.width = '210mm';
-  wrapper.style.minHeight = '297mm';
   wrapper.style.background = 'white';
   wrapper.style.position = 'relative';
   wrapper.style.padding = '10mm'; // Inner margins for content
