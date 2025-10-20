@@ -50,7 +50,7 @@
   .small-muted { font-size: 0.85rem; color: #6b7280; }
   .pill { font-size: 0.85rem; padding: 0.25rem 0.5rem; border-radius: 9999px; }
   /* Keep inputs visible on smaller screens */
-  .form-scroll { max-height: calc(100vh - 12rem); overflow:auto; padding-right: .5rem; }
+  .form-scroll { height: 100%; overflow:auto; padding-right: .5rem; }
 
   /* Add this for preview in browser (non-print) */
   #resumePreview {
@@ -86,7 +86,7 @@
   <main class="max-w-6xl mx-auto px-4 py-6 flex-1 w-full">
     <h1 class="text-2xl md:text-3xl font-bold mb-4">Resume Builder — for free! Build your resume! PDF export</h1>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 h-full">
       <!-- FORM (left) -->
       <aside class="md:col-span-1 bg-white p-4 rounded-lg shadow form-scroll">
         <div class="flex items-center justify-between mb-3">
@@ -154,6 +154,7 @@
 
         <div class="mt-6">
           <button id="downloadBtn" class="w-full bg-purple-700 text-white py-2 rounded">Download PDF</button>
+          <button id="clearBtn" class="w-full bg-red-600 text-white py-2 rounded mt-2">Clear All</button>
         </div>
 
         <p class="text-xs text-gray-500 mt-4">Tip: edits update live. Use the Download button to export the preview to PDF.</p>
@@ -347,6 +348,18 @@ function addSkill() {
 }
 function removeSkill(i) {
   skills.splice(i,1);
+  renderForm();
+  renderPreview();
+}
+
+function clearAll() {
+  jobs = [];
+  edus = [];
+  skills = [];
+  ['inputName','inputTitle','inputEmail','inputPhone','inputLocation','inputWebsite'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  $('#inputSummary').value = '';
   renderForm();
   renderPreview();
 }
@@ -708,6 +721,7 @@ $('#addJobBtn').addEventListener('click', () => { addJob(); });
 $('#addEduBtn').addEventListener('click', () => { addEdu(); });
 $('#addSkillBtn').addEventListener('click', () => { addSkill(); });
 $('#downloadBtn').addEventListener('click', () => { downloadPDF(); });
+$('#clearBtn').addEventListener('click', () => { clearAll(); });
 
 // Enter key for skills
 $('#skillInput').addEventListener('keydown', (e) => {
