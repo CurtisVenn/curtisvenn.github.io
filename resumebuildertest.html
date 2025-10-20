@@ -103,6 +103,10 @@
           <option value="professional">Professional (Two-column)</option>
         </select>
 
+        <div class="mb-3">
+          <button id="clearBtn" class="w-full bg-red-600 text-white py-2 rounded">Clear All</button>
+        </div>
+
         <label class="block text-sm font-medium">Full name</label>
         <input id="inputName" class="w-full border rounded px-3 py-2 mb-3" placeholder="Curtis Venn">
 
@@ -153,10 +157,6 @@
 
         <div class="mt-6">
           <button id="downloadBtn" class="w-full bg-purple-700 text-white py-2 rounded">Download PDF</button>
-        </div>
-
-        <div class="mt-2">
-          <button id="clearBtn" class="w-full bg-red-600 text-white py-2 rounded">Clear All</button>
         </div>
 
         <p class="text-xs text-gray-500 mt-4">Tip: edits update live. Use the Download button to export the preview to PDF.</p>
@@ -364,18 +364,20 @@ function removeSkill(i) {
 }
 
 function clearAll() {
-  $('#inputName').value = '';
-  $('#inputTitle').value = '';
-  $('#inputEmail').value = '';
-  $('#inputPhone').value = '';
-  $('#inputLocation').value = '';
-  $('#inputWebsite').value = '';
-  $('#inputSummary').value = '';
-  jobs = [];
-  edus = [];
-  skills = [];
-  renderForm();
-  renderPreview();
+  if (confirm('Are you sure you want to clear all fields? This will reset everything.')) {
+    $('#inputName').value = '';
+    $('#inputTitle').value = '';
+    $('#inputEmail').value = '';
+    $('#inputPhone').value = '';
+    $('#inputLocation').value = '';
+    $('#inputWebsite').value = '';
+    $('#inputSummary').value = '';
+    jobs = [];
+    edus = [];
+    skills = [];
+    renderForm();
+    renderPreview();
+  }
 }
 
 /* ---------- Render the resume preview ---------- */
