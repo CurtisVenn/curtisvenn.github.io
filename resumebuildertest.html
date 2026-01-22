@@ -15,11 +15,10 @@
   body {
     margin: 0 !important;
     padding: 0 !important;
-    -webkit-print-color-adjust: exact; /* Preserves gradients and colors */
+    -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 
-  /* Fix container sizing for A4 (210mm x 297mm) */
   #resumePreview {
     width: 210mm !important;
     max-width: none !important;
@@ -27,21 +26,26 @@
     margin: 0 auto !important;
     box-sizing: border-box;
     background: white;
-    page-break-inside: avoid;
+    page-break-inside: auto; /* Changed from avoid */
   }
 
-  /* Prevent splits and overflows */
   * {
     overflow: visible !important;
     box-sizing: border-box !important;
   }
-  section, div, article, ul, li {
-    page-break-inside: avoid !important;
+
+  section, div, article {
+    page-break-inside: auto; /* Allow breaks in long sections */
     page-break-before: auto;
     page-break-after: auto;
   }
+
+  ul, li {
+    page-break-inside: auto; /* Allow lists to break across pages */
+  }
+
   .resume-header, h1, h2, h3 {
-    page-break-after: avoid !important;
+    page-break-after: avoid !important; /* Keep headers with content */
   }
 }
 
@@ -193,7 +197,7 @@ function loadSampleData() {
   // Set main fields
   $('#inputName').value = 'Curtis Venn';
   $('#inputTitle').value = 'Creator | Leader | Fintech Forward | Consultant';
-  $('#inputEmail').value = 'curtis.h95@gmail.com';
+  $('#inputEmail').value = 'curtis.hi95@gmail.com';
   $('#inputPhone').value = '801-815-7592';
   $('#inputLocation').value = 'Bountiful, UT';
   $('#inputWebsite').value = 'curtisvenn.com';
@@ -773,7 +777,7 @@ function downloadPDF() {
   wrapper.style.width = '210mm';
   wrapper.style.background = 'white';
   wrapper.style.position = 'relative';
-  wrapper.style.padding = '10mm'; // Inner margins for content
+  wrapper.style.padding = '5mm'; // Reduced from 10mm for more content space
   wrapper.innerHTML = element.innerHTML;
 
   const watermark = document.createElement('div');
@@ -787,12 +791,12 @@ function downloadPDF() {
   wrapper.appendChild(watermark);
 
   const opt = {
-    margin: [0, 0, 0, 0], // No outer margins—handled in wrapper
-    filename: ( ($('#inputName').value || 'resume').trim().replace(/\s+/g,'_') + '.pdf' ),
+    margin: [5, 5, 5, 5], // Small margins to avoid edge clipping (in mm)
+    filename: (($('#inputName').value || 'resume').trim().replace(/\s+/g, '_') + '.pdf'),
     image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 3, useCORS: true, logging: false, scrollY: 0, scrollX: 0 }, // Higher scale for clarity, reset scrolls
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }, // Explicit A4 in mm
-    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] } // Stronger break avoidance
+    html2canvas: { scale: 4, useCORS: true, logging: false, scrollY: 0, scrollX: 0 }, // Higher scale for better quality
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak: { mode: ['css', 'legacy'] } // Respect CSS breaks, remove 'avoid-all' to allow natural pagination
   };
 
   html2pdf().set(opt).from(wrapper).save();
