@@ -764,93 +764,38 @@ renderPreview();
 
 
 /* ---------- Download (PDF) ---------- */
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Resume Builder | Curtis Venn</title>
-
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-  <style>
-    @media print {
-      body {
-        margin: 0 !important;
-        padding: 0 !important;
-        -webkit-print-color-adjust: exact;
-        color-adjust: exact;
-      }
-
-      #resumePreview {
-        width: 210mm !important;
-        margin: 0 auto !important;
-        padding: 0 !important;
-        background: white;
-      }
-
-      * {
-        box-sizing: border-box !important;
-      }
-
-      section, div, ul, li {
-        page-break-inside: avoid !important;
-      }
-    }
-
-    .small-muted { font-size: 0.85rem; color: #6b7280; }
-    .pill { font-size: 0.85rem; padding: 0.25rem 0.5rem; border-radius: 9999px; }
-    .form-scroll { max-height: calc(100vh - 12rem); overflow:auto; padding-right: .5rem; }
-
-    #resumePreview {
-      max-width: 8.5in;
-      min-height: 11in;
-      background: white;
-      margin: 0 auto;
-    }
-  </style>
-</head>
-
-<body class="bg-gray-50 font-sans text-gray-900 flex flex-col min-h-screen">
-<!-- EVERYTHING ABOVE THIS LINE IS UNCHANGED -->
-
-<script>
-/* ---------- FIXED PDF EXPORT ---------- */
 function downloadPDF() {
   renderPreview();
 
-  const original = document.getElementById('resumePreview');
+  const preview = document.getElementById('resumePreview');
 
-  // Clone live preview (keeps Tailwind + layout)
-  const clone = original.cloneNode(true);
+  // Clone the live preview so styles remain intact
+  const clone = preview.cloneNode(true);
 
-  // Wrapper for A4 sizing
+  // Wrapper sized for A4
   const wrapper = document.createElement('div');
   wrapper.style.width = '210mm';
   wrapper.style.background = 'white';
   wrapper.style.padding = '10mm';
-  wrapper.style.position = 'relative';
+  wrapper.style.position = 'fixed';
+  wrapper.style.left = '-9999px';
   wrapper.appendChild(clone);
 
-  // Watermark
+  // Light watermark
   const watermark = document.createElement('div');
-  watermark.innerText = 'Generated via curtisvenn.com';
+  watermark.textContent = 'Generated via curtisvenn.com';
   watermark.style.position = 'absolute';
-  watermark.style.bottom = '5mm';
-  watermark.style.right = '5mm';
+  watermark.style.bottom = '6mm';
+  watermark.style.right = '6mm';
   watermark.style.fontSize = '8pt';
   watermark.style.color = 'rgba(0,0,0,0.25)';
   watermark.style.pointerEvents = 'none';
   wrapper.appendChild(watermark);
 
-  // Attach invisibly to DOM (CRITICAL FIX)
-  wrapper.style.position = 'fixed';
-  wrapper.style.left = '-9999px';
   document.body.appendChild(wrapper);
 
   const filename =
-    ($('#inputName').value || 'resume')
+    (document.getElementById('inputName').value || 'resume')
       .trim()
       .replace(/\s+/g, '_') + '.pdf';
 
@@ -860,7 +805,7 @@ function downloadPDF() {
       margin: 0,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: {
-        scale: 3,
+        scale: 2.5,
         useCORS: true,
         scrollY: 0
       },
@@ -869,15 +814,11 @@ function downloadPDF() {
         format: 'a4',
         orientation: 'portrait'
       },
-      pagebreak: { mode: ['avoid-all', 'css'] }
+      pagebreak: { mode: ['css', 'legacy'] }
     })
     .from(wrapper)
     .save()
     .then(() => {
-      document.body.removeChild(wrapper); // cleanup
+      document.body.removeChild(wrapper);
     });
 }
-</script>
-
-</body>
-</html>
