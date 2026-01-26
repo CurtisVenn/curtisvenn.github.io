@@ -1,241 +1,195 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Resume Builder | Curtis Venn</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Resume Builder | Curtis Venn</title>
 
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- html2pdf -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<!-- html2pdf -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-  <style>
-/* =====================
-   PRINT / PDF FIXES
-   ===================== */
+<style>
 @media print {
-  body {
-    margin: 0 !important;
-    padding: 0 !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
+  body { margin:0; padding:0; }
   #resumePreview {
-    width: 210mm !important;
-    max-width: none !important;
-    margin: 0 auto !important;
-    background: white;
-    box-sizing: border-box;
+    width:210mm !important;
+    min-height:297mm !important;
+    margin:0 auto !important;
+    background:white;
   }
-
-  /* Prevent content splitting */
-  h1, h2, h3, .resume-header {
-    page-break-after: avoid !important;
-  }
-
-  ul, li, section, article {
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-  }
+  * { page-break-inside: avoid !important; }
 }
 
-/* =====================
-   UI HELPERS
-   ===================== */
-.small-muted { font-size: 0.85rem; color: #6b7280; }
-.pill { font-size: 0.85rem; padding: 0.25rem 0.5rem; border-radius: 9999px; }
-.form-scroll { max-height: calc(100vh - 12rem); overflow:auto; padding-right:.5rem; }
-
-/* Preview sizing (browser only) */
 #resumePreview {
-  width: 100%;
-  max-width: 8.5in;
-  min-height: 11in;
-  background: white;
-  margin: 0 auto;
+  width:100%;
+  max-width:8.5in;
+  min-height:11in;
+  background:white;
+  margin:0 auto;
 }
-  </style>
+
+.small-muted { font-size:.85rem; color:#6b7280; }
+.pill { font-size:.75rem; padding:.25rem .5rem; border-radius:9999px; }
+.form-scroll { max-height:calc(100vh - 12rem); overflow:auto; padding-right:.5rem; }
+</style>
 </head>
 
 <body class="bg-gray-50 font-sans text-gray-900 flex flex-col min-h-screen">
 
-<header class="bg-white/90 backdrop-blur sticky top-0 z-40 shadow">
-  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-    <a href="index.html" class="font-bold text-lg">Curtis Venn</a>
-    <nav class="hidden md:flex gap-4 text-sm">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="resumebuilder.html" class="font-semibold text-blue-600">Resume Builder</a>
-    </nav>
-    <button id="menuBtn" class="md:hidden text-xl">☰</button>
-  </div>
-  <div id="mobileMenu" class="hidden md:hidden px-4 pb-4">
-    <a href="index.html" class="block py-2">Home</a>
-    <a href="about.html" class="block py-2">About</a>
-    <a href="resumebuilder.html" class="block py-2">Resume Builder</a>
+<header class="bg-white sticky top-0 z-40 shadow">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between">
+    <strong>Curtis Venn</strong>
+    <button id="menuBtn" class="md:hidden">☰</button>
   </div>
 </header>
 
 <main class="max-w-6xl mx-auto px-4 py-6 flex-1 w-full">
-  <h1 class="text-2xl md:text-3xl font-bold mb-4">
-    Resume Builder — Free PDF Export
-  </h1>
+<h1 class="text-2xl font-bold mb-4">Free Resume Builder — Live Preview & PDF Export</h1>
 
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-    <!-- FORM -->
-    <aside class="bg-white p-4 rounded-lg shadow form-scroll">
-      <label class="block text-sm font-medium mb-1">Template</label>
-      <select id="template" class="w-full border rounded p-2 mb-3">
-        <option value="modern">Modern (Two-column)</option>
-        <option value="classic">Classic</option>
-        <option value="minimal">Minimal</option>
-        <option value="creative">Creative</option>
-        <option value="compact">Compact</option>
-        <option value="professional">Professional</option>
-      </select>
+<!-- FORM -->
+<aside class="bg-white p-4 rounded shadow form-scroll">
+<label class="text-sm font-semibold">Template</label>
+<select id="template" class="w-full border p-2 mb-3">
+<option value="modern">Modern</option>
+<option value="classic">Classic</option>
+<option value="minimal">Minimal</option>
+<option value="creative">Creative</option>
+<option value="compact">Compact</option>
+<option value="professional">Professional</option>
+</select>
 
-      <button id="clearBtn" class="w-full mb-3 bg-red-600 text-white py-2 rounded">
-        Clear All
-      </button>
+<button id="clearBtn" class="w-full bg-red-600 text-white py-2 rounded mb-4">Clear All</button>
 
-      <input id="inputName" class="w-full border rounded px-3 py-2 mb-2" placeholder="Full Name">
-      <input id="inputTitle" class="w-full border rounded px-3 py-2 mb-2" placeholder="Title / Role">
-      <input id="inputEmail" class="w-full border rounded px-3 py-2 mb-2" placeholder="Email">
-      <input id="inputPhone" class="w-full border rounded px-3 py-2 mb-2" placeholder="Phone">
-      <input id="inputLocation" class="w-full border rounded px-3 py-2 mb-2" placeholder="Location">
-      <input id="inputWebsite" class="w-full border rounded px-3 py-2 mb-2" placeholder="Website">
+<input id="inputName" class="w-full border p-2 mb-2" placeholder="Name">
+<input id="inputTitle" class="w-full border p-2 mb-2" placeholder="Title">
+<input id="inputEmail" class="w-full border p-2 mb-2" placeholder="Email">
+<input id="inputPhone" class="w-full border p-2 mb-2" placeholder="Phone">
+<input id="inputLocation" class="w-full border p-2 mb-2" placeholder="Location">
+<input id="inputWebsite" class="w-full border p-2 mb-2" placeholder="Website">
 
-      <textarea id="inputSummary" rows="4" class="w-full border rounded px-3 py-2 mb-4" placeholder="Professional summary"></textarea>
+<textarea id="inputSummary" rows="4" class="w-full border p-2 mb-3" placeholder="Summary"></textarea>
 
-      <div class="flex gap-2">
-        <input id="skillInput" class="flex-1 border rounded px-2 py-1" placeholder="Add a skill">
-        <button id="addSkillBtn" class="bg-green-600 text-white px-3 rounded">Add</button>
-      </div>
-      <div id="skillList" class="flex flex-wrap gap-2 mt-2"></div>
+<h3 class="font-semibold mt-4">Work Experience</h3>
+<button id="addJobBtn" class="text-sm bg-blue-600 text-white px-2 py-1 rounded mb-2">+ Add Job</button>
+<div id="workContainer"></div>
 
-      <button id="downloadBtn" class="w-full mt-6 bg-purple-700 text-white py-2 rounded">
-        Download PDF
-      </button>
-    </aside>
+<h3 class="font-semibold mt-4">Skills</h3>
+<div class="flex gap-2">
+<input id="skillInput" class="flex-1 border p-1" placeholder="Skill">
+<button id="addSkillBtn" class="bg-green-600 text-white px-3 rounded">Add</button>
+</div>
+<div id="skillList" class="flex flex-wrap gap-2 mt-2"></div>
 
-    <!-- PREVIEW -->
-    <section class="md:col-span-2">
-      <div id="resumePreview" class="rounded-lg shadow overflow-hidden"></div>
-    </section>
+<button id="downloadBtn" class="w-full bg-purple-700 text-white py-2 rounded mt-6">
+Download PDF
+</button>
+</aside>
 
-  </div>
+<!-- PREVIEW -->
+<section class="md:col-span-2">
+<div id="resumePreview" class="shadow rounded"></div>
+<p class="text-xs text-center text-gray-500 mt-2">Made on curtisvenn.com</p>
+</section>
+
+</div>
 </main>
 
 <footer class="text-center text-xs text-gray-500 py-4">
-  © 2025 curtisvenn.com
+© 2025 curtisvenn.com
 </footer>
 
 <script>
-/* =====================
-   CORE LOGIC
-   ===================== */
 const $ = s => document.querySelector(s);
-const escapeHtml = s => String(s||'')
-  .replace(/&/g,'&amp;')
-  .replace(/</g,'&lt;')
-  .replace(/>/g,'&gt;');
+const esc = s => (s||'').replace(/[&<>]/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;' }[m]));
 
-let skills = [];
+let jobs=[], skills=[];
 
-/* ---------- Skills ---------- */
-function renderSkills() {
-  const list = $('#skillList');
-  list.innerHTML = '';
-  skills.forEach((s,i)=>{
-    const el = document.createElement('div');
-    el.className = 'bg-gray-100 px-2 py-1 rounded text-sm flex gap-1';
-    el.innerHTML = `${escapeHtml(s)} <button onclick="removeSkill(${i})" class="text-red-600">✕</button>`;
-    list.appendChild(el);
-  });
-}
-function addSkill() {
-  const v = $('#skillInput').value.trim();
-  if (!v) return;
-  skills.push(v);
-  $('#skillInput').value = '';
-  renderSkills();
-  renderPreview();
-}
-function removeSkill(i) {
-  skills.splice(i,1);
-  renderSkills();
-  renderPreview();
+function loadSampleData(){
+$('#inputName').value='Curtis Venn';
+$('#inputTitle').value='Creator | Consultant | Fintech';
+$('#inputEmail').value='curtis.hi95@gmail.com';
+$('#inputPhone').value='801-815-7592';
+$('#inputLocation').value='Bountiful, UT';
+$('#inputWebsite').value='curtisvenn.com';
+$('#inputSummary').value='Collaborative leader focused on building tools that simplify work.';
+
+jobs=[{
+job:'Operations Fraud & Claims Specialist',
+company:'LendingClub',
+years:'2025 - Present',
+details:['Fraud investigations','Account risk review']
+}];
+
+skills=['HTML','JavaScript','Consulting','Photography'];
 }
 
-/* ---------- Preview ---------- */
-function renderPreview() {
-  $('#resumePreview').innerHTML = `
-    <div class="p-6">
-      <h1 class="text-2xl font-bold">${escapeHtml($('#inputName').value)}</h1>
-      <div class="small-muted">${escapeHtml($('#inputTitle').value)}</div>
-      <p class="small-muted mt-4">${escapeHtml($('#inputSummary').value)}</p>
-      <div class="mt-4 flex flex-wrap gap-2">
-        ${skills.map(s=>`<span class="pill bg-gray-100">${escapeHtml(s)}</span>`).join('')}
-      </div>
-    </div>
-  `;
+function renderForm(){
+$('#workContainer').innerHTML=jobs.map((j,i)=>`
+<div class="border p-2 mb-2">
+<input value="${esc(j.job)}" oninput="jobs[${i}].job=this.value;renderPreview()" class="w-full border p-1 mb-1">
+<input value="${esc(j.company)}" oninput="jobs[${i}].company=this.value;renderPreview()" class="w-full border p-1 mb-1">
+<input value="${esc(j.years)}" oninput="jobs[${i}].years=this.value;renderPreview()" class="w-full border p-1 mb-1">
+</div>`).join('');
+
+$('#skillList').innerHTML=skills.map((s,i)=>`
+<span class="pill bg-gray-200">${esc(s)}
+<button onclick="skills.splice(${i},1);renderForm();renderPreview()">✕</button>
+</span>`).join('');
 }
 
-/* ---------- PDF EXPORT (FIXED) ---------- */
-function downloadPDF() {
-  renderPreview();
+function renderPreview(){
+$('#resumePreview').innerHTML=`
+<div class="p-6">
+<h1 class="text-3xl font-bold">${esc($('#inputName').value)}</h1>
+<div class="small-muted">${esc($('#inputTitle').value)}</div>
+<p class="mt-4">${esc($('#inputSummary').value)}</p>
 
-  const source = document.getElementById('resumePreview');
-  const clone = source.cloneNode(true);
+<h3 class="mt-4 font-semibold">Work</h3>
+${jobs.map(j=>`
+<div class="mt-2">
+<strong>${esc(j.job)}</strong> — ${esc(j.company)}
+<div class="small-muted">${esc(j.years)}</div>
+</div>`).join('')}
 
-  clone.style.width = '210mm';
-  clone.style.padding = '12mm';
-  clone.style.position = 'absolute';
-  clone.style.left = '-9999px';
-  clone.style.top = '0';
-  clone.style.background = 'white';
-
-  const watermark = document.createElement('div');
-  watermark.textContent = 'Generated via curtisvenn.com';
-  watermark.style.position = 'fixed';
-  watermark.style.bottom = '8mm';
-  watermark.style.right = '8mm';
-  watermark.style.fontSize = '8pt';
-  watermark.style.opacity = '0.25';
-  clone.appendChild(watermark);
-
-  document.body.appendChild(clone);
-
-  html2pdf().set({
-    filename: 'resume.pdf',
-    margin: 0,
-    html2canvas: {
-      scale: 2,
-      scrollY: 0,
-      windowWidth: clone.scrollWidth,
-      windowHeight: clone.scrollHeight
-    },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-  }).from(clone).save().then(()=>{
-    document.body.removeChild(clone);
-  });
+<h3 class="mt-4 font-semibold">Skills</h3>
+<p class="small-muted">${skills.join(', ')}</p>
+</div>`;
 }
 
-/* ---------- Events ---------- */
-$('#addSkillBtn').addEventListener('click', addSkill);
-$('#downloadBtn').addEventListener('click', downloadPDF);
-$('#menuBtn').addEventListener('click', () =>
-  $('#mobileMenu').classList.toggle('hidden')
-);
+function downloadPDF(){
+const el=document.getElementById('resumePreview');
+const clone=el.cloneNode(true);
+clone.style.width='210mm';
 
-['inputName','inputTitle','inputSummary'].forEach(id=>{
-  document.getElementById(id).addEventListener('input', renderPreview);
-});
+const watermark=document.createElement('div');
+watermark.innerText='Generated via curtisvenn.com';
+watermark.style.position='absolute';
+watermark.style.bottom='5mm';
+watermark.style.right='5mm';
+watermark.style.fontSize='8pt';
+watermark.style.opacity='.3';
+clone.appendChild(watermark);
 
+html2pdf().set({
+filename:'resume.pdf',
+html2canvas:{ scale:3, scrollY: -window.scrollY },
+jsPDF:{ unit:'mm', format:'a4', orientation:'portrait' }
+}).from(clone).save();
+}
+
+$('#addJobBtn').onclick=()=>{ jobs.push({job:'New Job',company:'Company',years:'Year',details:[]}); renderForm(); renderPreview(); }
+$('#addSkillBtn').onclick=()=>{ if(skillInput.value){skills.push(skillInput.value);skillInput.value='';renderForm();renderPreview();}}
+$('#clearBtn').onclick=()=>{ jobs=[]; skills=[]; document.querySelectorAll('input,textarea').forEach(i=>i.value=''); renderForm(); renderPreview(); }
+$('#downloadBtn').onclick=downloadPDF;
+document.querySelectorAll('input,textarea,select').forEach(i=>i.oninput=renderPreview);
+
+loadSampleData();
+renderForm();
 renderPreview();
 </script>
 
