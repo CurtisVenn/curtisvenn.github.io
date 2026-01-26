@@ -26,26 +26,24 @@
     margin: 0 auto !important;
     box-sizing: border-box;
     background: white;
-    page-break-inside: auto; /* Changed from avoid */
+    page-break-inside: avoid;
+    overflow: visible !important;
   }
 
   * {
-    overflow: visible !important;
     box-sizing: border-box !important;
   }
 
-  section, div, article {
-    page-break-inside: auto; /* Allow breaks in long sections */
-    page-break-before: auto;
-    page-break-after: auto;
-  }
-
-  ul, li {
-    page-break-inside: auto; /* Allow lists to break across pages */
+  section {
+    page-break-inside: avoid;
   }
 
   .resume-header, h1, h2, h3 {
-    page-break-after: avoid !important; /* Keep headers with content */
+    page-break-after: avoid !important;
+  }
+  
+  ul {
+    page-break-inside: avoid;
   }
 }
 
@@ -58,10 +56,26 @@
   /* Add this for preview in browser (non-print) */
   #resumePreview {
     width: 100%;
-    max-width: 8.5in; /* US Letter preview, close to A4 */
+    max-width: 8.5in;
     min-height: 11in;
     background: white;
     margin: 0 auto;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  
+  /* Prevent grid overflow */
+  .resume-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: 1.5rem;
+  }
+  
+  /* Ensure content doesn't overflow */
+  .resume-content {
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
   }
   </style>
 </head>
@@ -410,63 +424,65 @@ function renderPreview() {
         </div>
       </div>
 
-      <div class="p-6 grid grid-cols-3 gap-6">
-        <!-- Left column: contact + skills (1/3) -->
-        <div class="col-span-1">
-          <div class="mb-4">
-            <h3 class="text-sm font-semibold">Contact</h3>
-            <div class="small-muted mt-2">
-              <div>${s(email)}</div>
-              <div>${s(phone)}</div>
-              <div>${s(location)}</div>
-              <div>${s(website)}</div>
+      <div class="p-6">
+        <div class="resume-grid">
+          <!-- Left column: contact + skills -->
+          <div class="resume-content">
+            <div class="mb-4">
+              <h3 class="text-sm font-semibold">Contact</h3>
+              <div class="small-muted mt-2">
+                <div class="break-words">${s(email)}</div>
+                <div>${s(phone)}</div>
+                <div>${s(location)}</div>
+                <div class="break-words">${s(website)}</div>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-sm font-semibold">Skills</h3>
+              <div class="mt-2 flex flex-wrap gap-2">
+                ${skills.map(k => `<span class="pill bg-gray-100 text-gray-800">${s(k)}</span>`).join('')}
+              </div>
             </div>
           </div>
 
-          <div>
-            <h3 class="text-sm font-semibold">Skills</h3>
-            <div class="mt-2 flex flex-wrap gap-2">
-              ${skills.map(k => `<span class="pill bg-gray-100 text-gray-800">${s(k)}</span>`).join('')}
+          <!-- Right column: summary, work, education -->
+          <div class="resume-content">
+            <div class="mb-4">
+              <h3 class="text-sm font-semibold">Summary</h3>
+              <p class="small-muted mt-2">${s(summary)}</p>
             </div>
-          </div>
-        </div>
 
-        <!-- Right column: summary, work, education (2/3) -->
-        <div class="col-span-2">
-          <div class="mb-4">
-            <h3 class="text-sm font-semibold">Summary</h3>
-            <p class="small-muted mt-2">${s(summary)}</p>
-          </div>
-
-          <div class="mb-4">
-            <h3 class="text-sm font-semibold">Work Experience</h3>
-            <div class="mt-3">
-              ${jobs.map(job => `
-                <div class="mb-3">
-                  <div class="flex justify-between items-baseline">
-                    <div>
-                      <div class="font-semibold">${s(job.job)}</div>
-                      <div class="small-muted">${s(job.company)}</div>
+            <div class="mb-4">
+              <h3 class="text-sm font-semibold">Work Experience</h3>
+              <div class="mt-3">
+                ${jobs.map(job => `
+                  <div class="mb-3">
+                    <div class="flex justify-between items-baseline flex-wrap">
+                      <div>
+                        <div class="font-semibold">${s(job.job)}</div>
+                        <div class="small-muted">${s(job.company)}</div>
+                      </div>
+                      <div class="small-muted text-sm">${s(job.years)}</div>
                     </div>
-                    <div class="small-muted text-sm">${s(job.years)}</div>
+                    <ul class="list-disc ml-5 mt-2 text-sm small-muted">
+                      ${job.details.map(d => `<li>${s(d)}</li>`).join('')}
+                    </ul>
                   </div>
-                  <ul class="list-disc ml-5 mt-2 text-sm small-muted">
-                    ${job.details.map(d => `<li>${s(d)}</li>`).join('')}
-                  </ul>
-                </div>
-              `).join('')}
+                `).join('')}
+              </div>
             </div>
-          </div>
 
-          <div>
-            <h3 class="text-sm font-semibold">Education</h3>
-            <div class="mt-3">
-              ${edus.map(ed => `
-                <div class="mb-3">
-                  <div class="font-semibold">${s(ed.school)}</div>
-                  <div class="small-muted text-sm">${s(ed.degree)} • ${s(ed.years)}</div>
-                </div>
-              `).join('')}
+            <div>
+              <h3 class="text-sm font-semibold">Education</h3>
+              <div class="mt-3">
+                ${edus.map(ed => `
+                  <div class="mb-3">
+                    <div class="font-semibold">${s(ed.school)}</div>
+                    <div class="small-muted text-sm">${s(ed.degree)} • ${s(ed.years)}</div>
+                  </div>
+                `).join('')}
+              </div>
             </div>
           </div>
         </div>
@@ -475,11 +491,11 @@ function renderPreview() {
   } else if (tmpl === 'classic') {
     // Classic: simple single-column black & white
     html = `
-      <div class="p-6">
+      <div class="p-6 resume-content">
         <div class="text-center mb-4">
           <h1 class="text-2xl font-bold">${s(name)}</h1>
           <div class="small-muted">${s(title)} • ${s(location)}</div>
-          <div class="small-muted">${s(email)} • ${s(phone)} ${website ? '• ' + s(website) : ''}</div>
+          <div class="small-muted break-words">${s(email)} • ${s(phone)} ${website ? '• ' + s(website) : ''}</div>
         </div>
 
         <div class="mb-4">
@@ -491,7 +507,7 @@ function renderPreview() {
           <h3 class="font-semibold">Work Experience</h3>
           ${jobs.map(job => `
             <div class="mt-3">
-              <div class="flex justify-between">
+              <div class="flex justify-between flex-wrap">
                 <div><strong>${s(job.job)}</strong>, ${s(job.company)}</div>
                 <div class="small-muted">${s(job.years)}</div>
               </div>
@@ -520,11 +536,11 @@ function renderPreview() {
     `;
   } else if (tmpl === 'minimal') {
     html = `
-      <div class="p-6">
+      <div class="p-6 resume-content">
         <div class="mb-4">
           <h1 class="text-2xl font-bold">${s(name)}</h1>
           <div class="small-muted">${s(title)}</div>
-          <div class="small-muted">${s(email)} | ${s(phone)} | ${s(location)} | ${s(website)}</div>
+          <div class="small-muted break-words">${s(email)} | ${s(phone)} | ${s(location)} | ${s(website)}</div>
         </div>
 
         <div class="mb-4">
@@ -563,64 +579,66 @@ function renderPreview() {
     `;
   } else if (tmpl === 'creative') {
     html = `
-      <div class="grid grid-cols-3 gap-4 p-6 bg-gray-50">
-        <!-- Left sidebar: contact + skills -->
-        <div class="col-span-1 bg-blue-50 p-4 rounded">
-          <h3 class="text-sm font-semibold text-blue-800">Contact</h3>
-          <div class="small-muted mt-2">
-            <div>${s(email)}</div>
-            <div>${s(phone)}</div>
-            <div>${s(location)}</div>
-            <div>${s(website)}</div>
+      <div class="p-6 bg-gray-50">
+        <div class="resume-grid">
+          <!-- Left sidebar: contact + skills -->
+          <div class="bg-blue-50 p-4 rounded resume-content">
+            <h3 class="text-sm font-semibold text-blue-800">Contact</h3>
+            <div class="small-muted mt-2">
+              <div class="break-words">${s(email)}</div>
+              <div>${s(phone)}</div>
+              <div>${s(location)}</div>
+              <div class="break-words">${s(website)}</div>
+            </div>
+            <h3 class="text-sm font-semibold text-blue-800 mt-4">Skills</h3>
+            <ul class="list-disc ml-5 mt-2 small-muted">
+              ${skills.map(k => `<li>${s(k)}</li>`).join('')}
+            </ul>
           </div>
-          <h3 class="text-sm font-semibold text-blue-800 mt-4">Skills</h3>
-          <ul class="list-disc ml-5 mt-2 small-muted">
-            ${skills.map(k => `<li>${s(k)}</li>`).join('')}
-          </ul>
-        </div>
 
-        <!-- Right: header + content -->
-        <div class="col-span-2">
-          <div class="mb-4">
-            <h1 class="text-2xl font-bold text-blue-800">${s(name)}</h1>
-            <div class="small-muted">${s(title)}</div>
-          </div>
-          <div class="mb-4">
-            <h3 class="font-semibold text-blue-800">Summary</h3>
-            <p class="small-muted mt-1">${s(summary)}</p>
-          </div>
-          <div class="mb-4">
-            <h3 class="font-semibold text-blue-800">Work Experience</h3>
-            ${jobs.map(job => `
-              <div class="mt-3">
-                <div class="flex justify-between">
-                  <div><strong>${s(job.job)}</strong>, ${s(job.company)}</div>
-                  <div class="small-muted">${s(job.years)}</div>
+          <!-- Right: header + content -->
+          <div class="resume-content">
+            <div class="mb-4">
+              <h1 class="text-2xl font-bold text-blue-800">${s(name)}</h1>
+              <div class="small-muted">${s(title)}</div>
+            </div>
+            <div class="mb-4">
+              <h3 class="font-semibold text-blue-800">Summary</h3>
+              <p class="small-muted mt-1">${s(summary)}</p>
+            </div>
+            <div class="mb-4">
+              <h3 class="font-semibold text-blue-800">Work Experience</h3>
+              ${jobs.map(job => `
+                <div class="mt-3">
+                  <div class="flex justify-between flex-wrap">
+                    <div><strong>${s(job.job)}</strong>, ${s(job.company)}</div>
+                    <div class="small-muted">${s(job.years)}</div>
+                  </div>
+                  <ul class="list-disc ml-5 mt-1 small-muted">
+                    ${job.details.map(d => `<li>${s(d)}</li>`).join('')}
+                  </ul>
                 </div>
-                <ul class="list-disc ml-5 mt-1 small-muted">
-                  ${job.details.map(d => `<li>${s(d)}</li>`).join('')}
-                </ul>
-              </div>
-            `).join('')}
-          </div>
-          <div>
-            <h3 class="font-semibold text-blue-800">Education</h3>
-            ${edus.map(ed => `
-              <div class="mt-2">
-                <div><strong>${s(ed.school)}</strong></div>
-                <div class="small-muted">${s(ed.degree)} • ${s(ed.years)}</div>
-              </div>
-            `).join('')}
+              `).join('')}
+            </div>
+            <div>
+              <h3 class="font-semibold text-blue-800">Education</h3>
+              ${edus.map(ed => `
+                <div class="mt-2">
+                  <div><strong>${s(ed.school)}</strong></div>
+                  <div class="small-muted">${s(ed.degree)} • ${s(ed.years)}</div>
+                </div>
+              `).join('')}
+            </div>
           </div>
         </div>
       </div>
     `;
   } else if (tmpl === 'compact') {
     html = `
-      <div class="p-4 text-sm">
+      <div class="p-4 text-sm resume-content">
         <div class="text-center mb-2">
           <h1 class="text-xl font-bold">${s(name)}</h1>
-          <div class="small-muted text-xs">${s(title)} • ${s(location)} • ${s(email)} • ${s(phone)} • ${s(website)}</div>
+          <div class="small-muted text-xs break-words">${s(title)} • ${s(location)} • ${s(email)} • ${s(phone)} • ${s(website)}</div>
         </div>
 
         <div class="mb-2">
@@ -632,7 +650,7 @@ function renderPreview() {
           <h3 class="font-semibold text-sm">Work Experience</h3>
           ${jobs.map(job => `
             <div class="mt-1">
-              <div class="flex justify-between text-xs">
+              <div class="flex justify-between text-xs flex-wrap">
                 <strong>${s(job.job)}, ${s(job.company)}</strong>
                 <span>${s(job.years)}</span>
               </div>
@@ -668,63 +686,65 @@ function renderPreview() {
         </div>
       </div>
 
-      <div class="p-6 grid grid-cols-3 gap-6">
-        <!-- Left column: contact + skills (1/3) -->
-        <div class="col-span-1">
-          <div class="mb-4">
-            <h3 class="text-sm font-semibold text-gray-800">Contact</h3>
-            <div class="small-muted mt-2">
-              <div>${s(email)}</div>
-              <div>${s(phone)}</div>
-              <div>${s(location)}</div>
-              <div>${s(website)}</div>
+      <div class="p-6">
+        <div class="resume-grid">
+          <!-- Left column: contact + skills -->
+          <div class="resume-content">
+            <div class="mb-4">
+              <h3 class="text-sm font-semibold text-gray-800">Contact</h3>
+              <div class="small-muted mt-2">
+                <div class="break-words">${s(email)}</div>
+                <div>${s(phone)}</div>
+                <div>${s(location)}</div>
+                <div class="break-words">${s(website)}</div>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-sm font-semibold text-gray-800">Skills</h3>
+              <div class="mt-2 flex flex-wrap gap-2">
+                ${skills.map(k => `<span class="pill bg-white text-gray-800 border border-gray-300">${s(k)}</span>`).join('')}
+              </div>
             </div>
           </div>
 
-          <div>
-            <h3 class="text-sm font-semibold text-gray-800">Skills</h3>
-            <div class="mt-2 flex flex-wrap gap-2">
-              ${skills.map(k => `<span class="pill bg-white text-gray-800 border border-gray-300">${s(k)}</span>`).join('')}
+          <!-- Right column: summary, work, education -->
+          <div class="resume-content">
+            <div class="mb-4">
+              <h3 class="text-sm font-semibold text-gray-800">Summary</h3>
+              <p class="small-muted mt-2">${s(summary)}</p>
             </div>
-          </div>
-        </div>
 
-        <!-- Right column: summary, work, education (2/3) -->
-        <div class="col-span-2">
-          <div class="mb-4">
-            <h3 class="text-sm font-semibold text-gray-800">Summary</h3>
-            <p class="small-muted mt-2">${s(summary)}</p>
-          </div>
-
-          <div class="mb-4">
-            <h3 class="text-sm font-semibold text-gray-800">Work Experience</h3>
-            <div class="mt-3">
-              ${jobs.map(job => `
-                <div class="mb-3">
-                  <div class="flex justify-between items-baseline">
-                    <div>
-                      <div class="font-semibold">${s(job.job)}</div>
-                      <div class="small-muted">${s(job.company)}</div>
+            <div class="mb-4">
+              <h3 class="text-sm font-semibold text-gray-800">Work Experience</h3>
+              <div class="mt-3">
+                ${jobs.map(job => `
+                  <div class="mb-3">
+                    <div class="flex justify-between items-baseline flex-wrap">
+                      <div>
+                        <div class="font-semibold">${s(job.job)}</div>
+                        <div class="small-muted">${s(job.company)}</div>
+                      </div>
+                      <div class="small-muted text-sm">${s(job.years)}</div>
                     </div>
-                    <div class="small-muted text-sm">${s(job.years)}</div>
+                    <ul class="list-disc ml-5 mt-2 text-sm small-muted">
+                      ${job.details.map(d => `<li>${s(d)}</li>`).join('')}
+                    </ul>
                   </div>
-                  <ul class="list-disc ml-5 mt-2 text-sm small-muted">
-                    ${job.details.map(d => `<li>${s(d)}</li>`).join('')}
-                  </ul>
-                </div>
-              `).join('')}
+                `).join('')}
+              </div>
             </div>
-          </div>
 
-          <div>
-            <h3 class="text-sm font-semibold text-gray-800">Education</h3>
-            <div class="mt-3">
-              ${edus.map(ed => `
-                <div class="mb-3">
-                  <div class="font-semibold">${s(ed.school)}</div>
-                  <div class="small-muted text-sm">${s(ed.degree)} • ${s(ed.years)}</div>
-                </div>
-              `).join('')}
+            <div>
+              <h3 class="text-sm font-semibold text-gray-800">Education</h3>
+              <div class="mt-3">
+                ${edus.map(ed => `
+                  <div class="mb-3">
+                    <div class="font-semibold">${s(ed.school)}</div>
+                    <div class="small-muted text-sm">${s(ed.degree)} • ${s(ed.years)}</div>
+                  </div>
+                `).join('')}
+              </div>
             </div>
           </div>
         </div>
@@ -777,7 +797,7 @@ function downloadPDF() {
   wrapper.style.width = '210mm';
   wrapper.style.background = 'white';
   wrapper.style.position = 'relative';
-  wrapper.style.padding = '5mm'; // Reduced from 10mm for more content space
+  wrapper.style.padding = '0';
   wrapper.innerHTML = element.innerHTML;
 
   const watermark = document.createElement('div');
@@ -791,18 +811,16 @@ function downloadPDF() {
   wrapper.appendChild(watermark);
 
   const opt = {
-    margin: [5, 5, 5, 5], // Small margins to avoid edge clipping (in mm)
+    margin: [5, 5, 5, 5],
     filename: (($('#inputName').value || 'resume').trim().replace(/\s+/g, '_') + '.pdf'),
     image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 4, useCORS: true, logging: false, scrollY: 0, scrollX: 0 }, // Higher scale for better quality
+    html2canvas: { scale: 4, useCORS: true, logging: false, scrollY: 0, scrollX: 0 },
     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-    pagebreak: { mode: ['css', 'legacy'] } // Respect CSS breaks, remove 'avoid-all' to allow natural pagination
+    pagebreak: { mode: ['css', 'legacy'] }
   };
 
   html2pdf().set(opt).from(wrapper).save();
 }
-
-
 
 </script>
 </body>
