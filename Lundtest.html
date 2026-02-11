@@ -4,25 +4,29 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lundquist Sales | Engineered Solutions</title>
-
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --navy:#0f2a44;
-  --steel:#1f4e79;
-  --sky:#e6eef6;
-  --slate:#2e3b4e;
-  --accent:#cfd8e3;
+  --navy: #0f2a44;
+  --steel: #1f4e79;
+  --sky: #e6eef6;
+  --slate: #2e3b4e;
+  --accent: #cfd8e3;
+  --vibrant-blue: #007bff;
+  --vibrant-orange: #fd7e14;
+  --vibrant-green: #28a745;
+  --vibrant-red: #dc3545;
+  --gradient-bg: linear-gradient(135deg, var(--vibrant-blue), var(--vibrant-orange));
 }
-
 *{box-sizing:border-box;margin:0;padding:0}
 body{
-  font-family:Inter,Segoe UI,Arial,sans-serif;
+  font-family: 'Inter', sans-serif;
   line-height:1.6;
   color:#111;
+  overflow-x: hidden;
 }
 img{width:100%;display:block}
 a{text-decoration:none;color:inherit}
-
 /* NAV */
 header{
   position:sticky;
@@ -30,138 +34,230 @@ header{
   background:var(--navy);
   color:#fff;
   z-index:999;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
 }
 .nav-wrap{
   display:flex;
   justify-content:space-between;
   align-items:center;
   padding:1rem 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
-.logo{font-weight:700;letter-spacing:1px}
-nav{display:flex;gap:1.5rem;align-items:center;font-size:.9rem}
-.socials{display:flex;gap:.75rem;opacity:.9}
+.logo{font-weight:700;letter-spacing:1px; font-size: 1.2rem;}
+nav{display:flex;gap:2rem;align-items:center;font-size:.95rem}
+.socials{
+  display:flex;
+  gap:1rem;
+}
+.socials svg{
+  width:24px;
+  height:24px;
+  fill:#fff;
+  opacity:.9;
+  transition: transform 0.3s ease;
+}
+.socials svg:hover{
+  transform: scale(1.1);
+  opacity:1;
+}
 .hamburger{display:none;flex-direction:column;gap:4px;cursor:pointer}
 .hamburger span{width:24px;height:2px;background:#fff}
 .mobile-menu{display:none;background:var(--navy);padding:1rem}
 .mobile-menu a{display:block;padding:.75rem 0;border-bottom:1px solid rgba(255,255,255,.1)}
-
 @media(max-width:768px){
   nav{display:none}
   .hamburger{display:flex}
 }
-
 /* HERO */
 .hero{
-  min-height:90vh;
+  min-height:100vh;
   background:
-    linear-gradient(rgba(15,42,68,.75),rgba(15,42,68,.75)),
-    url("https://images.unsplash.com/photo-1581092334431-2c09d6b1c01d") center/cover;
+    linear-gradient(rgba(15,42,68,.65),rgba(15,42,68,.65)),
+    url("https://images.unsplash.com/photo-1581092334431-2c09d6b1c01d") center/cover no-repeat fixed;
   color:#fff;
   display:flex;
   align-items:center;
+  justify-content:center;
+  text-align:center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--gradient-bg);
+  opacity: 0.15;
+  z-index: 1;
 }
 .hero-inner{
-  max-width:900px;
+  max-width:1000px;
   padding:2rem;
+  position: relative;
+  z-index: 2;
+  animation: fadeInUp 1.5s ease-out;
 }
 .hero h1{
-  font-size:2.8rem;
-  margin-bottom:1rem;
+  font-size:3.5rem;
+  margin-bottom:1.5rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
-.hero p{max-width:650px;font-size:1.1rem;opacity:.95}
-
+.hero p{max-width:750px;font-size:1.3rem;opacity:.95; margin: 0 auto;}
 /* SCROLL COLOR SECTIONS */
-section{padding:5rem 1.5rem}
+section{padding:6rem 1.5rem; position: relative;}
 .light{background:#fff}
 .sky{background:var(--sky)}
 .dark{background:var(--slate);color:#fff}
-
 /* TITLES */
-.section-title{text-align:center;margin-bottom:3rem}
-.section-title h2{font-size:2rem;margin-bottom:.5rem}
-
+.section-title{text-align:center;margin-bottom:4rem; position: relative;}
+.section-title h2{font-size:2.5rem;margin-bottom:.75rem; color: var(--navy);}
+.section-title::after {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 3px;
+  background: var(--vibrant-orange);
+  margin: 1rem auto 0;
+}
 /* ICON SERVICES */
 .services{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:2rem;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:2.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 .service{
   background:#fff;
-  padding:2rem;
-  border-radius:6px;
+  padding:2.5rem;
+  border-radius:12px;
   text-align:center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  opacity: 0;
+  transform: translateY(50px);
+}
+.service.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.service:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 }
 .service svg{
-  width:48px;
-  height:48px;
-  stroke:var(--steel);
-  margin-bottom:1rem;
+  width:60px;
+  height:60px;
+  stroke:var(--vibrant-blue);
+  margin-bottom:1.5rem;
 }
-
+.service h3 {
+  color: var(--steel);
+  margin-bottom: 0.75rem;
+}
 /* PROJECTS */
+.projects{
+  max-width: 1200px;
+  margin: 0 auto;
+}
 .projects-wrap{
-  display:flex;
-  gap:1.5rem;
-  overflow-x:auto;
-  padding-bottom:1rem;
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+  gap:2rem;
 }
 .project{
-  min-width:280px;
   background:#fff;
-  border-radius:6px;
+  border-radius:12px;
   overflow:hidden;
   cursor:pointer;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+  opacity: 0;
+  transform: scale(0.95);
 }
-.project img{height:180px;object-fit:cover}
-.project div{padding:1rem;font-size:.9rem}
-
+.project.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+.project:hover {
+  transform: scale(1.05);
+}
+.project img{height:220px;object-fit:cover; transition: transform 0.5s ease;}
+.project:hover img {
+  transform: scale(1.1);
+}
+.project div{padding:1.25rem; font-size:1rem; text-align: center; color: var(--navy);}
 /* MANUFACTURERS */
 .manufacturer-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-  gap:1.25rem;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 .manu{
   background:#fff;
-  padding:1.25rem;
-  border:1px dashed #ccc;
+  padding:1.5rem;
+  border-radius:8px;
   text-align:center;
-  font-size:.85rem;
-  opacity:.85;
+  font-size:1rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  transition: background 0.3s ease;
 }
-
+.manu:hover {
+  background: var(--accent);
+}
 /* MINI REVIEWS */
 .reviews{
   display:flex;
   justify-content:center;
-  gap:2rem;
+  gap:3rem;
   flex-wrap:wrap;
-  font-size:.85rem;
-  opacity:.9;
+  font-size:1rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
-.review span{color:#f5b400}
-
+.review {
+  background: var(--sky);
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  opacity: 0.9;
+}
+.review span{color:#ffc107; font-size: 1.2rem;}
 /* CONTACT */
 .contact-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:2rem;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:2.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
-
+.contact-item {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
 /* FOOTER */
 footer{
   background:#0b1d30;
-  color:#aaa;
+  color:#ccc;
   text-align:center;
-  padding:1.25rem;
-  font-size:.8rem;
+  padding:1.5rem;
+  font-size:.9rem;
+}
+/* ANIMATIONS */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(50px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 </style>
 </head>
-
 <body>
-
 <header>
   <div class="nav-wrap">
     <div class="logo">LUNDQUIST SALES</div>
@@ -170,10 +266,18 @@ footer{
       <a href="#">Resources</a>
       <a href="#">Portal</a>
       <a href="#contact">Contact</a>
-      <div class="socials">
-        <a href="#">LI</a><a href="#">FB</a><a href="#">IG</a>
-      </div>
     </nav>
+    <div class="socials">
+      <a href="#">
+        <svg viewBox="0 0 24 24"><path d="M18.665 3H5.335C4.048 3 3 4.048 3 5.335v13.33C3 19.952 4.048 21 5.335 21h13.33C19.952 21 21 19.952 21 18.665V5.335C21 4.048 19.952 3 18.665 3zM14 18H7v-7h7v7zm-1-8h-5v-1h5v1zm5 8h-3v-4h-2v4h-3v-4H7v4H6v-7h12v7z"/></svg>
+      </a>
+      <a href="#">
+        <svg viewBox="0 0 24 24"><path d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.73 0 1.323-.593 1.323-1.325V1.325C24 .593 23.407 0 22.675 0z"/></svg>
+      </a>
+      <a href="#">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.263.16 2.804.072 7.052.014 8.332 0 8.74 0 12c0 3.259.014 3.668.072 4.948.085 4.336 2.636 6.852 6.95 6.95 1.28.058 1.688.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.086 6.855-2.604 6.95-6.95.058-1.28.072-1.689.072-4.948 0-3.259-.014-3.667-.072-4.947-.096-4.354-2.617-6.854-6.95-6.95C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-9.896a1.44 1.44 0 11-2.88 0 1.44 1.44 0 012.88 0z"/></svg>
+      </a>
+    </div>
     <div class="hamburger" onclick="toggleMenu()">
       <span></span><span></span><span></span>
     </div>
@@ -185,22 +289,19 @@ footer{
     <a href="#contact">Contact</a>
   </div>
 </header>
-
 <section class="hero">
   <div class="hero-inner">
     <h1>Hydronic & Steam Solutions<br>Engineered Since 1977</h1>
     <p>
       Manufacturer representation, engineered products, and energy services
-      across the Intermountain West.
+      across the Intermountain West. Family-owned expertise delivering innovative solutions.
     </p>
   </div>
 </section>
-
 <section class="sky">
   <div class="section-title">
     <h2>How We Add Value</h2>
   </div>
-
   <div class="services">
     <div class="service">
       <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5">
@@ -209,7 +310,6 @@ footer{
       <h3>Engineered Products</h3>
       <p>Bid & spec, design-build, consulting support.</p>
     </div>
-
     <div class="service">
       <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5">
         <path d="M3 7h18M3 12h18M3 17h18"/>
@@ -217,7 +317,6 @@ footer{
       <h3>Wholesale Services</h3>
       <p>Stocked inventory & fast distribution.</p>
     </div>
-
     <div class="service">
       <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5">
         <path d="M12 3v18M5 12h14"/>
@@ -227,13 +326,10 @@ footer{
     </div>
   </div>
 </section>
-
-<section class="light">
+<section class="light projects">
   <div class="section-title">
     <h2>Selected Projects</h2>
-    <p>(scroll →)</p>
   </div>
-
   <div class="projects-wrap">
     <div class="project">
       <img src="https://images.unsplash.com/photo-1581093458791-9f3c3900df87">
@@ -251,15 +347,21 @@ footer{
       <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5">
       <div>Hydronic System Design</div>
     </div>
+    <div class="project">
+      <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5e640da">
+      <div>Steam System Upgrade</div>
+    </div>
+    <div class="project">
+      <img src="https://images.unsplash.com/photo-1581093588401-e2f95ef479c4">
+      <div>Renewable Energy Integration</div>
+    </div>
   </div>
 </section>
-
 <section class="dark">
   <div class="section-title">
     <h2>Manufacturers & Products</h2>
     <p>Direct product linking coming soon</p>
   </div>
-
   <div class="manufacturer-grid">
     <div class="manu">Rehau</div>
     <div class="manu">Grundfos</div>
@@ -269,50 +371,62 @@ footer{
     <div class="manu">— Future Product —</div>
     <div class="manu">— Future Product —</div>
     <div class="manu">— Future Product —</div>
+    <div class="manu">— Future Product —</div>
+    <div class="manu">— Future Product —</div>
   </div>
 </section>
-
 <section class="light">
   <div class="reviews">
-    <div><strong>Jacob</strong> <span>★★★★★</span></div>
-    <div><strong>Greg</strong> <span>★★★★★</span></div>
-    <div><strong>Blake</strong> <span>★★★★★</span></div>
+    <div class="review"><strong>Jacob</strong> <span>★★★★★</span> "Outstanding service!"</div>
+    <div class="review"><strong>Greg</strong> <span>★★★★★</span> "Reliable and efficient."</div>
+    <div class="review"><strong>Blake</strong> <span>★★★★★</span> "Top-notch engineering."</div>
+    <div class="review"><strong>Sarah</strong> <span>★★★★★</span> "Great team to work with."</div>
+    <div class="review"><strong>Mike</strong> <span>★★★★★</span> "Innovative solutions."</div>
   </div>
 </section>
-
 <section class="sky" id="contact">
   <div class="section-title">
     <h2>Get In Touch</h2>
   </div>
-
   <div class="contact-grid">
-    <div>
+    <div class="contact-item">
       <strong>Address</strong><br>
       2425 S Progress Drive<br>
       Salt Lake City, UT 84119
     </div>
-    <div>
+    <div class="contact-item">
       <strong>Phone</strong><br>
       UT: 801-487-5700<br>
       ID: 208-390-5510
     </div>
-    <div>
+    <div class="contact-item">
       <strong>Email</strong><br>
       sales@lundquistsales.com
     </div>
   </div>
 </section>
-
 <footer>
-  © Lundquist Sales, Inc.
+  © Lundquist Sales, Inc. | Family-Owned Since 1977
 </footer>
-
 <script>
 function toggleMenu(){
   const m=document.getElementById("mobileMenu");
   m.style.display=m.style.display==="block"?"none":"block";
 }
-</script>
 
+// Scroll animations
+const elementsToAnimate = document.querySelectorAll('.service, .project');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+elementsToAnimate.forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
