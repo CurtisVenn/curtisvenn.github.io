@@ -200,16 +200,44 @@ section{padding:6rem 1.5rem; position: relative;}
   margin: 0 auto;
 }
 .manu{
+  position:relative;
   background:#fff;
-  padding:1.5rem;
-  border-radius:8px;
+  padding:2rem 1.5rem;
+  border-radius:10px;
   text-align:center;
-  font-size:1rem;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-  transition: background 0.3s ease;
+  font-size:1.05rem;
+  font-weight:600;
+  color:var(--navy);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  overflow:hidden;
+  cursor:pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.manu:hover {
-  background: var(--accent);
+
+.manu:hover{
+  transform: translateY(-6px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+/* Hover overlay */
+.manu::after{
+  content:"View Products →";
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:100%;
+  background:linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0));
+  color:#fff;
+  font-size:.85rem;
+  padding:1.5rem 0 1rem;
+  opacity:0;
+  transition: opacity 0.3s ease;
+}
+
+.manu:hover::after{
+  opacity:1;
+}
+
 }
 /* MINI REVIEWS */
 .reviews{
