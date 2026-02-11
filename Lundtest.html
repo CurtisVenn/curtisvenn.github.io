@@ -4,9 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lundquist Sales | Engineered Hydronic & Steam Solutions</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
 <style>
 :root{
   --navy:#0c1f33;
@@ -16,7 +14,6 @@
   --accent:#ff6b00;
   --blue:#0077cc;
 }
-
 *{box-sizing:border-box;margin:0;padding:0}
 body{
   font-family:'Inter',sans-serif;
@@ -25,12 +22,9 @@ body{
   overflow-x:hidden;
   background:#fff;
 }
-
 img{width:100%;display:block}
 a{text-decoration:none;color:inherit}
-
 section{padding:7rem 1.5rem;position:relative}
-
 /* ================= NAV ================= */
 header{
   position:sticky;
@@ -76,7 +70,6 @@ nav a::after{
   transition:.3s;
 }
 nav a:hover::after{width:100%}
-
 .socials{
   display:flex;
   gap:1rem;
@@ -92,95 +85,104 @@ nav a:hover::after{width:100%}
   opacity:1;
   transform:translateY(-3px);
 }
-
 .hamburger{display:none;flex-direction:column;gap:4px;cursor:pointer}
 .hamburger span{width:24px;height:2px;background:#fff}
 .mobile-menu{display:none;background:var(--navy);padding:1rem}
 .mobile-menu a{display:block;padding:.75rem 0;border-bottom:1px solid rgba(255,255,255,.1)}
-
 @media(max-width:900px){
   nav{display:none}
   .socials{display:none}
   .hamburger{display:flex}
 }
-
 /* ================= HERO ================= */
 .hero{
   min-height:100vh;
   background:
-  linear-gradient(rgba(10,20,35,.75),rgba(10,20,35,.75)),
-  url("https://images.unsplash.com/photo-1581092334431-2c09d6b1c01d") center/cover no-repeat fixed;
+    linear-gradient(rgba(10,20,35,.70),rgba(10,20,35,.70)),
+    url("https://images.unsplash.com/photo-1581092334431-2c09d6b1c01d") center/cover no-repeat fixed;
   display:flex;
   align-items:center;
   justify-content:center;
   text-align:center;
   color:#fff;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,119,204,0.12), rgba(255,107,0,0.12));
+  pointer-events: none;
+  z-index: 1;
 }
 .hero-inner{
   max-width:1000px;
+  position: relative;
+  z-index: 2;
 }
 .hero h1{
-  font-size:3.5rem;
+  font-size:3.8rem;
   font-weight:800;
   margin-bottom:1.5rem;
   letter-spacing:-1px;
+  text-shadow: 0 4px 12px rgba(0,0,0,0.4);
 }
 .hero p{
-  font-size:1.25rem;
-  opacity:.9;
-  max-width:750px;
-  margin:0 auto 2rem;
+  font-size:1.3rem;
+  opacity:.92;
+  max-width:780px;
+  margin:0 auto 2.5rem;
 }
 .hero .cta{
   display:inline-block;
-  padding:.9rem 2rem;
+  padding:1rem 2.5rem;
   background:var(--accent);
   color:#fff;
   font-weight:600;
   border-radius:50px;
   transition:.3s;
+  box-shadow: 0 8px 20px rgba(255,107,0,0.3);
 }
 .hero .cta:hover{
   background:#ff8533;
-  transform:translateY(-3px);
+  transform:translateY(-4px);
+  box-shadow: 0 12px 30px rgba(255,107,0,0.4);
 }
-
 /* ================= VALUE SECTION ================= */
 .sky{background:linear-gradient(180deg,#f8fbff,#e9f0f8)}
-
 .section-title{
   text-align:center;
   margin-bottom:4rem;
 }
 .section-title h2{
-  font-size:2.6rem;
+  font-size:2.8rem;
   font-weight:800;
   color:var(--navy);
 }
-
 .services{
   max-width:1300px;
   margin:0 auto;
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:2.5rem;
+  gap:2.8rem;
 }
 .service{
   background:#fff;
-  padding:2.5rem;
-  border-radius:16px;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  padding:2.8rem;
+  border-radius:20px;
+  box-shadow:0 12px 35px rgba(0,0,0,.09);
   transition:.4s;
 }
 .service:hover{
-  transform:translateY(-10px);
-  box-shadow:0 20px 50px rgba(0,0,0,.15);
+  transform:translateY(-12px);
+  box-shadow:0 25px 60px rgba(0,0,0,.18);
 }
 .service h3{
   color:var(--steel);
-  margin-bottom:1rem;
+  margin-bottom:1.2rem;
+  font-size:1.4rem;
 }
-
 /* ================= PROJECT STRIP ================= */
 .projects{
   background:var(--slate);
@@ -189,27 +191,26 @@ nav a:hover::after{width:100%}
 }
 .project-strip{
   display:flex;
-  gap:2rem;
+  gap:2.5rem;
   overflow-x:auto;
-  padding-bottom:1rem;
+  padding-bottom:1.5rem;
   scroll-snap-type:x mandatory;
 }
 .project{
-  min-width:350px;
+  min-width:380px;
   background:#fff;
   color:#000;
-  border-radius:16px;
+  border-radius:20px;
   overflow:hidden;
   scroll-snap-align:start;
-  box-shadow:0 10px 30px rgba(0,0,0,.3);
-  transition:.3s;
+  box-shadow:0 12px 35px rgba(0,0,0,.35);
+  transition:.4s;
 }
 .project:hover{
-  transform:scale(1.05);
+  transform:scale(1.06);
 }
-.project img{height:250px;object-fit:cover}
-.project div{padding:1.2rem;font-weight:600}
-
+.project img{height:280px;object-fit:cover}
+.project div{padding:1.4rem;font-weight:700;font-size:1.1rem;text-align:center}
 /* ================= MANUFACTURERS ================= */
 .dark{
   background:linear-gradient(135deg,#0f2a44,#1a3c5a);
@@ -220,50 +221,80 @@ nav a:hover::after{width:100%}
   margin:0 auto;
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:1.8rem;
+  gap:2rem;
 }
 .manu{
   background:#fff;
   color:var(--navy);
-  padding:2rem;
-  border-radius:14px;
+  padding:2.2rem;
+  border-radius:16px;
   text-align:center;
   font-weight:700;
   position:relative;
   transition:.3s;
+  box-shadow:0 8px 25px rgba(0,0,0,.12);
 }
 .manu:hover{
-  transform:translateY(-8px);
-  box-shadow:0 20px 40px rgba(0,0,0,.25);
+  transform:translateY(-10px);
+  box-shadow:0 25px 50px rgba(0,0,0,.3);
 }
 .manu::after{
   content:"→";
   position:absolute;
-  right:18px;
-  top:18px;
+  right:20px;
+  top:20px;
   opacity:0;
   transition:.3s;
 }
 .manu:hover::after{
   opacity:1;
-  transform:translateX(6px);
+  transform:translateX(8px);
 }
-
 /* ================= REVIEWS ================= */
+.reviews-section {
+  background: var(--sky);
+  padding: 5rem 1.5rem;
+}
 .reviews{
-  display:flex;
-  justify-content:center;
+  max-width:1300px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
   gap:2rem;
-  flex-wrap:wrap;
-  font-size:.9rem;
 }
 .review{
-  background:var(--sky);
-  padding:.6rem 1.2rem;
-  border-radius:50px;
+  background:#fff;
+  padding:2rem;
+  border-radius:16px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  text-align:center;
+  position:relative;
 }
-.review span{color:#ffc107}
-
+.review::before {
+  content: '“';
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  font-size: 6rem;
+  opacity: 0.08;
+  line-height: 1;
+  font-family: Georgia, serif;
+}
+.review strong {
+  display: block;
+  font-size: 1.2rem;
+  margin-bottom: 0.8rem;
+  color: var(--navy);
+}
+.review .stars {
+  color: #ffc107;
+  font-size: 1.4rem;
+  margin: 0.8rem 0;
+}
+.review p {
+  font-style: italic;
+  color: #555;
+}
 /* ================= CONTACT ================= */
 .contact{
   background:#f4f7fb;
@@ -273,127 +304,151 @@ nav a:hover::after{width:100%}
   margin:0 auto;
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:2rem;
+  gap:2.5rem;
 }
 .contact-item{
   background:#fff;
-  padding:2rem;
-  border-radius:16px;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  padding:2.5rem;
+  border-radius:20px;
+  box-shadow:0 12px 35px rgba(0,0,0,.09);
+  text-align:center;
 }
-
+.contact-item strong {
+  display: block;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: var(--navy);
+}
 /* ================= FOOTER ================= */
 footer{
   background:#081623;
   color:#aaa;
   text-align:center;
-  padding:2rem;
-  font-size:.9rem;
+  padding:2.5rem;
+  font-size:.95rem;
 }
 </style>
 </head>
-
 <body>
-
 <header>
-<div class="nav-wrap">
-<div class="logo">LUNDQUIST SALES</div>
-
-<nav>
-<a href="#">Manufacturers</a>
-<a href="#">Resources</a>
-<a href="#">Portal</a>
-<a href="#contact">Contact</a>
-</nav>
-
-<div style="display:flex;align-items:center;">
-<div class="socials">
-<a href="#"><svg viewBox="0 0 24 24"><path d="M22.23 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.21 0 22.23 0z"/></svg></a>
-<a href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg></a>
-<a href="#"><svg viewBox="0 0 24 24"><polygon points="0,0 24,12 0,24"/></svg></a>
-</div>
-<div class="hamburger" onclick="toggleMenu()">
-<span></span><span></span><span></span>
-</div>
-</div>
-</div>
-
-<div class="mobile-menu" id="mobileMenu">
-<a href="#">Manufacturers</a>
-<a href="#">Resources</a>
-<a href="#">Portal</a>
-<a href="#contact">Contact</a>
-</div>
+  <div class="nav-wrap">
+    <div class="logo">LUNDQUIST SALES</div>
+    <nav>
+      <a href="#">Manufacturers</a>
+      <a href="#">Resources</a>
+      <a href="#">Portal</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div style="display:flex;align-items:center;">
+      <div class="socials">
+        <a href="#"><svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+        <a href="#"><svg viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.294h6.116c.73 0 1.323-.593 1.323-1.325v-21.351c0-.732-.593-1.325-1.325-1.325z"/></svg></a>
+        <a href="#"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.791-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.209-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+      </div>
+      <div class="hamburger" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#">Manufacturers</a>
+    <a href="#">Resources</a>
+    <a href="#">Portal</a>
+    <a href="#contact">Contact</a>
+  </div>
 </header>
 
 <section class="hero">
-<div class="hero-inner">
-<h1>Engineered Hydronic & Steam Solutions</h1>
-<p>Delivering value-driven mechanical system expertise across the Intermountain West since 1977.</p>
-<a href="#contact" class="cta">Start a Project</a>
-</div>
+  <div class="hero-inner">
+    <h1>Engineered Hydronic & Steam Solutions</h1>
+    <p>Delivering value-driven mechanical system expertise across the Intermountain West since 1977. Family-owned, precision-focused, results-driven.</p>
+    <a href="#contact" class="cta">Start a Project</a>
+  </div>
 </section>
 
 <section class="sky">
-<div class="section-title"><h2>How We Add Value</h2></div>
-<div class="services">
-<div class="service"><h3>Engineered Products</h3><p>Bid & spec collaboration with consulting engineers and contractors.</p></div>
-<div class="service"><h3>Wholesale Distribution</h3><p>Strategic stocking and rapid fulfillment across the region.</p></div>
-<div class="service"><h3>Energy Services</h3><p>Retrofits, system audits, and turnkey mechanical upgrades.</p></div>
-</div>
+  <div class="section-title"><h2>How We Add Value</h2></div>
+  <div class="services">
+    <div class="service"><h3>Engineered Products</h3><p>Bid & spec collaboration with consulting engineers and contractors.</p></div>
+    <div class="service"><h3>Wholesale Distribution</h3><p>Strategic stocking and rapid fulfillment across the region.</p></div>
+    <div class="service"><h3>Energy Services</h3><p>Retrofits, system audits, and turnkey mechanical upgrades.</p></div>
+  </div>
 </section>
 
 <section class="projects">
-<div class="section-title"><h2 style="color:#fff;">Featured Projects</h2></div>
-<div class="project-strip">
-<div class="project"><img src="https://images.unsplash.com/photo-1503389152951-9f343605f61c"><div>Commercial Mechanical Room</div></div>
-<div class="project"><img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5"><div>Hydronic System Installation</div></div>
-<div class="project"><img src="https://images.unsplash.com/photo-1581091012184-7d1a7e6f0b63"><div>Energy Retrofit Project</div></div>
-<div class="project"><img src="https://images.unsplash.com/photo-1581093588401-e2f95ef479c4"><div>Boiler Upgrade</div></div>
-</div>
+  <div class="section-title"><h2 style="color:#fff;">Featured Projects</h2></div>
+  <div class="project-strip">
+    <div class="project"><img src="https://images.unsplash.com/photo-1503389152951-9f343605f61c"><div>Commercial Mechanical Room</div></div>
+    <div class="project"><img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5"><div>Hydronic System Installation</div></div>
+    <div class="project"><img src="https://images.unsplash.com/photo-1581091012184-7d1a7e6f0b63"><div>Energy Retrofit Project</div></div>
+    <div class="project"><img src="https://images.unsplash.com/photo-1581093588401-e2f95ef479c4"><div>Boiler Upgrade</div></div>
+  </div>
 </section>
 
 <section class="dark">
-<div class="section-title"><h2 style="color:#fff;">Manufacturers & Products</h2></div>
-<div class="manufacturer-grid">
-<a class="manu" href="https://www.rehau.com/us-en/mechanicalplumbing/technologies/radiantallfh" target="_blank">Rehau</a>
-<a class="manu" href="https://125c2e47-7dd4-4d72-b8de-a495fc9fae13.filesusr.com/ugd/1d9b54_65c884e84897481a88a65c8ea8151e4d.pdf" target="_blank">NBS Pump</a>
-<a class="manu" href="https://product-selection.grundfos.com/us/products/hydro-mpc?tab=products" target="_blank">Grundfos</a>
-<a class="manu" href="https://www.alfalaval.us/" target="_blank">Alfa Laval</a>
-<a class="manu" href="https://www.raypak.com/products/commercial/hydronic-boilers/xvers-hydronic-boiler-powered-by-kor/" target="_blank">XVers KOR</a>
-<a class="manu" href="https://www.spirotherm.com/Spirocombi-Magnet" target="_blank">Spiro Combi</a>
-<div class="manu">Future Product</div>
-<div class="manu">Future Product</div>
-</div>
+  <div class="section-title"><h2 style="color:#fff;">Manufacturers & Products</h2></div>
+  <div class="manufacturer-grid">
+    <a class="manu" href="https://www.rehau.com/us-en/mechanicalplumbing/technologies/radiantallfh" target="_blank">Rehau</a>
+    <a class="manu" href="https://125c2e47-7dd4-4d72-b8de-a495fc9fae13.filesusr.com/ugd/1d9b54_65c884e84897481a88a65c8ea8151e4d.pdf" target="_blank">NBS Pump</a>
+    <a class="manu" href="https://product-selection.grundfos.com/us/products/hydro-mpc?tab=products" target="_blank">Grundfos</a>
+    <a class="manu" href="https://www.alfalaval.us/" target="_blank">Alfa Laval</a>
+    <a class="manu" href="https://www.raypak.com/products/commercial/hydronic-boilers/xvers-hydronic-boiler-powered-by-kor/" target="_blank">XVers KOR</a>
+    <a class="manu" href="https://www.spirotherm.com/Spirocombi-Magnet" target="_blank">Spiro Combi</a>
+    <div class="manu">Future Product</div>
+    <div class="manu">Future Product</div>
+  </div>
 </section>
 
-<section>
-<div class="reviews">
-<div class="review"><strong>Jacob</strong> <span>★★★★★</span></div>
-<div class="review"><strong>Greg</strong> <span>★★★★★</span></div>
-<div class="review"><strong>Blake</strong> <span>★★★★★</span></div>
-</div>
+<section class="reviews-section">
+  <div class="section-title"><h2>What Our Clients Say</h2></div>
+  <div class="reviews">
+    <div class="review">
+      <strong>Jacob Thompson</strong>
+      <div class="stars">★★★★★</div>
+      <p>"Exceptional engineering support and lightning-fast response times. The team at Lundquist truly understands our needs."</p>
+    </div>
+    <div class="review">
+      <strong>Greg Reynolds</strong>
+      <div class="stars">★★★★★</div>
+      <p>"Reliable partner for complex hydronic projects. Their wholesale distribution keeps our jobs on schedule."</p>
+    </div>
+    <div class="review">
+      <strong>Blake Anderson</strong>
+      <div class="stars">★★★★★</div>
+      <p>"Top-tier energy retrofit expertise. Saved our facility significant costs with their turnkey solutions."</p>
+    </div>
+  </div>
 </section>
 
 <section class="contact" id="contact">
-<div class="section-title"><h2>Contact Us</h2></div>
-<div class="contact-grid">
-<div class="contact-item"><strong>Address</strong><br>2425 S Progress Drive<br>Salt Lake City, UT</div>
-<div class="contact-item"><strong>Phone</strong><br>801-487-5700</div>
-<div class="contact-item"><strong>Email</strong><br>sales@lundquistsales.com</div>
-</div>
+  <div class="section-title"><h2>Contact Us</h2></div>
+  <div class="contact-grid">
+    <div class="contact-item">
+      <strong>Address</strong><br>
+      2425 S Progress Drive<br>
+      Salt Lake City, UT 84119
+    </div>
+    <div class="contact-item">
+      <strong>Phone</strong><br>
+      UT: 801-487-5700<br>
+      ID: 208-390-5510
+    </div>
+    <div class="contact-item">
+      <strong>Email</strong><br>
+      sales@lundquistsales.com
+    </div>
+  </div>
 </section>
 
 <footer>
-© Lundquist Sales, Inc. | Serving the Intermountain West Since 1977
+  © Lundquist Sales, Inc. | Family-Owned & Serving the Intermountain West Since 1977
 </footer>
 
 <script>
 function toggleMenu(){
-const m=document.getElementById("mobileMenu");
-m.style.display=m.style.display==="block"?"none":"block";
+  const m = document.getElementById("mobileMenu");
+  m.style.display = m.style.display === "block" ? "none" : "block";
 }
 </script>
-
 </body>
 </html>
