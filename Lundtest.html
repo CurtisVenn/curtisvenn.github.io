@@ -192,14 +192,44 @@ section{padding:6rem 1.5rem; position: relative;}
 }
 .project div{padding:1.25rem; font-size:1rem; text-align: center; color: var(--navy);}
 /* MANUFACTURERS */
-.manufacturer-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:1.5rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
+<section class="dark">
+  <div class="section-title">
+    <h2>Manufacturers & Products</h2>
+    <p>Direct product linking available below</p>
+  </div>
+
+  <div class="manufacturer-grid">
+
+    <a class="manu" href="https://www.rehau.com/us-en/mechanicalplumbing/technologies/radiantallfh" target="_blank">
+      Rehau
+    </a>
+
+    <a class="manu" href="https://125c2e47-7dd4-4d72-b8de-a495fc9fae13.filesusr.com/ugd/1d9b54_65c884e84897481a88a65c8ea8151e4d.pdf" target="_blank">
+      NBS Pump
+    </a>
+
+    <a class="manu" href="https://product-selection.grundfos.com/us/products/hydro-mpc?tab=products" target="_blank">
+      Grundfos
+    </a>
+
+    <a class="manu" href="https://www.alfalaval.us/" target="_blank">
+      Alfa Laval
+    </a>
+
+    <a class="manu" href="https://www.raypak.com/products/commercial/hydronic-boilers/xvers-hydronic-boiler-powered-by-kor/" target="_blank">
+      XVers KOR
+    </a>
+
+    <a class="manu" href="https://www.spirotherm.com/Spirocombi-Magnet" target="_blank">
+      Spiro Combi
+    </a>
+
+  </div>
+</section>
+
+/* Hover overlay */
 .manu{
+  display:block;
   position:relative;
   background:#fff;
   padding:2rem 1.5rem;
@@ -213,30 +243,20 @@ section{padding:6rem 1.5rem; position: relative;}
   cursor:pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
-.manu:hover{
-  transform: translateY(-6px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-}
-
-/* Hover overlay */
-.manu::after{
-  content:"View Products →";
+.manu::before{
+  content:"→";
   position:absolute;
-  bottom:0;
-  left:0;
-  width:100%;
-  background:linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0));
-  color:#fff;
-  font-size:.85rem;
-  padding:1.5rem 0 1rem;
+  right:15px;
+  top:15px;
   opacity:0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.manu:hover::after{
+.manu:hover::before{
   opacity:1;
+  transform:translateX(4px);
 }
+
 /* MINI REVIEWS */
 .reviews{
   display:flex;
