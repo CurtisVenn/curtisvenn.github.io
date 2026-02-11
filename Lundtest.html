@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lundquist Sales | Hydronic & Steam Solutions</title>
+
+  <style>
+    :root {
+      --primary: #0f2a44;
+      --secondary: #1f4e79;
+      --accent: #cfd8e3;
+      --light: #f5f7fa;
+      --dark: #111;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: var(--dark);
+      background: #fff;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* ---------- HEADER / NAV ---------- */
+    header {
+      position: sticky;
+      top: 0;
+      background: var(--primary);
+      color: #fff;
+      z-index: 1000;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.2rem;
+      letter-spacing: 1px;
+    }
+
+    nav {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    nav a {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    nav a:hover {
+      opacity: 1;
+    }
+
+    .socials {
+      display: flex;
+      gap: 0.75rem;
+      margin-left: 1rem;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    .hamburger span {
+      width: 24px;
+      height: 2px;
+      background: #fff;
+    }
+
+    /* ---------- MOBILE MENU ---------- */
+    .mobile-menu {
+      display: none;
+      background: var(--primary);
+      padding: 1rem;
+    }
+
+    .mobile-menu a {
+      display: block;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* ---------- HERO ---------- */
+    .hero {
+      background: linear-gradient(
+          rgba(15,42,68,0.8),
+          rgba(15,42,68,0.8)
+        ),
+        url("https://images.unsplash.com/photo-1581092334494-1f66b39e1a5a") center/cover;
+      color: #fff;
+      padding: 6rem 1.5rem;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin: 0 auto;
+      opacity: 0.95;
+    }
+
+    /* ---------- SECTIONS ---------- */
+    section {
+      padding: 4rem 1.5rem;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-title h2 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+    }
+
+    .section-title p {
+      max-width: 700px;
+      margin: 0 auto;
+      color: #555;
+    }
+
+    /* ---------- SERVICES ---------- */
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .service-card {
+      background: var(--light);
+      padding: 2rem;
+      border-left: 4px solid var(--secondary);
+    }
+
+    .service-card h3 {
+      margin-bottom: 0.75rem;
+      color: var(--secondary);
+    }
+
+    /* ---------- PROJECTS ---------- */
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: #fff;
+      border: 1px solid #ddd;
+    }
+
+    .project-card img {
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .project-card div {
+      padding: 1rem;
+    }
+
+    /* ---------- PRODUCTS / MANUFACTURERS ---------- */
+    .manufacturers {
+      background: var(--light);
+    }
+
+    .manufacturer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .manufacturer-card {
+      background: #fff;
+      padding: 1.5rem;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+
+    /* ---------- REVIEWS ---------- */
+    .reviews {
+      background: #fff;
+    }
+
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .review {
+      background: var(--light);
+      padding: 1.5rem;
+      border-left: 4px solid var(--secondary);
+    }
+
+    /* ---------- CONTACT ---------- */
+    .contact {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+
+    /* ---------- FOOTER ---------- */
+    footer {
+      background: #0b1d30;
+      color: #aaa;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.85rem;
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="nav-container">
+    <div class="logo">LUNDQUIST SALES</div>
+
+    <nav>
+      <a href="#">Manufacturers</a>
+      <a href="#">Resources</a>
+      <a href="#">Portal</a>
+      <a href="#contact">Contact</a>
+      <div class="socials">
+        <a href="#">LinkedIn</a>
+        <a href="#">Facebook</a>
+        <a href="#">Instagram</a>
+      </div>
+    </nav>
+
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#">Manufacturers</a>
+    <a href="#">Resources</a>
+    <a href="#">Portal</a>
+    <a href="#contact">Contact</a>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>Providing Hydronic & Steam Solutions Since 1977</h1>
+  <p>
+    Serving the Intermountain West with engineered products, wholesale services,
+    and energy solutions backed by industry-leading manufacturers.
+  </p>
+</section>
+
+<section>
+  <div class="section-title">
+    <h2>What We Do</h2>
+    <p>We work hand-in-hand with engineers, contractors, and end users.</p>
+  </div>
+
+  <div class="services">
+    <div class="service-card">
+      <h3>Engineered Products</h3>
+      <p>Bid & spec support, consulting engineers, and design-build projects.</p>
+    </div>
+    <div class="service-card">
+      <h3>Wholesale Services</h3>
+      <p>Stocked inventory and fast distribution through trusted partners.</p>
+    </div>
+    <div class="service-card">
+      <h3>Energy Services</h3>
+      <p>Retrofits, efficiency audits, and turnkey project solutions.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-title">
+    <h2>Projects</h2>
+    <p>A snapshot of work across commercial and industrial applications.</p>
+  </div>
+
+  <div class="projects">
+    <div class="project-card">
+      <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e" alt="">
+      <div>Commercial Mechanical Project</div>
+    </div>
+    <div class="project-card">
+      <img src="https://images.unsplash.com/photo-1529429617124-95b109e86bb8" alt="">
+      <div>Industrial Hydronic System</div>
+    </div>
+    <div class="project-card">
+      <img src="https://images.unsplash.com/photo-1581091870627-3fdc2e9c7b3a" alt="">
+      <div>Energy Retrofit Installation</div>
+    </div>
+  </div>
+</section>
+
+<section class="manufacturers">
+  <div class="section-title">
+    <h2>Manufacturers & Products</h2>
+    <p>Industry-leading solutions for plumbing, heating, and energy systems.</p>
+  </div>
+
+  <div class="manufacturer-grid">
+    <div class="manufacturer-card">Rehau Building Solutions</div>
+    <div class="manufacturer-card">Grundfos</div>
+    <div class="manufacturer-card">Alfa Laval</div>
+    <div class="manufacturer-card">NBS Pump</div>
+    <div class="manufacturer-card">XVers KOR</div>
+  </div>
+</section>
+
+<section class="reviews">
+  <div class="section-title">
+    <h2>What Our Partners Say</h2>
+  </div>
+
+  <div class="review-grid">
+    <div class="review">
+      <strong>Jacob Reese</strong>
+      <p>Very good staff! Love to work with Lundquist Sales.</p>
+    </div>
+    <div class="review">
+      <strong>Greg Reyneke</strong>
+      <p>Great company that truly cares about their customers.</p>
+    </div>
+    <div class="review">
+      <strong>Blake Buechler</strong>
+      <p>Professional and knowledgeable staff with efficient processes.</p>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="section-title">
+    <h2>Get in Touch</h2>
+  </div>
+
+  <div class="contact-grid">
+    <div>
+      <p><strong>Address</strong><br>2425 S Progress Drive<br>Salt Lake City, UT 84119</p>
+    </div>
+    <div>
+      <p><strong>Phone</strong><br>
+        Utah: 801-487-5700<br>
+        Idaho Falls: 208-390-5510<br>
+        Boise: 208-230-9343
+      </p>
+    </div>
+    <div>
+      <p><strong>Email</strong><br>sales@lundquistsales.com</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © Lundquist Sales, Inc.
+</footer>
+
+<script>
+  function toggleMenu() {
+    const menu = document.getElementById("mobileMenu");
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+  }
+</script>
+
+</body>
+</html>
