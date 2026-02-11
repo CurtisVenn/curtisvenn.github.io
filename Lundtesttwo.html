@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lundquist Sales | Engineered Hydronic & Steam Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0c1f33;
+            --steel: #1f4e79;
+            --sky: #eef3f8;
+            --slate: #1a2d42;
+            --accent: #ff6b00;
+            --blue: #0077cc;
+            --tech-grid: #1a3a5a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            line-height: 1.6;
+            color: #111;
+            overflow-x: hidden;
+            background: #fff;
+        }
+
+        img {
+            width: 100%;
+            display: block;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        section {
+            padding: 7rem 1.5rem;
+            position: relative;
+        }
+
+        /* ================= NAV ================= */
+        header {
+            position: sticky;
+            top: 0;
+            background: rgba(12, 31, 51, 0.95);
+            backdrop-filter: blur(10px);
+            color: #fff;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-wrap {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 1.5rem;
+        }
+
+        .logo {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            letter-spacing: 3px;
+            font-size: 1.3rem;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            font-weight: 500;
+        }
+
+        nav a {
+            position: relative;
+            opacity: 0.85;
+            transition: opacity 0.3s ease;
+        }
+
+        nav a:hover {
+            opacity: 1;
+        }
+
+        nav a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -6px;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .socials {
+            display: flex;
+            gap: 1rem;
+            margin-left: 2rem;
+        }
+
+        .socials svg {
+            width: 20px;
+            height: 20px;
+            fill: #fff;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .socials svg:hover {
+            opacity: 1;
+            transform: translateY(-3px);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: #fff;
+        }
+
+        .mobile-menu {
+            display: none;
+            background: var(--navy);
+            padding: 1rem;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media(max-width: 900px) {
+            nav {
+                display: none;
+            }
+            .socials {
+                display: none;
+            }
+            .hamburger {
+                display: flex;
+            }
+        }
+
+        /* ================= HERO ================= */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(rgba(10, 20, 35, 0.75), rgba(10, 20, 35, 0.75)),
+                url("https://images.unsplash.com/photo-1581092334431-2c09d6b1c01d") center/cover no-repeat fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(90deg, transparent 0%, rgba(31, 78, 121, 0.03) 50%, transparent 100%),
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, 0.03) 2px, rgba(255, 255, 255, 0.03) 4px);
+            pointer-events: none;
+            animation: gridSlide 20s linear infinite;
+        }
+
+        @keyframes gridSlide {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(40px);
+            }
+        }
+
+        .hero-inner {
+            max-width: 1000px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 750px;
+            margin: 0 auto 2rem;
+            font-weight: 300;
+        }
+
+        .hero .cta {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--accent);
+            color: #fff;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 107, 0, 0.3);
+        }
+
+        .hero .cta:hover {
+            background: #ff8533;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 0, 0.4);
+        }
+
+        /* ================= STATS SECTION (NEW) ================= */
+        .stats-section {
+            background: linear-gradient(180deg, #0c1f33 0%, #1a2d42 100%);
+            color: #fff;
+            padding: 5rem 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(30deg, transparent 45%, rgba(255, 107, 0, 0.03) 45%, rgba(255, 107, 0, 0.03) 55%, transparent 55%),
+                linear-gradient(150deg, transparent 45%, rgba(0, 119, 204, 0.03) 45%, rgba(0, 119, 204, 0.03) 55%, transparent 55%);
+            background-size: 100px 100px;
+            pointer-events: none;
+        }
+
+        .stats-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            animation: fadeIn 0.6s ease-out backwards;
+        }
+
+        .stat-item:nth-child(1) { animation-delay: 0.1s; }
+        .stat-item:nth-child(2) { animation-delay: 0.2s; }
+        .stat-item:nth-child(3) { animation-delay: 0.3s; }
+        .stat-item:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stat-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-5px);
+            border-color: rgba(255, 107, 0, 0.3);
+        }
+
+        .stat-number {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        /* ================= VALUE SECTION ================= */
+        .sky {
+            background: linear-gradient(180deg, #f8fbff, #e9f0f8);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title h2 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--navy);
+            letter-spacing: -0.5px;
+        }
+
+        .services {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .service {
+            background: #fff;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .service:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+            border-color: var(--accent);
+        }
+
+        .service h3 {
+            font-family: 'Rajdhani', sans-serif;
+            color: var(--steel);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .service p {
+            color: #555;
+            font-weight: 300;
+        }
+
+        /* ================= PROJECT STRIP ================= */
+        .projects {
+            background: var(--slate);
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .project-strip {
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+            scroll-snap-type: x mandatory;
+        }
+
+        .project {
+            min-width: 350px;
+            background: #fff;
+            color: #000;
+            border-radius: 16px;
+            overflow: hidden;
+            scroll-snap-align: start;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .project:hover {
+            transform: scale(1.05);
+        }
+
+        .project img {
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .project div {
+            padding: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* ================= MANUFACTURERS ================= */
+        .dark {
+            background: linear-gradient(135deg, #0f2a44, #1a3c5a);
+            color: #fff;
+        }
+
+        .manufacturer-grid {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .manu {
+            background: #fff;
+            color: var(--navy);
+            padding: 2rem;
+            border-radius: 14px;
+            text-align: center;
+            font-weight: 700;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .manu:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .manu::after {
+            content: "→";
+            position: absolute;
+            right: 18px;
+            top: 18px;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .manu:hover::after {
+            opacity: 1;
+            transform: translateX(6px);
+        }
+
+        /* ================= REVIEWS (REDESIGNED) ================= */
+        .reviews-section {
+            background: #f8f9fb;
+            padding: 7rem 1.5rem;
+        }
+
+        .reviews-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .testimonial {
+            background: #fff;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .testimonial:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .testimonial::before {
+            content: """;
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            font-size: 5rem;
+            color: var(--accent);
+            opacity: 0.15;
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+
+        .testimonial-content {
+            position: relative;
+            z-index: 1;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+            color: #333;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--steel), var(--blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .author-info {
+            flex: 1;
+        }
+
+        .author-name {
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 0.2rem;
+        }
+
+        .author-title {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 300;
+        }
+
+        .stars {
+            color: #ffc107;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        /* ================= CONTACT ================= */
+        .contact {
+            background: #f4f7fb;
+        }
+
+        .contact-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .contact-item {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+        }
+
+        .contact-item strong {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.2rem;
+            color: var(--steel);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        /* ================= FOOTER ================= */
+        footer {
+            background: #081623;
+            color: #aaa;
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+
+        /* ================= RESPONSIVE ================= */
+        @media(max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+            
+            section {
+                padding: 4rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-wrap">
+            <div class="logo">LUNDQUIST SALES</div>
+            <nav>
+                <a href="#">Manufacturers</a>
+                <a href="#">Resources</a>
+                <a href="#">Portal</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <div style="display:flex;align-items:center;">
+                <div class="socials">
+                    <a href="#"><svg viewBox="0 0 24 24"><path d="M22.23 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.21 0 22.23 0z"/></svg></a>
+                    <a href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg></a>
+                    <a href="#"><svg viewBox="0 0 24 24"><polygon points="0,0 24,12 0,24"/></svg></a>
+                </div>
+                <div class="hamburger" onclick="toggleMenu()">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="#">Manufacturers</a>
+            <a href="#">Resources</a>
+            <a href="#">Portal</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-inner">
+            <h1>Engineered Hydronic & Steam Solutions</h1>
+            <p>Delivering value-driven mechanical system expertise across the Intermountain West since 1977.</p>
+            <a href="#contact" class="cta">Start a Project</a>
+        </div>
+    </section>
+
+    <!-- NEW STATS SECTION -->
+    <section class="stats-section">
+        <div class="stats-container">
+            <div class="stat-item">
+                <span class="stat-number">47+</span>
+                <span class="stat-label">Years of Excellence</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">2,500+</span>
+                <span class="stat-label">Projects Completed</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">50+</span>
+                <span class="stat-label">Manufacturer Partners</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">24/7</span>
+                <span class="stat-label">Technical Support</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="sky">
+        <div class="section-title"><h2>How We Add Value</h2></div>
+        <div class="services">
+            <div class="service">
+                <h3>Engineered Products</h3>
+                <p>Bid & spec collaboration with consulting engineers and contractors.</p>
+            </div>
+            <div class="service">
+                <h3>Wholesale Distribution</h3>
+                <p>Strategic stocking and rapid fulfillment across the region.</p>
+            </div>
+            <div class="service">
+                <h3>Energy Services</h3>
+                <p>Retrofits, system audits, and turnkey mechanical upgrades.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="projects">
+        <div class="section-title"><h2 style="color:#fff;">Featured Projects</h2></div>
+        <div class="project-strip">
+            <div class="project"><img src="https://images.unsplash.com/photo-1503389152951-9f343605f61c"><div>Commercial Mechanical Room</div></div>
+            <div class="project"><img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5"><div>Hydronic System Installation</div></div>
+            <div class="project"><img src="https://images.unsplash.com/photo-1581091012184-7d1a7e6f0b63"><div>Energy Retrofit Project</div></div>
+            <div class="project"><img src="https://images.unsplash.com/photo-1581093588401-e2f95ef479c4"><div>Boiler Upgrade</div></div>
+        </div>
+    </section>
+
+    <section class="dark">
+        <div class="section-title"><h2 style="color:#fff;">Manufacturers & Products</h2></div>
+        <div class="manufacturer-grid">
+            <a class="manu" href="https://www.rehau.com/us-en/mechanicalplumbing/technologies/radiantallfh" target="_blank">Rehau</a>
+            <a class="manu" href="https://125c2e47-7dd4-4d72-b8de-a495fc9fae13.filesusr.com/ugd/1d9b54_65c884e84897481a88a65c8ea8151e4d.pdf" target="_blank">NBS Pump</a>
+            <a class="manu" href="https://product-selection.grundfos.com/us/products/hydro-mpc?tab=products" target="_blank">Grundfos</a>
+            <a class="manu" href="https://www.alfalaval.us/" target="_blank">Alfa Laval</a>
+            <a class="manu" href="https://www.raypak.com/products/commercial/hydronic-boilers/xvers-hydronic-boiler-powered-by-kor/" target="_blank">XVers KOR</a>
+            <a class="manu" href="https://www.spirotherm.com/Spirocombi-Magnet" target="_blank">Spiro Combi</a>
+            <div class="manu">Future Product</div>
+            <div class="manu">Future Product</div>
+        </div>
+    </section>
+
+    <!-- REDESIGNED REVIEWS SECTION -->
+    <section class="reviews-section">
+        <div class="reviews-container">
+            <div class="section-title"><h2>Client Testimonials</h2></div>
+            <div class="reviews-grid">
+                <div class="testimonial">
+                    <p class="testimonial-content">"Lundquist Sales has been instrumental in our large-scale commercial projects. Their technical expertise and product knowledge are unmatched. The team goes above and beyond to ensure we have the right solutions delivered on time."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">JM</div>
+                        <div class="author-info">
+                            <div class="author-name">Jacob Morrison</div>
+                            <div class="author-title">Project Manager, Summit Construction</div>
+                            <div class="stars">★★★★★</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-content">"Working with Lundquist has transformed how we approach hydronic systems. Their engineering support during the bid phase is invaluable, and they consistently deliver innovative solutions that exceed our clients' expectations."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">GR</div>
+                        <div class="author-info">
+                            <div class="author-name">Greg Reynolds</div>
+                            <div class="author-title">Mechanical Engineer, Apex Design Group</div>
+                            <div class="stars">★★★★★</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-content">"The energy retrofit services from Lundquist Sales have helped us achieve significant cost savings. Their team conducted a thorough audit and implemented a comprehensive solution that reduced our energy consumption by 35%."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">BT</div>
+                        <div class="author-info">
+                            <div class="author-name">Blake Thompson</div>
+                            <div class="author-title">Facilities Director, Mountain View Hospital</div>
+                            <div class="stars">★★★★★</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <div class="section-title"><h2>Contact Us</h2></div>
+        <div class="contact-grid">
+            <div class="contact-item">
+                <strong>Address</strong>
+                2425 S Progress Drive<br>
+                Salt Lake City, UT
+            </div>
+            <div class="contact-item">
+                <strong>Phone</strong>
+                801-487-5700
+            </div>
+            <div class="contact-item">
+                <strong>Email</strong>
+                sales@lundquistsales.com
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        © Lundquist Sales, Inc. | Serving the Intermountain West Since 1977
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const m = document.getElementById("mobileMenu");
+            m.style.display = m.style.display === "block" ? "none" : "block";
+        }
+    </script>
+</body>
+</html>
