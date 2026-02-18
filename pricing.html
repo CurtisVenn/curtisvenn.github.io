@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
+    /* ─── Variables ─── */
     :root {
       --ink:     #0d0d0d;
       --paper:   #f5f0e8;
@@ -31,7 +32,7 @@
       cursor: none;
     }
 
-    /* Grain */
+    /* ─── Grain Overlay ─── */
     body::before {
       content: '';
       position: fixed; inset: 0;
@@ -41,7 +42,7 @@
       z-index: 9997;
     }
 
-    /* Cursor */
+    /* ─── Cursor ─── */
     .cursor-dot {
       width: 6px; height: 6px;
       background: var(--warm); border-radius: 50%;
@@ -55,12 +56,12 @@
       position: fixed; top: 0; left: 0;
       pointer-events: none; z-index: 9998;
       transform: translate(-50%, -50%);
-      transition: transform 0.18s ease, width 0.25s, height 0.25s, border-color 0.25s;
+      transition: width 0.25s, height 0.25s, border-color 0.25s;
     }
     body:has(a:hover) .cursor-ring,
     body:has(button:hover) .cursor-ring { width: 54px; height: 54px; border-color: var(--warm); }
 
-    /* Typography */
+    /* ─── Typography ─── */
     h1, h2, h3, h4, .serif { font-family: 'Cormorant Garamond', serif; }
     h1 { font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 300; line-height: 1; letter-spacing: -0.02em; }
     h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 300; }
@@ -152,101 +153,62 @@
       opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
     }
 
-    /* ─── Section ─── */
-    .section-header {
-      display: flex; align-items: baseline; gap: 1.5rem; margin-bottom: 3rem;
-    }
+    /* ─── Section Headers ─── */
+    .section-header { display: flex; align-items: baseline; gap: 1.5rem; margin-bottom: 3rem; }
     .section-label { font-size: 0.62rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--warm); white-space: nowrap; }
     .section-label-line { flex: 1; height: 1px; background: linear-gradient(to right, rgba(201,169,110,0.4), transparent); }
     .section-num { font-family: 'Cormorant Garamond', serif; font-size: 0.9rem; font-style: italic; color: rgba(253,250,245,0.2); white-space: nowrap; }
 
-    /* ─── Pricing Sections ─── */
+    /* ─── Pricing Section Wrapper ─── */
     .pricing-section { padding: 5rem 3rem; max-width: 1300px; margin: 0 auto; }
     .pricing-section + .pricing-section { border-top: 1px solid rgba(201,169,110,0.08); }
 
+    /* ─── Pricing Grids ─── */
     .pricing-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1.5px;
       background: rgba(201,169,110,0.08);
     }
-
-    /* Featured: 2 columns */
     .pricing-grid.two-col { grid-template-columns: repeat(2, 1fr); max-width: 860px; }
 
+    /* ─── Price Cards ─── */
     .price-card {
-      background: #111109;
-      padding: 2.8rem 2.4rem;
+      background: #111109; padding: 2.8rem 2.4rem;
       position: relative; overflow: hidden;
       transition: background 0.4s;
       display: flex; flex-direction: column;
     }
     .price-card:hover { background: #171612; }
-    .price-card.featured {
-      background: var(--mid);
-    }
+    .price-card.featured { background: var(--mid); }
     .price-card.featured:hover { background: #46403a; }
     .price-card.featured::before {
       content: 'Most Popular';
       position: absolute; top: 1.2rem; right: 1.2rem;
       font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--ink); background: var(--warm);
-      padding: 0.3rem 0.75rem;
+      color: var(--ink); background: var(--warm); padding: 0.3rem 0.75rem;
     }
-
-    /* Decorative corner accent */
     .price-card::after {
-      content: '';
-      position: absolute; top: 0; left: 0;
-      width: 3px; height: 0;
-      background: var(--warm);
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 3px; height: 0; background: var(--warm);
       transition: height 0.4s ease;
     }
     .price-card:hover::after { height: 100%; }
     .price-card.featured::after { height: 100%; }
-
-    .card-tier {
-      font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase;
-      color: var(--warm); margin-bottom: 1.25rem;
-    }
-    .card-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.7rem; font-weight: 400;
-      margin-bottom: 0.5rem; line-height: 1.1;
-    }
-    .card-price {
-      display: flex; align-items: baseline; gap: 0.3rem;
-      margin-bottom: 0.4rem;
-    }
-    .price-amount {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 3.2rem; font-weight: 300; line-height: 1;
-      color: var(--warm);
-    }
-    .price-currency {
-      font-size: 1.1rem; color: var(--warm); align-self: flex-start; margin-top: 0.5rem;
-    }
-    .price-note {
-      font-size: 0.65rem; letter-spacing: 0.08em;
-      color: rgba(253,250,245,0.35); margin-bottom: 2rem;
-    }
-    .card-divider {
-      height: 1px; background: rgba(201,169,110,0.15); margin-bottom: 2rem;
-    }
-    .card-features {
-      list-style: none; display: flex; flex-direction: column; gap: 0.85rem;
-      flex: 1; margin-bottom: 2rem;
-    }
-    .card-features li {
-      display: flex; align-items: flex-start; gap: 0.75rem;
-      font-size: 0.8rem; line-height: 1.5;
-      color: rgba(253,250,245,0.7);
-    }
-    .card-features li i {
-      color: var(--warm); font-size: 0.6rem; margin-top: 0.3rem; flex-shrink: 0;
-    }
+    .card-tier { font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--warm); margin-bottom: 1.25rem; }
+    .card-name { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; font-weight: 400; margin-bottom: 0.5rem; line-height: 1.1; }
+    .card-price { display: flex; align-items: baseline; gap: 0.3rem; margin-bottom: 0.4rem; }
+    .price-amount { font-family: 'Cormorant Garamond', serif; font-size: 3.2rem; font-weight: 300; line-height: 1; color: var(--warm); }
+    .price-currency { font-size: 1.1rem; color: var(--warm); align-self: flex-start; margin-top: 0.5rem; }
+    .price-range-suffix { font-size: 1rem; color: var(--muted); align-self: flex-end; padding-bottom: 0.4rem; }
+    .price-range-suffix.lt { color: var(--warm-lt); }
+    .price-note { font-size: 0.65rem; letter-spacing: 0.08em; color: rgba(253,250,245,0.35); margin-bottom: 2rem; }
+    .card-divider { height: 1px; background: rgba(201,169,110,0.15); margin-bottom: 2rem; }
+    .card-features { list-style: none; display: flex; flex-direction: column; gap: 0.85rem; flex: 1; margin-bottom: 2rem; }
+    .card-features li { display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.8rem; line-height: 1.5; color: rgba(253,250,245,0.7); }
+    .card-features li i { color: var(--warm); font-size: 0.55rem; margin-top: 0.35rem; flex-shrink: 0; }
     .card-features li.muted { color: rgba(253,250,245,0.28); }
-    .card-features li.muted i { color: rgba(253,250,245,0.2); }
+    .card-features li.muted i { color: rgba(253,250,245,0.18); }
     .card-cta {
       display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem;
       padding: 0.9rem 2rem; text-decoration: none;
@@ -257,9 +219,46 @@
     }
     .card-cta:hover { background: var(--warm); color: var(--ink); border-color: var(--warm); }
     .card-cta.cta-solid { background: var(--warm); color: var(--ink); border-color: var(--warm); }
-    .card-cta.cta-solid:hover { background: var(--warm-lt); }
+    .card-cta.cta-solid:hover { background: var(--warm-lt); border-color: var(--warm-lt); }
 
-    /* ─── Add-ons ─── */
+    /* ─── Rate Banner ─── */
+    .rate-banner {
+      background: #111109;
+      border: 1px solid rgba(201,169,110,0.12);
+      padding: 2.5rem 2.8rem;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 2rem; flex-wrap: wrap;
+      position: relative; overflow: hidden;
+    }
+    .rate-banner::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 3px; height: 100%; background: var(--warm);
+    }
+    .rate-banner-left { display: flex; flex-direction: column; gap: 0.6rem; }
+    .rate-label { font-size: 0.58rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--warm); }
+    .rate-display { display: flex; align-items: baseline; gap: 0.6rem; }
+    .rate-range {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 300; line-height: 1; color: var(--white);
+    }
+    .rate-range em { font-style: normal; color: var(--warm); margin: 0 0.3rem; }
+    .rate-unit { font-size: 0.8rem; color: rgba(253,250,245,0.4); letter-spacing: 0.08em; }
+    .rate-note { font-size: 0.75rem; color: rgba(253,250,245,0.4); line-height: 1.6; max-width: 360px; }
+    .rate-note strong { color: var(--warm); font-weight: 500; }
+    .rate-banner-right { display: flex; align-items: center; gap: 2rem; }
+    .rate-stat { text-align: center; }
+    .rate-stat strong { display: block; font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; color: var(--warm); line-height: 1; }
+    .rate-stat span { font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(253,250,245,0.3); }
+    .rate-divider { width: 1px; height: 36px; background: rgba(201,169,110,0.2); }
+
+    /* ─── Retainer Strip ─── */
+    .web-retainer { background: rgba(201,169,110,0.04); border: 1px solid rgba(201,169,110,0.12); border-top: none; }
+    .web-retainer-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; padding: 2rem 2.8rem; }
+    .retainer-label { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 400; color: var(--warm-lt); margin-bottom: 0.4rem; }
+    .retainer-desc { font-size: 0.76rem; line-height: 1.7; color: rgba(253,250,245,0.4); max-width: 520px; }
+
+    /* ─── Add-Ons ─── */
     .addons-wrap {
       background: #0a0a08;
       border-top: 1px solid rgba(201,169,110,0.08);
@@ -267,125 +266,62 @@
       padding: 5rem 3rem;
     }
     .addons-inner { max-width: 1300px; margin: 0 auto; }
-    .addons-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5px;
-      background: rgba(201,169,110,0.07);
-    }
-    .addon-item {
-      background: #0f0f0d;
-      padding: 1.8rem 1.6rem;
-      display: flex; flex-direction: column; gap: 0.5rem;
-      transition: background 0.3s;
-    }
+    .addons-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5px; background: rgba(201,169,110,0.07); }
+    .addon-item { background: #0f0f0d; padding: 1.8rem 1.6rem; display: flex; flex-direction: column; gap: 0.5rem; transition: background 0.3s; }
     .addon-item:hover { background: #161410; }
     .addon-icon { color: var(--warm); font-size: 1rem; margin-bottom: 0.3rem; }
-    .addon-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.15rem; font-weight: 400;
-    }
-    .addon-price {
-      font-size: 0.75rem; color: var(--warm); letter-spacing: 0.06em;
-    }
+    .addon-name { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 400; }
+    .addon-price { font-size: 0.75rem; color: var(--warm); letter-spacing: 0.06em; }
     .addon-desc { font-size: 0.72rem; color: rgba(253,250,245,0.4); line-height: 1.6; }
+
+    /* ─── Note Band ─── */
+    .note-band { background: var(--mid); border-top: 1px solid rgba(201,169,110,0.12); border-bottom: 1px solid rgba(201,169,110,0.12); padding: 4rem 3rem; text-align: center; }
+    .note-inner { max-width: 700px; margin: 0 auto; }
+    .note-inner p { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.1rem, 2.5vw, 1.5rem); font-weight: 300; line-height: 1.8; color: var(--warm-lt); }
+    .note-inner p em { font-style: italic; color: var(--warm); }
 
     /* ─── FAQ ─── */
     .faq-wrap { padding: 5rem 3rem; max-width: 900px; margin: 0 auto; }
-    .faq-item {
-      border-bottom: 1px solid rgba(201,169,110,0.1);
-    }
+    .faq-item { border-bottom: 1px solid rgba(201,169,110,0.1); }
     .faq-q {
       width: 100%; background: none; border: none; cursor: none;
       text-align: left; padding: 1.6rem 0;
       display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.2rem; font-weight: 400; color: var(--white);
+      font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 400; color: var(--white);
       transition: color 0.25s;
     }
     .faq-q:hover { color: var(--warm); }
-    .faq-q i {
-      color: var(--warm); font-size: 0.7rem; flex-shrink: 0;
-      transition: transform 0.35s;
-    }
+    .faq-q i { color: var(--warm); font-size: 0.7rem; flex-shrink: 0; transition: transform 0.35s; }
     .faq-q.open i { transform: rotate(45deg); }
-    .faq-a {
-      font-size: 0.82rem; line-height: 1.9;
-      color: rgba(253,250,245,0.5);
-      max-height: 0; overflow: hidden;
-      transition: max-height 0.45s ease, padding 0.35s;
-    }
+    .faq-a { font-size: 0.82rem; line-height: 1.9; color: rgba(253,250,245,0.5); max-height: 0; overflow: hidden; transition: max-height 0.45s ease, padding 0.35s; }
     .faq-a.open { max-height: 300px; padding-bottom: 1.6rem; }
 
-    /* ─── Note Band ─── */
-    .note-band {
-      background: var(--mid);
-      border-top: 1px solid rgba(201,169,110,0.12);
-      border-bottom: 1px solid rgba(201,169,110,0.12);
-      padding: 4rem 3rem; text-align: center;
-    }
-    .note-inner { max-width: 700px; margin: 0 auto; }
-    .note-inner p {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-      font-weight: 300; line-height: 1.8;
-      color: var(--warm-lt);
-    }
-    .note-inner p em { font-style: italic; color: var(--warm); }
-
-    /* ─── Contact CTA ─── */
-    .contact-band {
-      background: var(--ink); padding: 6rem 3rem; text-align: center;
-    }
+    /* ─── Contact Band ─── */
+    .contact-band { background: var(--ink); padding: 6rem 3rem; text-align: center; }
     .contact-inner { max-width: 600px; margin: 0 auto; }
     .contact-eyebrow {
       font-size: 0.62rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--warm);
-      display: flex; align-items: center; justify-content: center; gap: 0.75rem;
-      margin-bottom: 1.5rem;
+      display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 1.5rem;
     }
     .contact-eyebrow::before, .contact-eyebrow::after { content: ''; display: block; width: 40px; height: 1px; background: var(--warm); }
     .contact-inner h2 { margin-bottom: 1rem; }
     .contact-inner p { font-size: 0.82rem; line-height: 1.8; color: rgba(253,250,245,0.45); margin-bottom: 2.5rem; }
-    .btn-primary {
-      display: inline-flex; align-items: center; gap: 0.6rem;
-      background: var(--warm); color: var(--ink);
-      padding: 1rem 2.5rem;
-      font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase;
-      text-decoration: none; font-weight: 500;
-      transition: background 0.3s, transform 0.2s;
-    }
-    .btn-primary:hover { background: var(--warm-lt); transform: translateY(-1px); }
-    .btn-ghost {
-      display: inline-flex; align-items: center; gap: 0.6rem;
-      border: 1px solid rgba(253,250,245,0.2); color: var(--white);
-      padding: 1rem 2.5rem;
-      font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase;
-      text-decoration: none;
-      transition: border-color 0.3s, transform 0.2s;
-    }
-    .btn-ghost:hover { border-color: var(--warm); transform: translateY(-1px); }
     .contact-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 0.6rem; background: var(--warm); color: var(--ink); padding: 1rem 2.5rem; font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none; font-weight: 500; transition: background 0.3s, transform 0.2s; }
+    .btn-primary:hover { background: var(--warm-lt); transform: translateY(-1px); }
+    .btn-ghost { display: inline-flex; align-items: center; gap: 0.6rem; border: 1px solid rgba(253,250,245,0.2); color: var(--white); padding: 1rem 2.5rem; font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none; transition: border-color 0.3s, transform 0.2s; }
+    .btn-ghost:hover { border-color: var(--warm); transform: translateY(-1px); }
 
     /* ─── Footer ─── */
-    footer {
-      background: #070707;
-      border-top: 1px solid rgba(201,169,110,0.1);
-      padding: 3rem;
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 1.5rem;
-    }
-    .footer-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.2rem; letter-spacing: 0.1em;
-      color: rgba(253,250,245,0.5); text-transform: uppercase;
-    }
+    footer { background: #070707; border-top: 1px solid rgba(201,169,110,0.1); padding: 3rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; }
+    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; letter-spacing: 0.1em; color: rgba(253,250,245,0.5); text-transform: uppercase; }
     .footer-logo span { color: var(--warm); }
     .footer-copy { font-size: 0.65rem; letter-spacing: 0.12em; color: rgba(253,250,245,0.2); }
     .footer-social { display: flex; gap: 1.2rem; }
     .footer-social a { color: rgba(253,250,245,0.3); font-size: 0.85rem; transition: color 0.25s; }
     .footer-social a:hover { color: var(--warm); }
 
-    /* ─── Keyframes ─── */
+    /* ─── Animations & Reveals ─── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(24px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -397,15 +333,22 @@
     .reveal-delay-3 { transition-delay: 0.3s; }
 
     /* ─── Responsive ─── */
-    @media (max-width: 900px) {
-      .pricing-grid { grid-template-columns: 1fr; }
-      .pricing-grid.two-col { grid-template-columns: 1fr; max-width: 100%; }
+    @media (max-width: 960px) {
+      .pricing-grid, .pricing-grid.two-col { grid-template-columns: 1fr; max-width: 100%; }
+      .rate-banner { flex-direction: column; align-items: flex-start; }
+      .rate-banner-right { flex-wrap: wrap; }
+    }
+    @media (max-width: 768px) {
       .nav-links, .nav-social, .nav-divider { display: none; }
       .hamburger { display: flex; }
       nav { padding: 1.25rem 1.5rem; }
       .page-hero { padding: 10rem 1.5rem 4rem; }
-      .pricing-section, .faq-wrap, .addons-wrap, .contact-band, .note-band { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .pricing-section { padding: 4rem 1.5rem; }
+      .faq-wrap, .addons-wrap, .contact-band, .note-band { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .addons-inner { padding: 0; }
+      .web-retainer-inner { flex-direction: column; }
       footer { flex-direction: column; align-items: center; text-align: center; }
+      .contact-btns { flex-direction: column; align-items: center; }
     }
   </style>
 </head>
@@ -414,7 +357,7 @@
   <div class="cursor-dot" id="cursorDot"></div>
   <div class="cursor-ring" id="cursorRing"></div>
 
-  <!-- Navbar -->
+  <!-- ─── Navbar ─── -->
   <nav>
     <a href="index.html" class="nav-logo">Curtis <span>Venn</span></a>
     <div class="nav-links">
@@ -424,14 +367,15 @@
       <a href="index.html#product">Product</a>
       <a href="about.html">About</a>
       <a href="pricing.html" class="active">Pricing</a>
+      <a href="resumebuilder.html">Resume Builder</a>
       <a href="index.html#contact">Contact</a>
     </div>
     <div class="nav-social">
       <div class="nav-divider"></div>
-      <a href="https://www.instagram.com/curtis_venn/" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="https://www.linkedin.com/in/curtis-venn" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="https://www.instagram.com/curtis_venn/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.linkedin.com/in/curtis-venn" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
     </div>
-    <button class="hamburger" id="hamburger">
+    <button class="hamburger" id="hamburger" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
   </nav>
@@ -441,7 +385,10 @@
     <a href="index.html" class="mobile-link">Home</a>
     <a href="index.html#portraits" class="mobile-link">Portraits</a>
     <a href="index.html#landscapes" class="mobile-link">Landscapes</a>
+    <a href="index.html#vehicles" class="mobile-link">Vehicles</a>
+    <a href="index.html#product" class="mobile-link">Product</a>
     <a href="pricing.html" class="mobile-link">Pricing</a>
+    <a href="resumebuilder.html" class="mobile-link">Resume Builder</a>
     <a href="index.html#contact" class="mobile-link">Contact</a>
   </div>
 
@@ -452,11 +399,13 @@
     <div class="page-hero-inner">
       <div class="page-eyebrow">Transparent Pricing</div>
       <h1>Invest in<br><em>Great Work</em></h1>
-      <p class="page-hero-sub">Every package is crafted to deliver high-impact imagery with a seamless, professional experience from first contact to final delivery.</p>
+      <p class="page-hero-sub">Every package is crafted to deliver high-impact results with a seamless, professional experience from first contact to final delivery.</p>
     </div>
   </div>
 
-  <!-- ─── Portraits Pricing ─── -->
+  <!-- ══════════════════════════════════════════════
+       01 — PORTRAITS
+  ══════════════════════════════════════════════ -->
   <div class="pricing-section reveal">
     <div class="section-header">
       <span class="section-label">Portraits</span>
@@ -464,14 +413,11 @@
       <span class="section-num">01</span>
     </div>
     <div class="pricing-grid">
-      <!-- Essential -->
+
       <div class="price-card reveal reveal-delay-1">
         <div class="card-tier">Essential</div>
         <div class="card-name">The Quick Session</div>
-        <div class="card-price">
-          <span class="price-currency">$</span>
-          <span class="price-amount">199</span>
-        </div>
+        <div class="card-price"><span class="price-currency">$</span><span class="price-amount">199</span></div>
         <p class="price-note">Single subject · Outdoor location</p>
         <div class="card-divider"></div>
         <ul class="card-features">
@@ -485,14 +431,11 @@
         </ul>
         <a href="mailto:curtis.hi95@gmail.com?subject=Portrait Session Inquiry – Essential" class="card-cta">Book This <i class="fas fa-arrow-right"></i></a>
       </div>
-      <!-- Signature -->
+
       <div class="price-card featured reveal reveal-delay-2">
         <div class="card-tier">Signature</div>
         <div class="card-name">The Full Session</div>
-        <div class="card-price">
-          <span class="price-currency">$</span>
-          <span class="price-amount">349</span>
-        </div>
+        <div class="card-price"><span class="price-currency">$</span><span class="price-amount">349</span></div>
         <p class="price-note">Single or couple · Multi-location</p>
         <div class="card-divider"></div>
         <ul class="card-features">
@@ -506,14 +449,11 @@
         </ul>
         <a href="mailto:curtis.hi95@gmail.com?subject=Portrait Session Inquiry – Signature" class="card-cta cta-solid">Book This <i class="fas fa-arrow-right"></i></a>
       </div>
-      <!-- Premium -->
+
       <div class="price-card reveal reveal-delay-3">
         <div class="card-tier">Premium</div>
         <div class="card-name">The Extended Experience</div>
-        <div class="card-price">
-          <span class="price-currency">$</span>
-          <span class="price-amount">599</span>
-        </div>
+        <div class="card-price"><span class="price-currency">$</span><span class="price-amount">599</span></div>
         <p class="price-note">Families & groups · Full experience</p>
         <div class="card-divider"></div>
         <ul class="card-features">
@@ -527,10 +467,13 @@
         </ul>
         <a href="mailto:curtis.hi95@gmail.com?subject=Portrait Session Inquiry – Premium" class="card-cta">Book This <i class="fas fa-arrow-right"></i></a>
       </div>
+
     </div>
   </div>
 
-  <!-- ─── Automotive Pricing ─── -->
+  <!-- ══════════════════════════════════════════════
+       02 — AUTOMOTIVE
+  ══════════════════════════════════════════════ -->
   <div class="pricing-section reveal">
     <div class="section-header">
       <span class="section-label">Automotive</span>
@@ -538,13 +481,11 @@
       <span class="section-num">02</span>
     </div>
     <div class="pricing-grid">
+
       <div class="price-card reveal reveal-delay-1">
         <div class="card-tier">Private Seller</div>
         <div class="card-name">The Listing Package</div>
-        <div class="card-price">
-          <span class="price-currency">$</span>
-          <span class="price-amount">149</span>
-        </div>
+        <div class="card-price"><span class="price-currency">$</span><span class="price-amount">149</span></div>
         <p class="price-note">1 vehicle · Clean exterior shots</p>
         <div class="card-divider"></div>
         <ul class="card-features">
@@ -556,13 +497,11 @@
         </ul>
         <a href="mailto:curtis.hi95@gmail.com?subject=Automotive Inquiry – Listing Package" class="card-cta">Book This <i class="fas fa-arrow-right"></i></a>
       </div>
+
       <div class="price-card featured reveal reveal-delay-2">
         <div class="card-tier">Enthusiast</div>
         <div class="card-name">The Showcase Package</div>
-        <div class="card-price">
-          <span class="price-currency">$</span>
-          <span class="price-amount">349</span>
-        </div>
+        <div class="card-price"><span class="price-currency">$</span><span class="price-amount">349</span></div>
         <p class="price-note">1 vehicle · Dynamic & static</p>
         <div class="card-divider"></div>
         <ul class="card-features">
@@ -575,30 +514,31 @@
         </ul>
         <a href="mailto:curtis.hi95@gmail.com?subject=Automotive Inquiry – Showcase Package" class="card-cta cta-solid">Book This <i class="fas fa-arrow-right"></i></a>
       </div>
+
       <div class="price-card reveal reveal-delay-3">
         <div class="card-tier">Commercial</div>
         <div class="card-name">The Brand Package</div>
-        <div class="card-price">
-          <span class="price-currency">$</span>
-          <span class="price-amount">699</span>
-        </div>
+        <div class="card-price"><span class="price-currency">$</span><span class="price-amount">699</span></div>
         <p class="price-note">Dealerships & brands · Multi-vehicle</p>
         <div class="card-divider"></div>
         <ul class="card-features">
           <li><i class="fas fa-circle"></i> Up to 3 vehicles</li>
           <li><i class="fas fa-circle"></i> Half-day on-location shoot</li>
           <li><i class="fas fa-circle"></i> 60+ edited images</li>
-          <li><i class="fas fa-circle"></i> Lifestyle & lifestyle-context shots</li>
+          <li><i class="fas fa-circle"></i> Static & lifestyle-context shots</li>
           <li><i class="fas fa-circle"></i> Commercial use license</li>
           <li><i class="fas fa-circle"></i> Priority delivery</li>
           <li><i class="fas fa-circle"></i> Social media crops included</li>
         </ul>
         <a href="mailto:curtis.hi95@gmail.com?subject=Automotive Inquiry – Brand Package" class="card-cta">Book This <i class="fas fa-arrow-right"></i></a>
       </div>
+
     </div>
   </div>
 
-  <!-- ─── Product Pricing ─── -->
+  <!-- ══════════════════════════════════════════════
+       03 — PRODUCT & COMMERCIAL
+  ══════════════════════════════════════════════ -->
   <div class="pricing-section reveal">
     <div class="section-header">
       <span class="section-label">Product & Commercial</span>
@@ -606,13 +546,11 @@
       <span class="section-num">03</span>
     </div>
     <div class="pricing-grid two-col">
+
       <div class="price-card reveal reveal-delay-1">
         <div class="card-tier">E-Commerce</div>
         <div class="card-name">The Product Launch</div>
-        <div class="card-price">
-          <span class="price-currency">$</span>
-          <span class="price-amount">299</span>
-        </div>
+        <div class="card-price"><span class="price-currency">$</span><span class="price-amount">299</span></div>
         <p class="price-note">Up to 5 products · White background</p>
         <div class="card-divider"></div>
         <ul class="card-features">
@@ -625,13 +563,11 @@
         </ul>
         <a href="mailto:curtis.hi95@gmail.com?subject=Product Photography Inquiry – E-Commerce" class="card-cta">Book This <i class="fas fa-arrow-right"></i></a>
       </div>
+
       <div class="price-card featured reveal reveal-delay-2">
         <div class="card-tier">Brand Campaign</div>
         <div class="card-name">The Brand Shoot</div>
-        <div class="card-price">
-          <span class="price-currency">$</span>
-          <span class="price-amount">599</span>
-        </div>
+        <div class="card-price"><span class="price-currency">$</span><span class="price-amount">599</span></div>
         <p class="price-note">Up to 10 products · Lifestyle + studio</p>
         <div class="card-divider"></div>
         <ul class="card-features">
@@ -645,10 +581,13 @@
         </ul>
         <a href="mailto:curtis.hi95@gmail.com?subject=Product Photography Inquiry – Brand Campaign" class="card-cta cta-solid">Book This <i class="fas fa-arrow-right"></i></a>
       </div>
+
     </div>
   </div>
 
-  <!-- ─── Landscape ─── -->
+  <!-- ══════════════════════════════════════════════
+       04 — LANDSCAPE & FINE ART
+  ══════════════════════════════════════════════ -->
   <div class="pricing-section reveal">
     <div class="section-header">
       <span class="section-label">Landscape & Fine Art</span>
@@ -656,13 +595,11 @@
       <span class="section-num">04</span>
     </div>
     <div class="pricing-grid two-col">
+
       <div class="price-card reveal reveal-delay-1">
         <div class="card-tier">Digital License</div>
         <div class="card-name">Stock & Editorial</div>
-        <div class="card-price">
-          <span class="price-currency">$</span>
-          <span class="price-amount">75</span>
-        </div>
+        <div class="card-price"><span class="price-currency">$</span><span class="price-amount">75</span></div>
         <p class="price-note">Per image · Digital use</p>
         <div class="card-divider"></div>
         <ul class="card-features">
@@ -675,13 +612,11 @@
         </ul>
         <a href="mailto:curtis.hi95@gmail.com?subject=Landscape Licensing Inquiry" class="card-cta">Inquire <i class="fas fa-arrow-right"></i></a>
       </div>
+
       <div class="price-card reveal reveal-delay-2">
         <div class="card-tier">Custom Commission</div>
         <div class="card-name">Bespoke Landscape</div>
-        <div class="card-price">
-          <span class="price-currency">$</span>
-          <span class="price-amount">450</span>
-        </div>
+        <div class="card-price"><span class="price-currency">$</span><span class="price-amount">450</span></div>
         <p class="price-note">Custom shoot · Full day · Utah region</p>
         <div class="card-divider"></div>
         <ul class="card-features">
@@ -694,10 +629,124 @@
         </ul>
         <a href="mailto:curtis.hi95@gmail.com?subject=Custom Landscape Commission Inquiry" class="card-cta">Book This <i class="fas fa-arrow-right"></i></a>
       </div>
+
     </div>
   </div>
 
-  <!-- ─── Note ─── -->
+  <!-- ══════════════════════════════════════════════
+       05 — WEBSITE DESIGN
+  ══════════════════════════════════════════════ -->
+  <div class="pricing-section reveal">
+    <div class="section-header">
+      <span class="section-label">Website Design</span>
+      <div class="section-label-line"></div>
+      <span class="section-num">05</span>
+    </div>
+
+    <!-- Rate Banner -->
+    <div class="rate-banner reveal">
+      <div class="rate-banner-left">
+        <span class="rate-label">Billable Rate</span>
+        <div class="rate-display">
+          <span class="rate-range">$50 <em>—</em> $90</span>
+          <span class="rate-unit">/ hour</span>
+        </div>
+        <p class="rate-note">Rate varies by project complexity. Billed in <strong>8-hour increments.</strong> A scoping call is always free — no obligation.</p>
+      </div>
+      <div class="rate-banner-right">
+        <div class="rate-stat"><strong>8 hrs</strong><span>Min. block</span></div>
+        <div class="rate-divider"></div>
+        <div class="rate-stat"><strong>50%</strong><span>Deposit to start</span></div>
+        <div class="rate-divider"></div>
+        <div class="rate-stat"><strong>100%</strong><span>Custom work</span></div>
+      </div>
+    </div>
+
+    <!-- Package Cards -->
+    <div class="pricing-grid" style="margin-top:1.5px;">
+
+      <div class="price-card reveal reveal-delay-1">
+        <div class="card-tier">Starter</div>
+        <div class="card-name">The Landing Page</div>
+        <div class="card-price">
+          <span class="price-currency">$</span>
+          <span class="price-amount">400</span>
+          <span class="price-range-suffix">– 720</span>
+        </div>
+        <p class="price-note">8-hour block · Single-page site</p>
+        <div class="card-divider"></div>
+        <ul class="card-features">
+          <li><i class="fas fa-circle"></i> Single-page design & build</li>
+          <li><i class="fas fa-circle"></i> Mobile-responsive layout</li>
+          <li><i class="fas fa-circle"></i> Up to 5 sections</li>
+          <li><i class="fas fa-circle"></i> Contact form integration</li>
+          <li><i class="fas fa-circle"></i> Basic SEO setup</li>
+          <li class="muted"><i class="fas fa-circle"></i> CMS / blog not included</li>
+          <li class="muted"><i class="fas fa-circle"></i> Ongoing maintenance not included</li>
+        </ul>
+        <a href="mailto:curtis.hi95@gmail.com?subject=Website Inquiry – Landing Page" class="card-cta">Get a Quote <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <div class="price-card featured reveal reveal-delay-2">
+        <div class="card-tier">Business</div>
+        <div class="card-name">The Multi-Page Site</div>
+        <div class="card-price">
+          <span class="price-currency">$</span>
+          <span class="price-amount">800</span>
+          <span class="price-range-suffix lt">– 1,440</span>
+        </div>
+        <p class="price-note">16-hour block · Full business website</p>
+        <div class="card-divider"></div>
+        <ul class="card-features">
+          <li><i class="fas fa-circle"></i> Up to 6 pages</li>
+          <li><i class="fas fa-circle"></i> Custom design system & branding</li>
+          <li><i class="fas fa-circle"></i> Mobile-responsive throughout</li>
+          <li><i class="fas fa-circle"></i> Contact & inquiry forms</li>
+          <li><i class="fas fa-circle"></i> Image gallery or portfolio section</li>
+          <li><i class="fas fa-circle"></i> SEO foundations + meta tags</li>
+          <li><i class="fas fa-circle"></i> 1 round of revisions included</li>
+        </ul>
+        <a href="mailto:curtis.hi95@gmail.com?subject=Website Inquiry – Multi-Page Site" class="card-cta cta-solid">Get a Quote <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <div class="price-card reveal reveal-delay-3">
+        <div class="card-tier">Premium</div>
+        <div class="card-name">The Full Build</div>
+        <div class="card-price">
+          <span class="price-currency">$</span>
+          <span class="price-amount">1,200</span>
+          <span class="price-range-suffix">– 2,160</span>
+        </div>
+        <p class="price-note">24-hour block · Custom experience</p>
+        <div class="card-divider"></div>
+        <ul class="card-features">
+          <li><i class="fas fa-circle"></i> Up to 10 pages</li>
+          <li><i class="fas fa-circle"></i> Full custom design & animations</li>
+          <li><i class="fas fa-circle"></i> CMS integration (blog, portfolio)</li>
+          <li><i class="fas fa-circle"></i> E-commerce or booking ready</li>
+          <li><i class="fas fa-circle"></i> Advanced SEO & performance tuning</li>
+          <li><i class="fas fa-circle"></i> 2 full rounds of revisions</li>
+          <li><i class="fas fa-circle"></i> Launch support & handoff docs</li>
+        </ul>
+        <a href="mailto:curtis.hi95@gmail.com?subject=Website Inquiry – Full Build" class="card-cta">Get a Quote <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+    </div>
+
+    <!-- Retainer Strip -->
+    <div class="web-retainer reveal" style="margin-top:1.5px;">
+      <div class="web-retainer-inner">
+        <div>
+          <p class="retainer-label">Need ongoing work or something outside a package?</p>
+          <p class="retainer-desc">Hourly retainer blocks available for updates, new features, redesigns, or anything custom. Billed in 8-hour increments at the agreed rate — no surprises.</p>
+        </div>
+        <a href="mailto:curtis.hi95@gmail.com?subject=Website Retainer Inquiry" class="card-cta" style="white-space:nowrap; align-self:center;">Let's Talk <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ─── Note Band ─── -->
   <div class="note-band reveal">
     <div class="note-inner">
       <p>Not sure which package fits? Every project is <em>unique</em> — reach out and I'll put together a custom quote tailored to your exact needs.</p>
@@ -707,7 +756,7 @@
   <!-- ─── Add-Ons ─── -->
   <div class="addons-wrap">
     <div class="addons-inner">
-      <div class="section-header reveal" style="margin-bottom: 2.5rem;">
+      <div class="section-header reveal" style="margin-bottom:2.5rem;">
         <span class="section-label">Add-Ons</span>
         <div class="section-label-line"></div>
         <span class="section-num">À la carte</span>
@@ -755,7 +804,7 @@
 
   <!-- ─── FAQ ─── -->
   <div class="faq-wrap">
-    <div class="section-header reveal" style="margin-bottom: 2rem;">
+    <div class="section-header reveal" style="margin-bottom:2rem;">
       <span class="section-label">Common Questions</span>
       <div class="section-label-line"></div>
       <span class="section-num">FAQ</span>
@@ -766,7 +815,7 @@
     </div>
     <div class="faq-item">
       <button class="faq-q"><span>Do you require a deposit?</span><i class="fas fa-plus"></i></button>
-      <div class="faq-a">Yes — a 50% non-refundable deposit is required to hold your date. The remaining balance is due on the day of the shoot before we begin.</div>
+      <div class="faq-a">Yes — a 50% non-refundable deposit is required to hold your date. The remaining balance is due on the day of the shoot before we begin. For website projects, 50% is due to kick off and the remainder on delivery.</div>
     </div>
     <div class="faq-item">
       <button class="faq-q"><span>What happens if the weather is bad?</span><i class="fas fa-plus"></i></button>
@@ -779,6 +828,10 @@
     <div class="faq-item">
       <button class="faq-q"><span>Can I request specific shots or styles?</span><i class="fas fa-plus"></i></button>
       <div class="faq-a">Absolutely. I encourage every client to share inspiration, mood boards, or reference images before the shoot. The more I understand your vision, the better the final result.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q"><span>What's included in a website project?</span><i class="fas fa-plus"></i></button>
+      <div class="faq-a">Every website project starts with a free scoping call to align on goals, layout, and features. I handle design, build, and delivery — you just need to provide content (copy, logos, images). Hosting and domain setup guidance is included at no extra charge.</div>
     </div>
     <div class="faq-item">
       <button class="faq-q"><span>Do you travel outside Salt Lake City?</span><i class="fas fa-plus"></i></button>
@@ -799,26 +852,28 @@
     </div>
   </div>
 
-  <!-- Footer -->
+  <!-- ─── Footer ─── -->
   <footer>
     <div class="footer-logo">Curtis <span>Venn</span></div>
     <p class="footer-copy">&copy; 2025 Curtis Venn. All rights reserved.</p>
     <div class="footer-social">
-      <a href="https://www.instagram.com/curtis_venn/" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="https://www.linkedin.com/in/curtis-venn" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="https://www.instagram.com/curtis_venn/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.linkedin.com/in/curtis-venn" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
     </div>
   </footer>
 
   <script>
-    /* Cursor */
+    /* ─── Cursor ─── */
     const dot  = document.getElementById('cursorDot');
     const ring = document.getElementById('cursorRing');
     document.addEventListener('mousemove', e => {
-      dot.style.left  = e.clientX + 'px'; dot.style.top  = e.clientY + 'px';
-      ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px';
+      dot.style.left  = e.clientX + 'px';
+      dot.style.top   = e.clientY + 'px';
+      ring.style.left = e.clientX + 'px';
+      ring.style.top  = e.clientY + 'px';
     });
 
-    /* Hamburger */
+    /* ─── Hamburger ─── */
     const hamburger  = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobileMenu');
     hamburger.addEventListener('click', () => {
@@ -832,13 +887,13 @@
       });
     });
 
-    /* Scroll Reveal */
+    /* ─── Scroll Reveal ─── */
     const observer = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
     }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    /* FAQ Accordion */
+    /* ─── FAQ Accordion ─── */
     document.querySelectorAll('.faq-q').forEach(btn => {
       btn.addEventListener('click', () => {
         const isOpen = btn.classList.contains('open');
