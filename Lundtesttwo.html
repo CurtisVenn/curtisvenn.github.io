@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lundquist Sales | Engineered Hydronic & Steam Solutions</title>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --navy: #0c1f33;
-            --steel: #1f4e79;
-            --sky: #eef3f8;
-            --slate: #1a2d42;
-            --accent: #ff6b00;
+            --navy: #0a1929;
+            --steel: #1e3a5f;
+            --sky: #e8f1f8;
+            --slate: #152238;
+            --accent: #ff6b35;
             --blue: #0077cc;
-            --tech-grid: #1a3a5a;
+            --gold: #f4a261;
         }
 
         * {
@@ -23,9 +23,9 @@
         }
 
         body {
-            font-family: 'Work Sans', sans-serif;
+            font-family: 'Barlow', sans-serif;
             line-height: 1.6;
-            color: #111;
+            color: #1a1a1a;
             overflow-x: hidden;
             background: #fff;
         }
@@ -41,46 +41,69 @@
         }
 
         section {
-            padding: 7rem 1.5rem;
             position: relative;
         }
 
-        /* ================= NAV ================= */
+        /* ================= NAVIGATION ================= */
         header {
-            position: sticky;
+            position: fixed;
             top: 0;
-            background: rgba(12, 31, 51, 0.95);
-            backdrop-filter: blur(10px);
+            left: 0;
+            right: 0;
+            background: rgba(10, 25, 41, 0.98);
+            backdrop-filter: blur(12px);
             color: #fff;
             z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
 
         .nav-wrap {
-            max-width: 1300px;
+            max-width: 1400px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.2rem 1.5rem;
+            padding: 1rem 2rem;
         }
 
         .logo {
             font-family: 'Rajdhani', sans-serif;
             font-weight: 700;
-            letter-spacing: 3px;
-            font-size: 1.3rem;
+            letter-spacing: 4px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent), var(--gold));
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
         }
 
         nav {
             display: flex;
-            gap: 2rem;
+            gap: 2.5rem;
             font-weight: 500;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
         }
 
         nav a {
             position: relative;
-            opacity: 0.85;
+            opacity: 0.9;
             transition: opacity 0.3s ease;
         }
 
@@ -92,7 +115,7 @@
             content: "";
             position: absolute;
             left: 0;
-            bottom: -6px;
+            bottom: -8px;
             width: 0;
             height: 2px;
             background: var(--accent);
@@ -103,55 +126,50 @@
             width: 100%;
         }
 
-        .socials {
-            display: flex;
-            gap: 1rem;
-            margin-left: 2rem;
-        }
-
-        .socials svg {
-            width: 20px;
-            height: 20px;
-            fill: #fff;
-            opacity: 0.7;
+        .nav-cta {
+            padding: 0.6rem 1.5rem;
+            background: var(--accent);
+            border-radius: 6px;
+            font-weight: 600;
             transition: all 0.3s ease;
         }
 
-        .socials svg:hover {
-            opacity: 1;
-            transform: translateY(-3px);
+        .nav-cta:hover {
+            background: #ff8555;
+            transform: translateY(-2px);
         }
 
         .hamburger {
             display: none;
             flex-direction: column;
-            gap: 4px;
+            gap: 5px;
             cursor: pointer;
         }
 
         .hamburger span {
-            width: 24px;
+            width: 26px;
             height: 2px;
             background: #fff;
+            border-radius: 2px;
+            transition: all 0.3s ease;
         }
 
         .mobile-menu {
             display: none;
             background: var(--navy);
-            padding: 1rem;
+            padding: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .mobile-menu a {
             display: block;
-            padding: 0.75rem 0;
+            padding: 1rem 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-weight: 500;
         }
 
         @media(max-width: 900px) {
             nav {
-                display: none;
-            }
-            .socials {
                 display: none;
             }
             .hamburger {
@@ -162,102 +180,32 @@
         /* ================= HERO ================= */
         .hero {
             min-height: 100vh;
-            background: linear-gradient(rgba(10, 20, 35, 0.75), rgba(10, 20, 35, 0.75)),
-                url("https://images.unsplash.com/photo-1581092334431-2c09d6b1c01d") center/cover no-repeat fixed;
+            background: linear-gradient(135deg, #0a1929 0%, #1e3a5f 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            color: #fff;
             position: relative;
             overflow: hidden;
+            padding: 0 2rem;
         }
 
         .hero::before {
             content: "";
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                linear-gradient(90deg, transparent 0%, rgba(31, 78, 121, 0.03) 50%, transparent 100%),
-                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, 0.03) 2px, rgba(255, 255, 255, 0.03) 4px);
-            pointer-events: none;
-            animation: gridSlide 20s linear infinite;
+            top: -50%;
+            right: -20%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.15) 0%, transparent 70%);
+            animation: pulse 8s ease-in-out infinite;
         }
 
-        @keyframes gridSlide {
-            0% {
-                transform: translateY(0);
-            }
-            100% {
-                transform: translateY(40px);
-            }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
         }
 
-        .hero-inner {
-            max-width: 1000px;
-            position: relative;
-            z-index: 1;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hero h1 {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 4rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            letter-spacing: -1px;
-            line-height: 1.1;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            opacity: 0.9;
-            max-width: 750px;
-            margin: 0 auto 2rem;
-            font-weight: 300;
-        }
-
-        .hero .cta {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            background: var(--accent);
-            color: #fff;
-            font-weight: 600;
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(255, 107, 0, 0.3);
-        }
-
-        .hero .cta:hover {
-            background: #ff8533;
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(255, 107, 0, 0.4);
-        }
-
-        /* ================= STATS SECTION (NEW) ================= */
-        .stats-section {
-            background: linear-gradient(180deg, #0c1f33 0%, #1a2d42 100%);
-            color: #fff;
-            padding: 5rem 1.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stats-section::before {
+        .hero::after {
             content: "";
             position: absolute;
             top: 0;
@@ -265,38 +213,228 @@
             right: 0;
             bottom: 0;
             background-image: 
-                linear-gradient(30deg, transparent 45%, rgba(255, 107, 0, 0.03) 45%, rgba(255, 107, 0, 0.03) 55%, transparent 55%),
-                linear-gradient(150deg, transparent 45%, rgba(0, 119, 204, 0.03) 45%, rgba(0, 119, 204, 0.03) 55%, transparent 55%);
-            background-size: 100px 100px;
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255, 255, 255, 0.03) 2px, rgba(255, 255, 255, 0.03) 4px),
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, 0.03) 2px, rgba(255, 255, 255, 0.03) 4px);
             pointer-events: none;
         }
 
-        .stats-container {
-            max-width: 1300px;
+        .hero-content {
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-text {
+            color: #fff;
+            animation: fadeInLeft 1s ease-out;
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .hero-text h1 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff 0%, #a8d0e6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text .tagline {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            padding: 1rem 2.5rem;
+            background: var(--accent);
+            color: #fff;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            background: #ff8555;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.4);
+        }
+
+        .btn-secondary {
+            padding: 1rem 2.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-weight: 600;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .hero-graphic {
+            position: relative;
+            animation: fadeInRight 1s ease-out;
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .system-diagram {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1;
+        }
+
+        .diagram-element {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 1rem;
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .diagram-element:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .diagram-element .icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.3rem;
+            opacity: 0.8;
+        }
+
+        .elem-1 { top: 10%; left: 15%; animation: float 6s ease-in-out infinite; }
+        .elem-2 { top: 30%; right: 10%; animation: float 7s ease-in-out infinite 1s; }
+        .elem-3 { bottom: 25%; left: 10%; animation: float 8s ease-in-out infinite 2s; }
+        .elem-4 { bottom: 10%; right: 20%; animation: float 6.5s ease-in-out infinite 1.5s; }
+        .elem-5 { top: 50%; left: 50%; transform: translate(-50%, -50%); animation: float 7.5s ease-in-out infinite 0.5s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .connection-line {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            height: 2px;
+            opacity: 0.3;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @media(max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .hero-graphic {
+                display: none;
+            }
+            
+            .hero-text h1 {
+                font-size: 3rem;
+            }
+            
+            .hero-buttons {
+                justify-content: center;
+            }
+        }
+
+        /* ================= STATS ================= */
+        .stats {
+            background: linear-gradient(180deg, var(--slate) 0%, #0d1b2a 100%);
+            padding: 4rem 2rem;
+            position: relative;
+        }
+
+        .stats::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(30deg, transparent 48%, rgba(255, 107, 53, 0.05) 48%, rgba(255, 107, 53, 0.05) 52%, transparent 52%);
+            background-size: 80px 80px;
+        }
+
+        .stats-grid {
+            max-width: 1400px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
             position: relative;
             z-index: 1;
         }
 
-        .stat-item {
+        .stat-card {
             text-align: center;
             padding: 2rem;
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
+            border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
-            animation: fadeIn 0.6s ease-out backwards;
+            animation: fadeUp 0.6s ease-out backwards;
         }
 
-        .stat-item:nth-child(1) { animation-delay: 0.1s; }
-        .stat-item:nth-child(2) { animation-delay: 0.2s; }
-        .stat-item:nth-child(3) { animation-delay: 0.3s; }
-        .stat-item:nth-child(4) { animation-delay: 0.4s; }
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
 
-        @keyframes fadeIn {
+        @keyframes fadeUp {
             from {
                 opacity: 0;
                 transform: translateY(20px);
@@ -307,10 +445,10 @@
             }
         }
 
-        .stat-item:hover {
+        .stat-card:hover {
             background: rgba(255, 255, 255, 0.08);
             transform: translateY(-5px);
-            border-color: rgba(255, 107, 0, 0.3);
+            border-color: var(--accent);
         }
 
         .stat-number {
@@ -318,187 +456,230 @@
             font-size: 3.5rem;
             font-weight: 700;
             color: var(--accent);
+            display: block;
             line-height: 1;
             margin-bottom: 0.5rem;
-            display: block;
         }
 
         .stat-label {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            font-weight: 300;
-            letter-spacing: 0.5px;
+            color: #fff;
+            opacity: 0.8;
+            font-size: 1rem;
+            font-weight: 400;
         }
 
-        /* ================= VALUE SECTION ================= */
-        .sky {
-            background: linear-gradient(180deg, #f8fbff, #e9f0f8);
+        /* ================= SERVICES ================= */
+        .services-section {
+            padding: 7rem 2rem;
+            background: linear-gradient(180deg, #f9fafb 0%, #ffffff 100%);
         }
 
-        .section-title {
+        .section-header {
             text-align: center;
-            margin-bottom: 4rem;
+            margin-bottom: 5rem;
         }
 
-        .section-title h2 {
+        .section-header h2 {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 700;
             color: var(--navy);
-            letter-spacing: -0.5px;
-        }
-
-        .services {
-            max-width: 1300px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2.5rem;
-        }
-
-        .service {
-            background: #fff;
-            padding: 2.5rem;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            transition: all 0.4s ease;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        .service:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
-            border-color: var(--accent);
-        }
-
-        .service h3 {
-            font-family: 'Rajdhani', sans-serif;
-            color: var(--steel);
             margin-bottom: 1rem;
-            font-size: 1.5rem;
-            font-weight: 600;
+            letter-spacing: -1px;
         }
 
-        .service p {
-            color: #555;
+        .section-header p {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
             font-weight: 300;
         }
 
-        /* ================= PROJECT STRIP ================= */
-        .projects {
-            background: var(--slate);
-            color: #fff;
-            overflow: hidden;
-        }
-
-        .project-strip {
-            display: flex;
-            gap: 2rem;
-            overflow-x: auto;
-            padding-bottom: 1rem;
-            scroll-snap-type: x mandatory;
-        }
-
-        .project {
-            min-width: 350px;
-            background: #fff;
-            color: #000;
-            border-radius: 16px;
-            overflow: hidden;
-            scroll-snap-align: start;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease;
-        }
-
-        .project:hover {
-            transform: scale(1.05);
-        }
-
-        .project img {
-            height: 250px;
-            object-fit: cover;
-        }
-
-        .project div {
-            padding: 1.2rem;
-            font-weight: 600;
-        }
-
-        /* ================= MANUFACTURERS ================= */
-        .dark {
-            background: linear-gradient(135deg, #0f2a44, #1a3c5a);
-            color: #fff;
-        }
-
-        .manufacturer-grid {
-            max-width: 1300px;
+        .services-grid {
+            max-width: 1400px;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.8rem;
-        }
-
-        .manu {
-            background: #fff;
-            color: var(--navy);
-            padding: 2rem;
-            border-radius: 14px;
-            text-align: center;
-            font-weight: 700;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .manu:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-        }
-
-        .manu::after {
-            content: "→";
-            position: absolute;
-            right: 18px;
-            top: 18px;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-
-        .manu:hover::after {
-            opacity: 1;
-            transform: translateX(6px);
-        }
-
-        /* ================= REVIEWS (REDESIGNED) ================= */
-        .reviews-section {
-            background: #f8f9fb;
-            padding: 7rem 1.5rem;
-        }
-
-        .reviews-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .reviews-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2.5rem;
-            margin-top: 3rem;
+        }
+
+        .service-card {
+            background: #fff;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--gold));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+            border-color: var(--accent);
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--steel), var(--blue));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.6rem;
+            color: var(--navy);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .service-card p {
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+
+        .service-features {
+            list-style: none;
+            padding: 0;
+        }
+
+        .service-features li {
+            padding: 0.5rem 0;
+            color: #666;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .service-features li::before {
+            content: "✓";
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* ================= MANUFACTURERS ================= */
+        .manufacturers {
+            padding: 7rem 2rem;
+            background: linear-gradient(135deg, #0f2540, #1a3a5a);
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .manufacturers::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 119, 204, 0.1) 0%, transparent 50%);
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .manu-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .manu-card {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--navy);
+            padding: 2.5rem;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .manu-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .manu-card:hover::before {
+            left: 100%;
+        }
+
+        .manu-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            background: #fff;
+        }
+
+        /* ================= TESTIMONIALS ================= */
+        .testimonials {
+            padding: 7rem 2rem;
+            background: #f8f9fb;
+        }
+
+        .testimonials-grid {
+            max-width: 1400px;
+            margin: 4rem auto 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
         }
 
         .testimonial {
             background: #fff;
             padding: 2.5rem;
             border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             position: relative;
             border: 1px solid rgba(0, 0, 0, 0.05);
             transition: all 0.3s ease;
         }
 
         .testimonial:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
         }
 
         .testimonial::before {
@@ -508,18 +689,18 @@
             left: 1.5rem;
             font-size: 5rem;
             color: var(--accent);
-            opacity: 0.15;
+            opacity: 0.1;
             font-family: Georgia, serif;
             line-height: 1;
         }
 
-        .testimonial-content {
-            position: relative;
-            z-index: 1;
-            margin-bottom: 1.5rem;
+        .testimonial-text {
             font-style: italic;
             color: #333;
-            line-height: 1.7;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
             font-weight: 300;
         }
 
@@ -527,14 +708,13 @@
             display: flex;
             align-items: center;
             gap: 1rem;
-            margin-top: 1.5rem;
             padding-top: 1.5rem;
             border-top: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .author-avatar {
-            width: 50px;
-            height: 50px;
+            width: 55px;
+            height: 55px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--steel), var(--blue));
             display: flex;
@@ -543,21 +723,17 @@
             color: #fff;
             font-weight: 700;
             font-family: 'Rajdhani', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             flex-shrink: 0;
         }
 
-        .author-info {
-            flex: 1;
-        }
-
-        .author-name {
+        .author-details h4 {
             font-weight: 600;
             color: var(--navy);
             margin-bottom: 0.2rem;
         }
 
-        .author-title {
+        .author-details p {
             font-size: 0.9rem;
             color: #666;
             font-weight: 300;
@@ -565,62 +741,150 @@
 
         .stars {
             color: #ffc107;
-            font-size: 1.1rem;
+            font-size: 1rem;
             letter-spacing: 2px;
+            margin-top: 0.3rem;
         }
 
         /* ================= CONTACT ================= */
         .contact {
-            background: #f4f7fb;
+            padding: 7rem 2rem;
+            background: linear-gradient(180deg, #ffffff 0%, #f0f4f8 100%);
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .contact-grid {
-            max-width: 1200px;
-            margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
+            margin-top: 3rem;
         }
 
-        .contact-item {
+        .contact-card {
             background: #fff;
-            padding: 2rem;
+            padding: 2.5rem;
             border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             transition: all 0.3s ease;
+            text-align: center;
         }
 
-        .contact-item:hover {
+        .contact-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
         }
 
-        .contact-item strong {
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent), var(--gold));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 1.5rem;
+        }
+
+        .contact-card h3 {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 1.2rem;
-            color: var(--steel);
-            display: block;
-            margin-bottom: 0.5rem;
+            font-size: 1.4rem;
+            color: var(--navy);
+            margin-bottom: 1rem;
+        }
+
+        .contact-card p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .contact-card a {
+            color: var(--blue);
+            font-weight: 500;
         }
 
         /* ================= FOOTER ================= */
         footer {
-            background: #081623;
+            background: var(--navy);
             color: #aaa;
+            padding: 3rem 2rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-brand h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .footer-brand p {
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        .footer-section h4 {
+            font-family: 'Rajdhani', sans-serif;
+            color: #fff;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: #aaa;
+            transition: color 0.3s ease;
+            font-weight: 300;
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--accent);
+        }
+
+        .footer-bottom {
             text-align: center;
-            padding: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             font-size: 0.9rem;
             font-weight: 300;
         }
 
+        @media(max-width: 1024px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media(max-width: 640px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
         /* ================= RESPONSIVE ================= */
         @media(max-width: 768px) {
-            .hero h1 {
+            .section-header h2 {
                 font-size: 2.5rem;
-            }
-            
-            .section-title h2 {
-                font-size: 2rem;
             }
             
             .stat-number {
@@ -630,148 +894,190 @@
             section {
                 padding: 4rem 1.5rem;
             }
+            
+            .services-grid,
+            .testimonials-grid,
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
+    <header id="header">
         <div class="nav-wrap">
-            <div class="logo">LUNDQUIST SALES</div>
+            <div class="logo">
+                <div class="logo-icon">L</div>
+                LUNDQUIST SALES
+            </div>
             <nav>
-                <a href="#">Manufacturers</a>
-                <a href="#">Resources</a>
-                <a href="#">Portal</a>
-                <a href="#contact">Contact</a>
+                <a href="#services">Services</a>
+                <a href="#manufacturers">Manufacturers</a>
+                <a href="#testimonials">Testimonials</a>
+                <a href="#contact" class="nav-cta">Get Started</a>
             </nav>
-            <div style="display:flex;align-items:center;">
-                <div class="socials">
-                    <a href="#"><svg viewBox="0 0 24 24"><path d="M22.23 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.21 0 22.23 0z"/></svg></a>
-                    <a href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg></a>
-                    <a href="#"><svg viewBox="0 0 24 24"><polygon points="0,0 24,12 0,24"/></svg></a>
-                </div>
-                <div class="hamburger" onclick="toggleMenu()">
-                    <span></span><span></span><span></span>
-                </div>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
             </div>
         </div>
         <div class="mobile-menu" id="mobileMenu">
-            <a href="#">Manufacturers</a>
-            <a href="#">Resources</a>
-            <a href="#">Portal</a>
+            <a href="#services">Services</a>
+            <a href="#manufacturers">Manufacturers</a>
+            <a href="#testimonials">Testimonials</a>
             <a href="#contact">Contact</a>
         </div>
     </header>
 
     <section class="hero">
-        <div class="hero-inner">
-            <h1>Engineered Hydronic & Steam Solutions</h1>
-            <p>Delivering value-driven mechanical system expertise across the Intermountain West since 1977.</p>
-            <a href="#contact" class="cta">Start a Project</a>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Engineered Hydronic & Steam Solutions</h1>
+                <p class="tagline">Delivering value-driven mechanical system expertise across the Intermountain West since 1977. Industry-leading products, technical support, and turnkey solutions.</p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn-primary">Start Your Project →</a>
+                    <a href="#services" class="btn-secondary">Our Services</a>
+                </div>
+            </div>
+            <div class="hero-graphic">
+                <div class="system-diagram">
+                    <div class="diagram-element elem-1">
+                        <div class="icon">🔧</div>
+                        <div>Hydronic Systems</div>
+                    </div>
+                    <div class="diagram-element elem-2">
+                        <div class="icon">⚡</div>
+                        <div>Energy Solutions</div>
+                    </div>
+                    <div class="diagram-element elem-3">
+                        <div class="icon">🏗️</div>
+                        <div>Engineering Support</div>
+                    </div>
+                    <div class="diagram-element elem-4">
+                        <div class="icon">📦</div>
+                        <div>Distribution</div>
+                    </div>
+                    <div class="diagram-element elem-5">
+                        <div class="icon">🎯</div>
+                        <div>47+ Years</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- NEW STATS SECTION -->
-    <section class="stats-section">
-        <div class="stats-container">
-            <div class="stat-item">
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-card">
                 <span class="stat-number">47+</span>
                 <span class="stat-label">Years of Excellence</span>
             </div>
-            <div class="stat-item">
+            <div class="stat-card">
                 <span class="stat-number">2,500+</span>
-                <span class="stat-label">Projects Completed</span>
+                <span class="stat-label">Projects Delivered</span>
             </div>
-            <div class="stat-item">
+            <div class="stat-card">
                 <span class="stat-number">50+</span>
                 <span class="stat-label">Manufacturer Partners</span>
             </div>
-            <div class="stat-item">
+            <div class="stat-card">
                 <span class="stat-number">24/7</span>
                 <span class="stat-label">Technical Support</span>
             </div>
         </div>
     </section>
 
-    <section class="sky">
-        <div class="section-title"><h2>How We Add Value</h2></div>
-        <div class="services">
-            <div class="service">
+    <section class="services-section" id="services">
+        <div class="section-header">
+            <h2>How We Add Value</h2>
+            <p>Comprehensive solutions for every phase of your mechanical system project</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🔧</div>
                 <h3>Engineered Products</h3>
-                <p>Bid & spec collaboration with consulting engineers and contractors.</p>
+                <p>Expert bid & spec collaboration with consulting engineers and contractors for optimized system design.</p>
+                <ul class="service-features">
+                    <li>Technical specifications</li>
+                    <li>Product selection</li>
+                    <li>Value engineering</li>
+                </ul>
             </div>
-            <div class="service">
+            <div class="service-card">
+                <div class="service-icon">📦</div>
                 <h3>Wholesale Distribution</h3>
-                <p>Strategic stocking and rapid fulfillment across the region.</p>
+                <p>Strategic inventory management and rapid fulfillment across the Intermountain region.</p>
+                <ul class="service-features">
+                    <li>Fast delivery</li>
+                    <li>Regional stocking</li>
+                    <li>Supply chain expertise</li>
+                </ul>
             </div>
-            <div class="service">
+            <div class="service-card">
+                <div class="service-icon">⚡</div>
                 <h3>Energy Services</h3>
-                <p>Retrofits, system audits, and turnkey mechanical upgrades.</p>
+                <p>Complete retrofits, system audits, and turnkey mechanical upgrades for maximum efficiency.</p>
+                <ul class="service-features">
+                    <li>Energy audits</li>
+                    <li>System optimization</li>
+                    <li>ROI analysis</li>
+                </ul>
             </div>
         </div>
     </section>
 
-    <section class="projects">
-        <div class="section-title"><h2 style="color:#fff;">Featured Projects</h2></div>
-        <div class="project-strip">
-            <div class="project"><img src="https://images.unsplash.com/photo-1503389152951-9f343605f61c"><div>Commercial Mechanical Room</div></div>
-            <div class="project"><img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5"><div>Hydronic System Installation</div></div>
-            <div class="project"><img src="https://images.unsplash.com/photo-1581091012184-7d1a7e6f0b63"><div>Energy Retrofit Project</div></div>
-            <div class="project"><img src="https://images.unsplash.com/photo-1581093588401-e2f95ef479c4"><div>Boiler Upgrade</div></div>
+    <section class="manufacturers" id="manufacturers">
+        <div class="section-header">
+            <h2 style="color: #fff;">Trusted Manufacturer Partners</h2>
+            <p style="color: rgba(255,255,255,0.8);">Industry-leading brands delivering proven performance</p>
+        </div>
+        <div class="manu-grid">
+            <a class="manu-card" href="https://www.rehau.com/us-en/mechanicalplumbing/technologies/radiantallfh" target="_blank">Rehau</a>
+            <a class="manu-card" href="https://125c2e47-7dd4-4d72-b8de-a495fc9fae13.filesusr.com/ugd/1d9b54_65c884e84897481a88a65c8ea8151e4d.pdf" target="_blank">NBS Pump</a>
+            <a class="manu-card" href="https://product-selection.grundfos.com/us/products/hydro-mpc?tab=products" target="_blank">Grundfos</a>
+            <a class="manu-card" href="https://www.alfalaval.us/" target="_blank">Alfa Laval</a>
+            <a class="manu-card" href="https://www.raypak.com/products/commercial/hydronic-boilers/xvers-hydronic-boiler-powered-by-kor/" target="_blank">XVers KOR</a>
+            <a class="manu-card" href="https://www.spirotherm.com/Spirocombi-Magnet" target="_blank">Spiro Combi</a>
+            <div class="manu-card">Weil-McLain</div>
+            <div class="manu-card">Lochinvar</div>
         </div>
     </section>
 
-    <section class="dark">
-        <div class="section-title"><h2 style="color:#fff;">Manufacturers & Products</h2></div>
-        <div class="manufacturer-grid">
-            <a class="manu" href="https://www.rehau.com/us-en/mechanicalplumbing/technologies/radiantallfh" target="_blank">Rehau</a>
-            <a class="manu" href="https://125c2e47-7dd4-4d72-b8de-a495fc9fae13.filesusr.com/ugd/1d9b54_65c884e84897481a88a65c8ea8151e4d.pdf" target="_blank">NBS Pump</a>
-            <a class="manu" href="https://product-selection.grundfos.com/us/products/hydro-mpc?tab=products" target="_blank">Grundfos</a>
-            <a class="manu" href="https://www.alfalaval.us/" target="_blank">Alfa Laval</a>
-            <a class="manu" href="https://www.raypak.com/products/commercial/hydronic-boilers/xvers-hydronic-boiler-powered-by-kor/" target="_blank">XVers KOR</a>
-            <a class="manu" href="https://www.spirotherm.com/Spirocombi-Magnet" target="_blank">Spiro Combi</a>
-            <div class="manu">Future Product</div>
-            <div class="manu">Future Product</div>
+    <section class="testimonials" id="testimonials">
+        <div class="section-header">
+            <h2>Client Success Stories</h2>
+            <p>Trusted by industry leaders across the Intermountain West</p>
         </div>
-    </section>
-
-    <!-- REDESIGNED REVIEWS SECTION -->
-    <section class="reviews-section">
-        <div class="reviews-container">
-            <div class="section-title"><h2>Client Testimonials</h2></div>
-            <div class="reviews-grid">
-                <div class="testimonial">
-                    <p class="testimonial-content">"Lundquist Sales has been instrumental in our large-scale commercial projects. Their technical expertise and product knowledge are unmatched. The team goes above and beyond to ensure we have the right solutions delivered on time."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">JM</div>
-                        <div class="author-info">
-                            <div class="author-name">Jacob Morrison</div>
-                            <div class="author-title">Project Manager, Summit Construction</div>
-                            <div class="stars">★★★★★</div>
-                        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial">
+                <p class="testimonial-text">"Lundquist Sales has been instrumental in our large-scale commercial projects. Their technical expertise and product knowledge are unmatched. The team goes above and beyond to ensure we have the right solutions delivered on time, every time."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">JM</div>
+                    <div class="author-details">
+                        <h4>Jacob Morrison</h4>
+                        <p>Project Manager, Summit Construction</p>
+                        <div class="stars">★★★★★</div>
                     </div>
                 </div>
-
-                <div class="testimonial">
-                    <p class="testimonial-content">"Working with Lundquist has transformed how we approach hydronic systems. Their engineering support during the bid phase is invaluable, and they consistently deliver innovative solutions that exceed our clients' expectations."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">GR</div>
-                        <div class="author-info">
-                            <div class="author-name">Greg Reynolds</div>
-                            <div class="author-title">Mechanical Engineer, Apex Design Group</div>
-                            <div class="stars">★★★★★</div>
-                        </div>
+            </div>
+            <div class="testimonial">
+                <p class="testimonial-text">"Working with Lundquist has transformed how we approach hydronic systems. Their engineering support during the bid phase is invaluable, and they consistently deliver innovative solutions that exceed our clients' expectations."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">GR</div>
+                    <div class="author-details">
+                        <h4>Greg Reynolds</h4>
+                        <p>Mechanical Engineer, Apex Design Group</p>
+                        <div class="stars">★★★★★</div>
                     </div>
                 </div>
-
-                <div class="testimonial">
-                    <p class="testimonial-content">"The energy retrofit services from Lundquist Sales have helped us achieve significant cost savings. Their team conducted a thorough audit and implemented a comprehensive solution that reduced our energy consumption by 35%."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">BT</div>
-                        <div class="author-info">
-                            <div class="author-name">Blake Thompson</div>
-                            <div class="author-title">Facilities Director, Mountain View Hospital</div>
-                            <div class="stars">★★★★★</div>
-                        </div>
+            </div>
+            <div class="testimonial">
+                <p class="testimonial-text">"The energy retrofit services from Lundquist Sales have helped us achieve significant cost savings. Their team conducted a thorough audit and implemented a comprehensive solution that reduced our energy consumption by 35%."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">BT</div>
+                    <div class="author-details">
+                        <h4>Blake Thompson</h4>
+                        <p>Facilities Director, Mountain View Hospital</p>
+                        <div class="stars">★★★★★</div>
                     </div>
                 </div>
             </div>
@@ -779,33 +1085,103 @@
     </section>
 
     <section class="contact" id="contact">
-        <div class="section-title"><h2>Contact Us</h2></div>
-        <div class="contact-grid">
-            <div class="contact-item">
-                <strong>Address</strong>
-                2425 S Progress Drive<br>
-                Salt Lake City, UT
+        <div class="contact-container">
+            <div class="section-header">
+                <h2>Get in Touch</h2>
+                <p>Ready to start your next project? Our team is here to help.</p>
             </div>
-            <div class="contact-item">
-                <strong>Phone</strong>
-                801-487-5700
-            </div>
-            <div class="contact-item">
-                <strong>Email</strong>
-                sales@lundquistsales.com
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-icon">📍</div>
+                    <h3>Visit Us</h3>
+                    <p>2425 S Progress Drive<br>Salt Lake City, UT 84119</p>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">📞</div>
+                    <h3>Call Us</h3>
+                    <p><a href="tel:8014875700">801-487-5700</a><br>Monday - Friday, 8AM - 5PM MT</p>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">✉️</div>
+                    <h3>Email Us</h3>
+                    <p><a href="mailto:sales@lundquistsales.com">sales@lundquistsales.com</a><br>We'll respond within 24 hours</p>
+                </div>
             </div>
         </div>
     </section>
 
     <footer>
-        © Lundquist Sales, Inc. | Serving the Intermountain West Since 1977
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>LUNDQUIST SALES</h3>
+                <p>Leading provider of engineered hydronic and steam solutions across the Intermountain West since 1977. Committed to excellence in mechanical system design and distribution.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="#services">Engineered Products</a></li>
+                    <li><a href="#services">Distribution</a></li>
+                    <li><a href="#services">Energy Services</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#manufacturers">Manufacturers</a></li>
+                    <li><a href="#">Resources</a></li>
+                    <li><a href="#">Careers</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="#">LinkedIn</a></li>
+                    <li><a href="#">Customer Portal</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2024 Lundquist Sales, Inc. | Serving the Intermountain West Since 1977 | All Rights Reserved
+        </div>
     </footer>
 
     <script>
+        // Mobile menu toggle
         function toggleMenu() {
-            const m = document.getElementById("mobileMenu");
-            m.style.display = m.style.display === "block" ? "none" : "block";
+            const menu = document.getElementById("mobileMenu");
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
         }
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    const menu = document.getElementById("mobileMenu");
+                    if (menu.style.display === "block") {
+                        menu.style.display = "none";
+                    }
+                }
+            });
+        });
     </script>
 </body>
-</html>
+</html
