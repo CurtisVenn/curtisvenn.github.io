@@ -84,18 +84,19 @@ header {
 /* overlay canvas — sits exactly on top of preview-canvas, never exported */
 .canvas-stack {
   position:relative;
-  display:flex; /* shrinks to canvas size */
-  max-width:100%;
-  max-height:calc(100vh - var(--hdr) - 80px);
+  display:block;   /* inline-block so it shrinks to canvas natural size */
+  line-height:0;
+  box-shadow:0 16px 60px rgba(0,0,0,.9), 0 4px 16px rgba(0,0,0,.6);
 }
 .canvas-stack #preview-canvas {
   display:block;
+  /* constrain CSS display size — internal res stays 1200px, browser scales proportionally */
   max-width:100%;
-  max-height:100%;
-  box-shadow:0 16px 60px rgba(0,0,0,.9), 0 4px 16px rgba(0,0,0,.6);
+  max-height:calc(100vh - var(--hdr) - 96px);
+  /* critical: no width/height set, so the browser uses canvas intrinsic aspect ratio */
 }
 #overlay-canvas {
-  position:absolute; inset:0;
+  position:absolute; top:0; left:0;
   width:100%; height:100%;
   pointer-events:none; /* clicks pass through to preview-canvas */
 }
@@ -243,6 +244,30 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:12px; h
 }
 .dl-btn:hover    { background:var(--gold2); transform:translateY(-1px); }
 .dl-btn:disabled { opacity:.2; cursor:not-allowed; transform:none; }
+
+/* ── HEADER UTILITY BUTTONS ──────────────────────── */
+.hdr-btns { display:flex; gap:6px; align-items:center; }
+.hdr-btn {
+  padding:5px 10px; background:transparent; border:1px solid var(--border);
+  border-radius:2px; font-family:'Barlow Condensed',sans-serif;
+  font-size:10px; font-weight:600; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--muted); cursor:pointer; transition:all .15s; white-space:nowrap;
+}
+.hdr-btn:hover { border-color:var(--gold); color:var(--text); }
+.hdr-btn:disabled { opacity:.2; cursor:not-allowed; }
+.hdr-btn.danger:hover { border-color:#c0392b; color:#e05040; }
+.hdr-btn.before-btn:active,
+.hdr-btn.before-btn.held { background:rgba(201,169,110,.15); border-color:var(--gold); color:var(--gold); }
+
+/* ── BEFORE/AFTER LABEL OVERLAY ─────────────────── */
+.before-label {
+  position:absolute; top:12px; right:16px; z-index:20;
+  background:rgba(14,12,10,.88); border:1px solid var(--gold);
+  color:var(--gold); font-size:10px; font-weight:700; letter-spacing:.25em;
+  text-transform:uppercase; padding:5px 12px; border-radius:2px;
+  pointer-events:none; opacity:0; transition:opacity .15s;
+}
+.before-label.show { opacity:1; }
 </style>
 </head>
 <body>
@@ -253,7 +278,12 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:12px; h
     <span class="logo-sub">Film Border Studio</span>
   </div>
   <div class="hdr-right">
-    <span class="hdr-note">v3</span>
+    <div class="hdr-btns">
+      <button class="hdr-btn before-btn" id="btn-before" disabled title="Hold to see original">Hold: Before</button>
+      <button class="hdr-btn" id="btn-undo" disabled>↩ Undo</button>
+      <button class="hdr-btn danger" id="btn-reset" disabled>✕ Reset All</button>
+    </div>
+    <span class="hdr-note" style="margin-left:8px">v3</span>
   </div>
 </header>
 
@@ -421,6 +451,7 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:12px; h
       <div class="canvas-info" id="canvas-info"></div>
     </div>
     <div class="mode-badge" id="mode-badge"></div>
+    <div class="before-label" id="before-label">◀ Before</div>
   </div>
 
 </div><!-- /app -->
@@ -451,8 +482,107 @@ const S = {
 };
 
 // ══════════════════════════════════════════════════════════════════
-// RATIOS
+// UNDO HISTORY
 // ══════════════════════════════════════════════════════════════════
+const HISTORY = [];
+const MAX_HISTORY = 30;
+
+// Keys we snapshot (exclude img ref and canvasMode — those don't need undo)
+const SNAP_KEYS = [
+  'ratio','mode','cleanColor','cleanSize','innerGap',
+  'stock','filmScale','textOpacity','rebateTint','showFN','showSP','showDX',
+  'panX','panY','burn','burnX','burnY','burnIntensity','burnSpread',
+  'burnFeather','burnColor','burnBlend'
+];
+
+function snapshot() {
+  const snap = {};
+  SNAP_KEYS.forEach(k => snap[k] = S[k]);
+  HISTORY.push(snap);
+  if (HISTORY.length > MAX_HISTORY) HISTORY.shift();
+  updateUtilityBtns();
+}
+
+function undo() {
+  if (HISTORY.length < 2) return; // need at least current + one previous
+  HISTORY.pop(); // discard current
+  const prev = HISTORY[HISTORY.length - 1];
+  SNAP_KEYS.forEach(k => S[k] = prev[k]);
+  syncUIToState();
+  render(); drawBurnPosMap(); updateUtilityBtns();
+}
+
+function resetAll() {
+  if (!S.img) return;
+  snapshot(); // allow undoing the reset
+  S.ratio='3:2'; S.mode='clean';
+  S.cleanColor='#FFFFFF'; S.cleanSize=8; S.innerGap=0;
+  S.stock=null; S.filmScale=1.0; S.textOpacity=1.0; S.rebateTint=0;
+  S.showFN=true; S.showSP=true; S.showDX=true;
+  S.panX=0; S.panY=0;
+  S.burn=null; S.burnX=0.15; S.burnY=0.85;
+  S.burnIntensity=0.60; S.burnSpread=0.85; S.burnFeather=0.60;
+  S.burnColor=null; S.burnBlend='screen';
+  syncUIToState();
+  render(); drawBurnPosMap(); updateUtilityBtns();
+  showBadge('✕ Reset to original', 1800);
+}
+
+function updateUtilityBtns() {
+  const hasImg = !!S.img;
+  document.getElementById('btn-before').disabled = !hasImg;
+  document.getElementById('btn-undo').disabled   = !hasImg || HISTORY.length < 2;
+  document.getElementById('btn-reset').disabled  = !hasImg;
+}
+
+// Sync all UI widgets to match current S values (used after undo/reset)
+function syncUIToState() {
+  // ratio
+  document.querySelectorAll('.ratio-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.ratio === S.ratio);
+  });
+  // border tabs
+  document.querySelectorAll('#border-tabs .tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.tab === S.mode);
+  });
+  document.getElementById('panel-clean').classList.toggle('show', S.mode==='clean');
+  document.getElementById('panel-film').classList.toggle('show',  S.mode==='film');
+  // clean color
+  document.querySelectorAll('#color-row .cswatch').forEach(sw => {
+    sw.classList.toggle('active', sw.dataset.color === S.cleanColor);
+  });
+  // sliders + value labels
+  setSlider('border-size',   'vBorderSize',    S.cleanSize,          v=>v+'%');
+  setSlider('inner-gap',     'vInnerGap',      S.innerGap,           v=>v+'%');
+  setSlider('filmScale',     'vFilmScale',     S.filmScale*100,      v=>(v/100).toFixed(1)+'×');
+  setSlider('textOpacity',   'vTextOpacity',   S.textOpacity*100,    v=>v+'%');
+  setSlider('rebateTint',    'vRebateTint',    S.rebateTint,         v=>v);
+  setSlider('burnIntensity', 'vBurnIntensity', S.burnIntensity*100,  v=>v+'%');
+  setSlider('burnSpread',    'vBurnSpread',    S.burnSpread*100,     v=>v+'%');
+  setSlider('burnFeather',   'vBurnFeather',   S.burnFeather*100,    v=>v+'%');
+  // toggles
+  document.getElementById('togFN').classList.toggle('on', S.showFN);
+  document.getElementById('togSP').classList.toggle('on', S.showSP);
+  document.getElementById('togDX').classList.toggle('on', S.showDX);
+  // stock cards
+  document.querySelectorAll('.stock-card').forEach(c => {
+    c.classList.toggle('active', S.stock && c.dataset.sid === S.stock.id);
+  });
+  // burn cards
+  document.querySelectorAll('.bcard').forEach(c => {
+    const isNone = c.dataset.bid === 'none';
+    c.classList.toggle('active', S.burn ? c.dataset.bid===S.burn.id : isNone);
+  });
+  document.getElementById('burn-controls').style.display = S.burn ? 'block' : 'none';
+  // blend
+  document.querySelectorAll('#blend-row .blend-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.blend === S.burnBlend);
+  });
+}
+function setSlider(id, valId, value, fmt) {
+  const el = document.getElementById(id);
+  if (el) { el.value = value; document.getElementById(valId).textContent = fmt(value); }
+}
 const RATIOS = [
   {label:'3:2',  name:'35mm',   w:3,  h:2,  rw:22, rh:15},
   {label:'1:1',  name:'6×6',   w:1,  h:1,  rw:18, rh:18},
@@ -597,7 +727,7 @@ const BURN_COLORS = [
       document.querySelectorAll('.ratio-btn').forEach(b=>b.classList.remove('active'));
       btn.classList.add('active');
       S.ratio = r.label; S.panX = 0; S.panY = 0;
-      render();
+      snapshot(); render();
     });
     g.appendChild(btn);
   });
@@ -617,7 +747,7 @@ function buildStocks(arr, cid) {
       <div class="stag" style="color:${s.tag.c};background:${s.tag.b}">${s.tag.t}</div>`;
     card.addEventListener('click', () => {
       document.querySelectorAll('.stock-card').forEach(c=>c.classList.remove('active'));
-      card.classList.add('active'); S.stock = s; render();
+      card.classList.add('active'); S.stock = s; snapshot(); render();
     });
     c.appendChild(card);
   });
@@ -666,7 +796,7 @@ buildStocks(STOCKS['special'], 'sg-special');
         document.getElementById('burn-controls').style.display = 'block';
         drawBurnPosMap();
       }
-      render();
+      snapshot(); render();
     });
     g.appendChild(card);
   });
@@ -682,7 +812,7 @@ buildStocks(STOCKS['special'], 'sg-special');
       const inp = document.createElement('input');
       inp.type = 'color'; inp.title = 'Custom color';
       inp.style.cssText = 'width:20px;height:20px;border-radius:3px;cursor:pointer;border:2px solid var(--border);background:none;padding:0';
-      inp.addEventListener('input', () => { S.burnColor = inp.value; render(); drawBurnPosMap(); });
+      inp.addEventListener('input', () => { S.burnColor = inp.value; snapshot(); render(); drawBurnPosMap(); });
       row.appendChild(inp);
     } else {
       const chip = document.createElement('div');
@@ -693,7 +823,7 @@ buildStocks(STOCKS['special'], 'sg-special');
       chip.addEventListener('click', () => {
         document.querySelectorAll('.bclr').forEach(x=>x.classList.remove('active'));
         chip.classList.add('active'); S.burnColor = c.hex;
-        render(); drawBurnPosMap();
+        snapshot(); render(); drawBurnPosMap();
       });
       row.appendChild(chip);
     }
@@ -765,17 +895,17 @@ document.querySelectorAll('#border-tabs .tab').forEach(t => {
     t.classList.add('active'); S.mode = t.dataset.tab;
     document.getElementById('panel-clean').classList.toggle('show', S.mode==='clean');
     document.getElementById('panel-film').classList.toggle('show',  S.mode==='film');
-    render();
+    snapshot(); render();
   });
 });
 // clean colors
 document.querySelectorAll('#color-row .cswatch').forEach(sw => {
   sw.addEventListener('click', () => {
     document.querySelectorAll('#color-row .cswatch').forEach(s=>s.classList.remove('active'));
-    sw.classList.add('active'); S.cleanColor = sw.dataset.color; render();
+    sw.classList.add('active'); S.cleanColor = sw.dataset.color; snapshot(); render();
   });
 });
-// sliders
+// sliders — snapshot on pointerup (not every input tick, that would flood history)
 function sl(id, valId, fmt, setter) {
   const el = document.getElementById(id);
   el.addEventListener('input', () => {
@@ -783,6 +913,7 @@ function sl(id, valId, fmt, setter) {
     document.getElementById(valId).textContent = fmt(el.value);
     render(); if (id.startsWith('burn')) drawBurnPosMap();
   });
+  el.addEventListener('pointerup', () => { snapshot(); updateUtilityBtns(); });
 }
 sl('border-size',   'vBorderSize',    v=>v+'%',        v=>S.cleanSize=v);
 sl('inner-gap',     'vInnerGap',      v=>v+'%',        v=>S.innerGap=v);
@@ -795,14 +926,14 @@ sl('burnFeather',   'vBurnFeather',   v=>v+'%',        v=>S.burnFeather=v/100);
 // toggles
 function tog(id, key) {
   const el = document.getElementById(id);
-  el.addEventListener('click', () => { S[key]=!S[key]; el.classList.toggle('on',S[key]); render(); });
+  el.addEventListener('click', () => { S[key]=!S[key]; el.classList.toggle('on',S[key]); snapshot(); render(); });
 }
 tog('togFN','showFN'); tog('togSP','showSP'); tog('togDX','showDX');
 // blend
 document.querySelectorAll('#blend-row .blend-btn').forEach(b => {
   b.addEventListener('click', () => {
     document.querySelectorAll('#blend-row .blend-btn').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active'); S.burnBlend = b.dataset.blend; render(); drawBurnPosMap();
+    b.classList.add('active'); S.burnBlend = b.dataset.blend; snapshot(); render(); drawBurnPosMap();
   });
 });
 // customize accordion
@@ -825,6 +956,35 @@ document.querySelectorAll('.cmode-btn').forEach(btn => {
   });
 });
 
+// ── UTILITY HEADER BUTTONS ────────────────────────────────────────
+// Before / After — hold to preview original, release to restore
+const btnBefore = document.getElementById('btn-before');
+let beforeHeld = false;
+btnBefore.addEventListener('mousedown', () => {
+  if (!S.img) return;
+  beforeHeld = true;
+  btnBefore.classList.add('held');
+  document.getElementById('before-label').classList.add('show');
+  renderBefore();
+});
+const releaseBefore = () => {
+  if (!beforeHeld) return;
+  beforeHeld = false;
+  btnBefore.classList.remove('held');
+  document.getElementById('before-label').classList.remove('show');
+  render(); drawOverlay();
+};
+btnBefore.addEventListener('mouseup',    releaseBefore);
+btnBefore.addEventListener('mouseleave', releaseBefore);
+btnBefore.addEventListener('touchstart', e => { e.preventDefault(); btnBefore.dispatchEvent(new MouseEvent('mousedown')); }, {passive:false});
+btnBefore.addEventListener('touchend',   () => releaseBefore());
+
+document.getElementById('btn-undo').addEventListener('click', () => { if (!beforeHeld) undo(); });
+document.getElementById('btn-reset').addEventListener('click', () => {
+  if (!S.img) return;
+  if (confirm('Reset all edits? This cannot be undone beyond current history.')) resetAll();
+});
+
 // ══════════════════════════════════════════════════════════════════
 // UPLOAD
 // ══════════════════════════════════════════════════════════════════
@@ -841,9 +1001,11 @@ function loadImg(file) {
     const img = new Image();
     img.onload = () => {
       S.img = img; S.panX = 0; S.panY = 0;
+      HISTORY.length = 0; // clear history for new image
       document.getElementById('empty-state').style.display = 'none';
       document.getElementById('canvas-wrapper').style.display = 'flex';
       document.getElementById('dl-btn').disabled = false;
+      snapshot(); // initial state as history base
       render(); drawBurnPosMap();
       showBadge('✦ Pan Mode — drag to reposition', 3000);
     };
@@ -936,6 +1098,20 @@ function showBadge(msg, dur=2000) {
 // RENDER PIPELINE
 // ══════════════════════════════════════════════════════════════════
 function getAsp() { const r=RATIOS.find(r=>r.label===S.ratio)||RATIOS[0]; return {w:r.w,h:r.h}; }
+
+// Renders just the bare photo at the current crop+pan — used for Before view
+function renderBefore() {
+  if (!S.img) return;
+  const BASE = 1200;
+  const {w:rw,h:rh} = getAsp();
+  const asp = rw/rh;
+  let W,H;
+  if(asp>=1){W=BASE;H=Math.round(BASE/asp);}else{H=BASE;W=Math.round(BASE*asp);}
+  canvas.width=W; canvas.height=H;
+  // Draw photo edge-to-edge with no border, same pan position
+  drawImg(0, 0, W, H);
+  clearOverlay();
+}
 
 function render() {
   if (!S.img) return;
