@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FRAME — Film Border Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Barlow+Condensed:wght@300;400;500;600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0e0c0a;
+    --bg2: #181410;
+    --bg3: #221e18;
+    --bg4: #2e2820;
+    --border: #3a3028;
+    --gold: #c9a96e;
+    --gold2: #e8c98a;
+    --cream: #f0ead8;
+    --muted: #6b5e4a;
+    --text: #d4c9b0;
+    --accent-red: #c0392b;
+    --accent-green: #2d6a4f;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Barlow Condensed', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 32px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg2);
+  }
+
+  .logo {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .logo-word {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--cream);
+  }
+
+  .logo-dash {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  .header-note {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* LAYOUT */
+  .app {
+    display: flex;
+    flex: 1;
+    height: calc(100vh - 61px);
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: 300px;
+    min-width: 300px;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-track { background: var(--bg2); }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .section {
+    border-bottom: 1px solid var(--border);
+    padding: 18px 20px;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  /* UPLOAD ZONE */
+  .upload-zone {
+    border: 1px dashed var(--border);
+    border-radius: 4px;
+    padding: 24px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--bg);
+  }
+
+  .upload-zone:hover, .upload-zone.drag-over {
+    border-color: var(--gold);
+    background: rgba(201, 169, 110, 0.05);
+  }
+
+  .upload-icon {
+    font-size: 28px;
+    margin-bottom: 8px;
+    opacity: 0.5;
+  }
+
+  .upload-text {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--text);
+  }
+
+  .upload-sub {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  /* RATIO GRID */
+  .ratio-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+
+  .ratio-btn {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 10px 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .ratio-btn:hover { border-color: var(--gold); }
+
+  .ratio-btn.active {
+    border-color: var(--gold);
+    background: rgba(201, 169, 110, 0.1);
+  }
+
+  .ratio-rect {
+    background: var(--border);
+    border: 1px solid var(--muted);
+    transition: all 0.15s;
+  }
+
+  .ratio-btn.active .ratio-rect {
+    background: var(--gold);
+    border-color: var(--gold2);
+  }
+
+  .ratio-name {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  .ratio-btn.active .ratio-name { color: var(--gold); }
+
+  /* TABS */
+  .tab-row {
+    display: flex;
+    gap: 0;
+    margin-bottom: 14px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .tab {
+    flex: 1;
+    padding: 8px 4px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-align: center;
+    background: var(--bg);
+    color: var(--muted);
+    border: none;
+    transition: all 0.15s;
+  }
+
+  .tab:first-child { border-right: 1px solid var(--border); }
+
+  .tab.active {
+    background: var(--gold);
+    color: var(--bg);
+  }
+
+  /* CLEAN BORDERS */
+  .clean-panel { display: none; }
+  .film-panel { display: none; }
+  .clean-panel.show, .film-panel.show { display: block; }
+
+  .color-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .color-swatch {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.15s;
+    position: relative;
+  }
+
+  .color-swatch.active {
+    border-color: var(--gold);
+    transform: scale(1.12);
+  }
+
+  .color-swatch::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1px solid var(--gold);
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  .color-swatch.active::after { opacity: 1; }
+
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .slider-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    min-width: 60px;
+  }
+
+  .slider-val {
+    font-size: 11px;
+    color: var(--gold);
+    min-width: 28px;
+    text-align: right;
+    font-family: 'Courier Prime', monospace;
+  }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    flex: 1;
+    height: 2px;
+    background: var(--border);
+    border-radius: 1px;
+    outline: none;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--gold);
+    cursor: pointer;
+    border: 2px solid var(--bg2);
+  }
+
+  /* FILM STOCKS */
+  .stock-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .stock-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .stock-card:hover { border-color: var(--gold); }
+
+  .stock-card.active {
+    border-color: var(--gold);
+    background: rgba(201, 169, 110, 0.08);
+  }
+
+  .stock-swatch {
+    width: 36px;
+    height: 24px;
+    border-radius: 2px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    font-family: 'Courier Prime', monospace;
+    overflow: hidden;
+  }
+
+  .stock-info { flex: 1; }
+
+  .stock-name {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--cream);
+    line-height: 1;
+  }
+
+  .stock-sub {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 2px;
+    letter-spacing: 0.05em;
+  }
+
+  .stock-tag {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    padding: 2px 6px;
+    border-radius: 2px;
+    text-transform: uppercase;
+  }
+
+  /* DOWNLOAD BTN */
+  .dl-btn {
+    margin: 20px;
+    padding: 14px;
+    background: var(--gold);
+    color: var(--bg);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .dl-btn:hover { background: var(--gold2); transform: translateY(-1px); }
+  .dl-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+
+  /* PREVIEW AREA */
+  .preview-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* subtle grain texture */
+  .preview-area::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 0.4;
+  }
+
+  .empty-state {
+    text-align: center;
+    max-width: 320px;
+  }
+
+  .empty-film-icon {
+    font-size: 60px;
+    opacity: 0.12;
+    margin-bottom: 16px;
+    filter: sepia(1);
+  }
+
+  .empty-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-style: italic;
+    color: var(--text);
+    margin-bottom: 8px;
+    opacity: 0.4;
+  }
+
+  .empty-sub {
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    opacity: 0.5;
+  }
+
+  .canvas-wrapper {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .canvas-wrapper.show { display: flex; }
+
+  #preview-canvas {
+    max-width: 100%;
+    max-height: calc(100vh - 180px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 4px 16px rgba(0,0,0,0.6);
+    display: block;
+  }
+
+  .canvas-info {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  /* SECTION DIVIDER */
+  .sub-label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin: 10px 0 8px;
+    opacity: 0.7;
+  }
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <span class="logo-word">FRAME</span>
+    <span class="logo-dash">Film Border Studio</span>
+  </div>
+  <span class="header-note">Proof of Concept</span>
+</header>
+
+<div class="app">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+
+    <!-- UPLOAD -->
+    <div class="section">
+      <div class="section-label">01 — Load Photo</div>
+      <div class="upload-zone" id="upload-zone">
+        <div class="upload-icon">⬡</div>
+        <div class="upload-text">Drop photo here</div>
+        <div class="upload-sub">or click to browse</div>
+      </div>
+      <input type="file" id="file-input" accept="image/*" style="display:none">
+    </div>
+
+    <!-- CROP RATIO -->
+    <div class="section">
+      <div class="section-label">02 — Output Ratio</div>
+      <div class="ratio-grid" id="ratio-grid">
+        <!-- injected by JS -->
+      </div>
+    </div>
+
+    <!-- BORDER TYPE -->
+    <div class="section">
+      <div class="section-label">03 — Border Style</div>
+      <div class="tab-row">
+        <button class="tab active" data-tab="clean">Clean</button>
+        <button class="tab" data-tab="film">Film Stocks</button>
+      </div>
+
+      <!-- CLEAN BORDERS PANEL -->
+      <div class="clean-panel show" id="panel-clean">
+        <div class="sub-label">Border Color</div>
+        <div class="color-row" id="color-row">
+          <div class="color-swatch active" data-color="#FFFFFF" style="background:#FFFFFF;" title="White"></div>
+          <div class="color-swatch" data-color="#F5F0E8" style="background:#F5F0E8; border:1px solid #ccc;" title="Warm White"></div>
+          <div class="color-swatch" data-color="#0D0C0A" style="background:#0D0C0A;" title="Black"></div>
+          <div class="color-swatch" data-color="#1C1A15" style="background:#1C1A15;" title="Near Black"></div>
+          <div class="color-swatch" data-color="#C4B5A0" style="background:#C4B5A0;" title="Stone"></div>
+          <div class="color-swatch" data-color="#D4C5A9" style="background:#D4C5A9;" title="Sand"></div>
+          <div class="color-swatch" data-color="#8B7355" style="background:#8B7355;" title="Walnut"></div>
+        </div>
+        <div class="slider-row">
+          <span class="slider-label">Thickness</span>
+          <input type="range" id="border-size" min="2" max="25" value="8">
+          <span class="slider-val" id="border-size-val">8%</span>
+        </div>
+        <div class="slider-row">
+          <span class="slider-label">Inner Gap</span>
+          <input type="range" id="inner-gap" min="0" max="6" value="0">
+          <span class="slider-val" id="inner-gap-val">0%</span>
+        </div>
+      </div>
+
+      <!-- FILM STOCKS PANEL -->
+      <div class="film-panel" id="panel-film">
+        <div class="sub-label">35mm Film</div>
+        <div class="stock-grid" id="stock-grid-35mm"></div>
+        <div class="sub-label" style="margin-top:14px;">120 / Medium Format</div>
+        <div class="stock-grid" id="stock-grid-120"></div>
+        <div class="sub-label" style="margin-top:14px;">Special / Specialty</div>
+        <div class="stock-grid" id="stock-grid-special"></div>
+      </div>
+    </div>
+
+    <button class="dl-btn" id="dl-btn" disabled>↓ Download Image</button>
+  </div>
+
+  <!-- PREVIEW -->
+  <div class="preview-area">
+    <div class="empty-state" id="empty-state">
+      <div class="empty-film-icon">🎞</div>
+      <div class="empty-title">Load a photo to begin</div>
+      <div class="empty-sub">Upload · Crop · Choose a border · Download</div>
+    </div>
+    <div class="canvas-wrapper" id="canvas-wrapper">
+      <canvas id="preview-canvas"></canvas>
+      <div class="canvas-info" id="canvas-info"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── State ───────────────────────────────────────────────────────────────────
+let state = {
+  img: null,
+  ratio: '3:2',
+  borderMode: 'clean',
+  cleanColor: '#FFFFFF',
+  cleanSize: 8,
+  innerGap: 0,
+  stock: null,
+};
+
+// ─── Ratios ───────────────────────────────────────────────────────────────────
+const RATIOS = [
+  { label: '3:2',    name: '35mm',     w: 3,   h: 2,    rw: 22, rh: 15 },
+  { label: '1:1',    name: '6×6 MF',  w: 1,   h: 1,    rw: 18, rh: 18 },
+  { label: '4:3',    name: '645 MF',  w: 4,   h: 3,    rw: 22, rh: 17 },
+  { label: '7:6',    name: '6×7 MF',  w: 7,   h: 6,    rw: 22, rh: 19 },
+  { label: '4:5',    name: '4:5 IG',  w: 4,   h: 5,    rw: 16, rh: 20 },
+  { label: '16:9',   name: 'Cinema',  w: 16,  h: 9,    rw: 22, rh: 12 },
+  { label: '2.7:1',  name: 'XPan',   w: 2.7, h: 1,    rw: 22, rh: 8  },
+  { label: '2:3',    name: 'Portrt', w: 2,   h: 3,    rw: 15, rh: 22 },
+];
+
+// ─── Film Stocks ─────────────────────────────────────────────────────────────
+const STOCKS = {
+  '35mm': [
+    {
+      id: 'portra400',
+      name: 'Portra 400',
+      brand: 'Kodak',
+      iso: '400',
+      format: '35mm',
+      type: 'color',
+      swatchBg: '#1a1008',
+      swatchText: '#E6A020',
+      swatchLabel: 'P400',
+      tag: { label: 'Color', color: '#c0670c', bg: 'rgba(192,103,12,0.15)' },
+      rebate: '#0a0804',
+      edgeColor: '#E6A020',
+      edgeFont: 'bold',
+      edgeText: 'KODAK PORTRA 400',
+      numColor: '#c8880a',
+      perfColor: '#1f1810',
+      hasSprockets: true,
+    },
+    {
+      id: 'gold200',
+      name: 'Gold 200',
+      brand: 'Kodak',
+      iso: '200',
+      format: '35mm',
+      type: 'color',
+      swatchBg: '#1a1205',
+      swatchText: '#F5C542',
+      swatchLabel: 'G200',
+      tag: { label: 'Color', color: '#d4a017', bg: 'rgba(212,160,23,0.15)' },
+      rebate: '#0c0c06',
+      edgeColor: '#F5C542',
+      edgeFont: 'normal',
+      edgeText: 'KODAK GOLD 200',
+      numColor: '#D4B020',
+      perfColor: '#1a1a08',
+      hasSprockets: true,
+    },
+    {
+      id: 'ektar100',
+      name: 'Ektar 100',
+      brand: 'Kodak',
+      iso: '100',
+      format: '35mm',
+      type: 'color',
+      swatchBg: '#0e0505',
+      swatchText: '#E83030',
+      swatchLabel: 'E100',
+      tag: { label: 'Color', color: '#c0392b', bg: 'rgba(192,57,43,0.15)' },
+      rebate: '#080303',
+      edgeColor: '#E83030',
+      edgeFont: 'bold',
+      edgeText: 'KODAK EKTAR 100',
+      numColor: '#c02020',
+      perfColor: '#160606',
+      hasSprockets: true,
+    },
+    {
+      id: 'trix400',
+      name: 'Tri-X 400',
+      brand: 'Kodak',
+      iso: '400',
+      format: '35mm',
+      type: 'bw',
+      swatchBg: '#141414',
+      swatchText: '#DDDDDD',
+      swatchLabel: 'TX',
+      tag: { label: 'B&W', color: '#999', bg: 'rgba(150,150,150,0.1)' },
+      rebate: '#0a0a0a',
+      edgeColor: '#c8c8c8',
+      edgeFont: 'bold',
+      edgeText: 'KODAK TRI-X PAN FILM',
+      numColor: '#aaaaaa',
+      perfColor: '#1a1a1a',
+      hasSprockets: true,
+    },
+    {
+      id: 'hp5',
+      name: 'HP5 Plus 400',
+      brand: 'Ilford',
+      iso: '400',
+      format: '35mm',
+      type: 'bw',
+      swatchBg: '#0f0f0f',
+      swatchText: '#E8E8E0',
+      swatchLabel: 'HP5',
+      tag: { label: 'B&W', color: '#aaa', bg: 'rgba(150,150,150,0.1)' },
+      rebate: '#060606',
+      edgeColor: '#D8D8D0',
+      edgeFont: 'normal',
+      edgeText: 'ILFORD HP5 PLUS 400',
+      numColor: '#b0b0a8',
+      perfColor: '#141414',
+      hasSprockets: true,
+    },
+    {
+      id: 'superia400',
+      name: 'Superia 400',
+      brand: 'Fujifilm',
+      iso: '400',
+      format: '35mm',
+      type: 'color',
+      swatchBg: '#061a0a',
+      swatchText: '#3DB86A',
+      swatchLabel: 'SU4',
+      tag: { label: 'Color', color: '#2d9e5a', bg: 'rgba(45,158,90,0.12)' },
+      rebate: '#030d05',
+      edgeColor: '#3DB86A',
+      edgeFont: 'normal',
+      edgeText: 'FUJICOLOR SUPERIA 400',
+      numColor: '#2a9a50',
+      perfColor: '#08180a',
+      hasSprockets: true,
+    },
+  ],
+  '120': [
+    {
+      id: 'portra400-120',
+      name: 'Portra 400',
+      brand: 'Kodak',
+      iso: '400',
+      format: '120',
+      type: 'color',
+      swatchBg: '#1a1008',
+      swatchText: '#E6A020',
+      swatchLabel: 'P120',
+      tag: { label: 'Color', color: '#c0670c', bg: 'rgba(192,103,12,0.15)' },
+      rebate: '#0a0804',
+      edgeColor: '#E6A020',
+      edgeFont: 'bold',
+      edgeText: 'KODAK PORTRA 400',
+      numColor: '#c8880a',
+      hasSprockets: false,
+    },
+    {
+      id: 'velvia50',
+      name: 'Velvia 50',
+      brand: 'Fujifilm',
+      iso: '50',
+      format: '120',
+      type: 'slide',
+      swatchBg: '#0a0d18',
+      swatchText: '#6080F0',
+      swatchLabel: 'V50',
+      tag: { label: 'Slide', color: '#5070d8', bg: 'rgba(80,112,216,0.15)' },
+      rebate: '#05080e',
+      edgeColor: '#8090D0',
+      edgeFont: 'normal',
+      edgeText: 'FUJICHROME VELVIA 50',
+      numColor: '#5060a8',
+      hasSprockets: false,
+      isSlide: true,
+    },
+    {
+      id: 'fp4',
+      name: 'FP4 Plus 125',
+      brand: 'Ilford',
+      iso: '125',
+      format: '120',
+      type: 'bw',
+      swatchBg: '#0f0f0f',
+      swatchText: '#C8C8C0',
+      swatchLabel: 'FP4',
+      tag: { label: 'B&W', color: '#aaa', bg: 'rgba(150,150,150,0.1)' },
+      rebate: '#060606',
+      edgeColor: '#B8B8B0',
+      edgeFont: 'normal',
+      edgeText: 'ILFORD FP4 PLUS 125',
+      numColor: '#989890',
+      hasSprockets: false,
+    },
+  ],
+  'special': [
+    {
+      id: 'cinestill800t',
+      name: 'CineStill 800T',
+      brand: 'CineStill',
+      iso: '800',
+      format: '35mm',
+      type: 'cinema',
+      swatchBg: '#110a1a',
+      swatchText: '#B060E0',
+      swatchLabel: '800T',
+      tag: { label: 'Cinema', color: '#9040c8', bg: 'rgba(144,64,200,0.15)' },
+      rebate: '#080510',
+      edgeColor: '#B060E0',
+      edgeFont: 'bold',
+      edgeText: 'CINESTILL 800T',
+      numColor: '#8040b0',
+      perfColor: '#150a20',
+      hasSprockets: true,
+    },
+    {
+      id: 'lomopurple',
+      name: 'LomoChrome Purple',
+      brand: 'Lomography',
+      iso: '400',
+      format: '35mm',
+      type: 'experimental',
+      swatchBg: '#0e0510',
+      swatchText: '#D060A0',
+      swatchLabel: 'LCP',
+      tag: { label: 'Xprmntl', color: '#b04080', bg: 'rgba(176,64,128,0.15)' },
+      rebate: '#070310',
+      edgeColor: '#D060A0',
+      edgeFont: 'normal',
+      edgeText: 'LOMOGRAPHY LOMOCHROME PURPLE',
+      numColor: '#a03070',
+      perfColor: '#120618',
+      hasSprockets: true,
+    },
+    {
+      id: 'disposable',
+      name: 'Disposable Look',
+      brand: 'Generic',
+      iso: '400',
+      format: '35mm',
+      type: 'lo-fi',
+      swatchBg: '#0f0e0a',
+      swatchText: '#C8B890',
+      swatchLabel: 'DSP',
+      tag: { label: 'Lo-Fi', color: '#9a8860', bg: 'rgba(154,136,96,0.15)' },
+      rebate: '#090807',
+      edgeColor: '#C8B890',
+      edgeFont: 'normal',
+      edgeText: '400-27 EXPOSURES',
+      numColor: '#a89870',
+      perfColor: '#181510',
+      hasSprockets: true,
+    },
+  ],
+};
+
+// ─── Build Ratio Grid ─────────────────────────────────────────────────────────
+const ratioGrid = document.getElementById('ratio-grid');
+RATIOS.forEach(r => {
+  const btn = document.createElement('button');
+  btn.className = 'ratio-btn' + (r.label === state.ratio ? ' active' : '');
+  btn.dataset.ratio = r.label;
+
+  const rect = document.createElement('div');
+  rect.className = 'ratio-rect';
+  rect.style.width = r.rw + 'px';
+  rect.style.height = r.rh + 'px';
+
+  const name = document.createElement('div');
+  name.className = 'ratio-name';
+  name.innerHTML = r.label + '<br>' + r.name;
+
+  btn.appendChild(rect);
+  btn.appendChild(name);
+
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.ratio-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.ratio = r.label;
+    render();
+  });
+
+  ratioGrid.appendChild(btn);
+});
+
+// ─── Build Stock Cards ────────────────────────────────────────────────────────
+function buildStocks(stocks, containerId) {
+  const container = document.getElementById(containerId);
+  stocks.forEach(s => {
+    const card = document.createElement('div');
+    card.className = 'stock-card';
+    card.dataset.stockId = s.id;
+
+    const swatch = document.createElement('div');
+    swatch.className = 'stock-swatch';
+    swatch.style.background = s.swatchBg;
+    swatch.style.color = s.swatchText;
+    swatch.style.border = `1px solid ${s.swatchText}33`;
+    swatch.textContent = s.swatchLabel;
+
+    const info = document.createElement('div');
+    info.className = 'stock-info';
+    info.innerHTML = `<div class="stock-name">${s.name}</div><div class="stock-sub">${s.brand} · ISO ${s.iso} · ${s.format}</div>`;
+
+    const tag = document.createElement('div');
+    tag.className = 'stock-tag';
+    tag.textContent = s.tag.label;
+    tag.style.color = s.tag.color;
+    tag.style.background = s.tag.bg;
+
+    card.appendChild(swatch);
+    card.appendChild(info);
+    card.appendChild(tag);
+
+    card.addEventListener('click', () => {
+      document.querySelectorAll('.stock-card').forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+      state.stock = s;
+      render();
+    });
+
+    container.appendChild(card);
+  });
+}
+
+buildStocks(STOCKS['35mm'], 'stock-grid-35mm');
+buildStocks(STOCKS['120'], 'stock-grid-120');
+buildStocks(STOCKS['special'], 'stock-grid-special');
+
+// ─── Tabs ─────────────────────────────────────────────────────────────────────
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    state.borderMode = tab.dataset.tab;
+
+    document.getElementById('panel-clean').classList.toggle('show', state.borderMode === 'clean');
+    document.getElementById('panel-film').classList.toggle('show', state.borderMode === 'film');
+    render();
+  });
+});
+
+// ─── Color Swatches ───────────────────────────────────────────────────────────
+document.querySelectorAll('#color-row .color-swatch').forEach(sw => {
+  sw.addEventListener('click', () => {
+    document.querySelectorAll('#color-row .color-swatch').forEach(s => s.classList.remove('active'));
+    sw.classList.add('active');
+    state.cleanColor = sw.dataset.color;
+    render();
+  });
+});
+
+// ─── Sliders ──────────────────────────────────────────────────────────────────
+const sliderSize = document.getElementById('border-size');
+const sliderSizeVal = document.getElementById('border-size-val');
+const sliderGap = document.getElementById('inner-gap');
+const sliderGapVal = document.getElementById('inner-gap-val');
+
+sliderSize.addEventListener('input', () => {
+  state.cleanSize = parseInt(sliderSize.value);
+  sliderSizeVal.textContent = sliderSize.value + '%';
+  render();
+});
+
+sliderGap.addEventListener('input', () => {
+  state.innerGap = parseInt(sliderGap.value);
+  sliderGapVal.textContent = sliderGap.value + '%';
+  render();
+});
+
+// ─── Upload ───────────────────────────────────────────────────────────────────
+const uploadZone = document.getElementById('upload-zone');
+const fileInput = document.getElementById('file-input');
+
+uploadZone.addEventListener('click', () => fileInput.click());
+uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag-over'); });
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
+uploadZone.addEventListener('drop', e => {
+  e.preventDefault();
+  uploadZone.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) loadImage(file);
+});
+
+fileInput.addEventListener('change', () => {
+  if (fileInput.files[0]) loadImage(fileInput.files[0]);
+});
+
+function loadImage(file) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = new Image();
+    img.onload = () => {
+      state.img = img;
+      document.getElementById('empty-state').style.display = 'none';
+      document.getElementById('canvas-wrapper').classList.add('show');
+      document.getElementById('dl-btn').disabled = false;
+      render();
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+// ─── Main Render ──────────────────────────────────────────────────────────────
+const canvas = document.getElementById('preview-canvas');
+const ctx = canvas.getContext('2d');
+
+function getRatioDims() {
+  const r = RATIOS.find(r => r.label === state.ratio) || RATIOS[0];
+  return { w: r.w, h: r.h };
+}
+
+function render() {
+  if (!state.img) return;
+
+  const BASE = 1200; // output resolution base
+  const { w: rw, h: rh } = getRatioDims();
+  const aspect = rw / rh;
+
+  // Output canvas size
+  let outW, outH;
+  if (aspect >= 1) {
+    outW = BASE;
+    outH = Math.round(BASE / aspect);
+  } else {
+    outH = BASE;
+    outW = Math.round(BASE * aspect);
+  }
+
+  canvas.width = outW;
+  canvas.height = outH;
+
+  if (state.borderMode === 'clean') {
+    renderClean(outW, outH);
+  } else if (state.borderMode === 'film' && state.stock) {
+    renderFilm(outW, outH, state.stock);
+  } else {
+    // No stock selected yet — show image with minimal border
+    renderClean(outW, outH);
+  }
+
+  // Update info
+  const info = document.getElementById('canvas-info');
+  info.textContent = `${state.ratio} · ${outW} × ${outH}px · ${state.borderMode === 'film' && state.stock ? state.stock.brand + ' ' + state.stock.name : 'Clean Border'}`;
+}
+
+// ─── Clean Border Render ─────────────────────────────────────────────────────
+function renderClean(outW, outH) {
+  const bPct = state.cleanSize / 100;
+  const gPct = state.innerGap / 100;
+
+  const bx = Math.round(outW * bPct);
+  const by = Math.round(outH * bPct);
+  const gx = Math.round(outW * gPct);
+  const gy = Math.round(outH * gPct);
+
+  // Draw border background
+  ctx.fillStyle = state.cleanColor;
+  ctx.fillRect(0, 0, outW, outH);
+
+  // Inner gap line (accent color if gap > 0)
+  if (state.innerGap > 0) {
+    const lineW = 1;
+    const lineColor = state.cleanColor === '#FFFFFF' || state.cleanColor === '#F5F0E8' ? '#00000018' : '#ffffff15';
+    ctx.strokeStyle = lineColor;
+    ctx.lineWidth = lineW;
+    ctx.strokeRect(bx - gx + 4, by - gy + 4, outW - (bx - gx + 4) * 2, outH - (by - gy + 4) * 2);
+  }
+
+  // Draw image, cover-cropped into the inner area
+  const imgX = bx;
+  const imgY = by;
+  const imgW = outW - bx * 2;
+  const imgH = outH - by * 2;
+
+  drawCoveredImage(imgX, imgY, imgW, imgH);
+}
+
+// ─── Film Border Render ───────────────────────────────────────────────────────
+function renderFilm(outW, outH, stock) {
+  const is35mm = stock.hasSprockets;
+  const isSlide = stock.isSlide;
+
+  // Border sizes
+  const sideBorder = Math.round(outW * 0.04);
+  const topBorder = is35mm
+    ? Math.round(outH * 0.115)
+    : (isSlide ? Math.round(outH * 0.065) : Math.round(outH * 0.06));
+
+  // Fill entire canvas with rebate color
+  ctx.fillStyle = stock.rebate;
+  ctx.fillRect(0, 0, outW, outH);
+
+  // Image area
+  const imgX = sideBorder;
+  const imgY = topBorder;
+  const imgW = outW - sideBorder * 2;
+  const imgH = outH - topBorder * 2;
+
+  // Draw image
+  drawCoveredImage(imgX, imgY, imgW, imgH);
+
+  // Film frame border (subtle bright line right at image edge)
+  ctx.strokeStyle = stock.edgeColor + '50';
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(imgX + 0.75, imgY + 0.75, imgW - 1.5, imgH - 1.5);
+
+  if (is35mm) {
+    draw35mmEdge(outW, outH, imgX, imgY, imgW, imgH, topBorder, sideBorder, stock);
+  } else if (isSlide) {
+    drawSlideEdge(outW, outH, imgX, imgY, imgW, imgH, topBorder, sideBorder, stock);
+  } else {
+    draw120Edge(outW, outH, imgX, imgY, imgW, imgH, topBorder, sideBorder, stock);
+  }
+}
+
+// ─── 35mm Edge ────────────────────────────────────────────────────────────────
+function draw35mmEdge(outW, outH, imgX, imgY, imgW, imgH, topBorder, sideBorder, stock) {
+  // Sprocket holes
+  const perfW = Math.round(topBorder * 0.52);
+  const perfH = Math.round(topBorder * 0.62);
+  const perfRadius = Math.round(perfH * 0.15);
+  const numPerfs = Math.floor(imgW / (perfW * 2.2));
+  const spacing = imgW / numPerfs;
+  const perfStartX = imgX + spacing / 2 - perfW / 2;
+
+  const perfY_top = Math.round(topBorder * 0.19);
+  const perfY_bot = outH - topBorder + Math.round(topBorder * 0.19);
+
+  ctx.fillStyle = stock.perfColor || '#1a1a1a';
+
+  for (let i = 0; i < numPerfs; i++) {
+    const px = perfStartX + i * spacing;
+    // Top perforation
+    drawRoundRect(ctx, px, perfY_top, perfW, perfH, perfRadius);
+    ctx.fill();
+    // Bottom perforation
+    drawRoundRect(ctx, px, perfY_bot, perfW, perfH, perfRadius);
+    ctx.fill();
+  }
+
+  // Stock name top-left of top bar
+  const fontSize = Math.round(topBorder * 0.22);
+  ctx.fillStyle = stock.edgeColor;
+  ctx.font = `${stock.edgeFont === 'bold' ? '700' : '400'} ${fontSize}px 'Courier Prime', monospace`;
+  ctx.textBaseline = 'middle';
+  ctx.textAlign = 'left';
+  ctx.fillText(stock.edgeText, imgX, topBorder * 0.75);
+
+  // Bottom edge: ISO info
+  ctx.font = `400 ${Math.round(fontSize * 0.85)}px 'Courier Prime', monospace`;
+  ctx.fillStyle = stock.edgeColor + 'aa';
+  ctx.fillText('ISO ' + (stock.iso || '400'), imgX, outH - topBorder * 0.5);
+
+  // Frame numbers along top
+  ctx.fillStyle = stock.numColor || stock.edgeColor;
+  ctx.font = `700 ${Math.round(fontSize * 0.9)}px 'Courier Prime', monospace`;
+  ctx.textAlign = 'right';
+  const numCount = Math.floor(imgW / (topBorder * 2));
+  const numSpacing = imgW / numCount;
+  for (let i = 1; i <= numCount; i++) {
+    const nx = imgX + i * numSpacing - numSpacing / 2;
+    ctx.fillText(String(i).padStart(2, '0') + 'A', nx, topBorder * 0.52);
+    ctx.fillText(String(i).padStart(2, '0') + 'A', nx, outH - topBorder * 0.5);
+  }
+
+  // DX-style barcode hint on right side border
+  if (sideBorder > 12) {
+    drawDXBars(ctx, outW - sideBorder + 4, imgY + imgH * 0.1, sideBorder - 8, imgH * 0.3, stock.edgeColor);
+  }
+}
+
+// ─── 120 Edge ────────────────────────────────────────────────────────────────
+function draw120Edge(outW, outH, imgX, imgY, imgW, imgH, topBorder, sideBorder, stock) {
+  const fontSize = Math.round(topBorder * 0.28);
+
+  // Frame line
+  ctx.strokeStyle = stock.edgeColor + '30';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(imgX - 2, imgY - 2, imgW + 4, imgH + 4);
+
+  // Stock name
+  ctx.fillStyle = stock.edgeColor;
+  ctx.font = `400 ${fontSize}px 'Courier Prime', monospace`;
+  ctx.textBaseline = 'middle';
+  ctx.textAlign = 'left';
+  ctx.fillText(stock.edgeText, imgX, topBorder / 2);
+
+  // ISO bottom
+  ctx.font = `400 ${Math.round(fontSize * 0.85)}px 'Courier Prime', monospace`;
+  ctx.fillStyle = stock.edgeColor + 'aa';
+  ctx.fillText('120 · ISO ' + stock.iso, imgX, outH - topBorder / 2);
+
+  // Frame number arrows (medium format style) — frame number along side
+  ctx.fillStyle = stock.numColor + 'cc';
+  ctx.font = `700 ${Math.round(fontSize * 1.1)}px 'Courier Prime', monospace`;
+  ctx.textAlign = 'center';
+  ctx.fillText('01', outW - sideBorder / 2, imgY + imgH / 2);
+  ctx.fillText('▸', outW - sideBorder / 2, imgY + imgH / 2 - fontSize * 1.4);
+  ctx.fillText('▸', outW - sideBorder / 2, imgY + imgH / 2 + fontSize * 1.4);
+}
+
+// ─── Slide/Velvia Edge ────────────────────────────────────────────────────────
+function drawSlideEdge(outW, outH, imgX, imgY, imgW, imgH, topBorder, sideBorder, stock) {
+  // Slide mount look — cream/white inner mount, thin orange outside
+  const mountPad = Math.round(topBorder * 0.3);
+  
+  // Inner mount color
+  ctx.strokeStyle = '#e0d8c4';
+  ctx.lineWidth = mountPad;
+  ctx.strokeRect(imgX - mountPad/2, imgY - mountPad/2, imgW + mountPad, imgH + mountPad);
+
+  // Outer line
+  ctx.strokeStyle = stock.edgeColor + '80';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(imgX - mountPad - 1, imgY - mountPad - 1, imgW + mountPad*2 + 2, imgH + mountPad*2 + 2);
+
+  const fontSize = Math.round(topBorder * 0.22);
+  ctx.fillStyle = stock.edgeColor;
+  ctx.font = `400 ${fontSize}px 'Courier Prime', monospace`;
+  ctx.textBaseline = 'middle';
+  ctx.textAlign = 'left';
+  ctx.fillText(stock.edgeText, imgX, topBorder / 2);
+
+  ctx.fillStyle = stock.edgeColor + 'aa';
+  ctx.font = `400 ${Math.round(fontSize * 0.85)}px 'Courier Prime', monospace`;
+  ctx.fillText('E6 · ISO ' + stock.iso, imgX, outH - topBorder / 2);
+}
+
+// ─── DX Barcode hint ─────────────────────────────────────────────────────────
+function drawDXBars(ctx, x, y, w, h, color) {
+  const bars = [1,0,1,1,0,1,0,1,1,0,1];
+  const bw = w * 0.3;
+  const bh = h / bars.length * 0.7;
+  const gap = h / bars.length;
+  ctx.fillStyle = color + '60';
+  bars.forEach((on, i) => {
+    if (on) ctx.fillRect(x + w * 0.2, y + i * gap, bw, bh);
+  });
+}
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+function drawRoundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+function drawCoveredImage(x, y, w, h) {
+  if (!state.img) return;
+  const img = state.img;
+  const scaleW = w / img.width;
+  const scaleH = h / img.height;
+  const scale = Math.max(scaleW, scaleH);
+  const sw = img.width * scale;
+  const sh = img.height * scale;
+  const sx = x + (w - sw) / 2;
+  const sy = y + (h - sh) / 2;
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(x, y, w, h);
+  ctx.clip();
+  ctx.drawImage(img, sx, sy, sw, sh);
+  ctx.restore();
+}
+
+// ─── Download ─────────────────────────────────────────────────────────────────
+document.getElementById('dl-btn').addEventListener('click', () => {
+  const link = document.createElement('a');
+  const name = state.stock
+    ? `frame-${state.stock.brand.toLowerCase()}-${state.stock.name.replace(/\s+/g,'-').toLowerCase()}-${state.ratio.replace(':','-')}`
+    : `frame-${state.ratio.replace(':','-')}-clean`;
+  link.download = name + '.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+});
+
+</script>
+</body>
+</html>
