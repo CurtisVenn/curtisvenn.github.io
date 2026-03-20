@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FRAME — Film Border Studio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>FRAME — Film Border Studio Mobile</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Barlow+Condensed:wght@300;400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -11,267 +11,91 @@
 :root{
   --bg:#0e0c0a; --bg2:#181410; --border:#3a3028;
   --gold:#c9a96e; --gold2:#e8c98a; --cream:#f0ead8;
-  --muted:#6b5e4a; --text:#d4c9b0;
-  --hdr:52px;
+  --muted:#6b5e4a; --text:#d4c9b0; --danger:#c0392b;
+  --hdr:56px;
 }
-
-/* ── RESET & BASE ─────────────────────────────────── */
-html,body { height:100%; overflow:hidden; }
-body { background:var(--bg); color:var(--text); font-family:'Barlow Condensed',sans-serif; display:flex; flex-direction:column; }
-
-/* ── HEADER ──────────────────────────────────────── */
-header {
-  height:var(--hdr); min-height:var(--hdr); flex-shrink:0;
-  display:flex; align-items:center; justify-content:space-between;
-  padding:0 26px; border-bottom:1px solid var(--border); background:var(--bg2); z-index:10;
+html,body{height:100%;background:var(--bg)}
+body{
+  color:var(--text);font-family:'Barlow Condensed',sans-serif;
+  display:flex;flex-direction:column;min-height:100dvh;
+  overflow:hidden;-webkit-text-size-adjust:100%;
 }
-.logo { display:flex; align-items:baseline; gap:10px; }
-.logo-word { font-family:'Playfair Display',serif; font-size:24px; font-weight:700; letter-spacing:.12em; color:var(--cream); }
-.logo-sub  { font-size:10px; letter-spacing:.25em; color:var(--gold); text-transform:uppercase; }
-.hdr-right { display:flex; align-items:center; gap:12px; }
-.hdr-note  { font-size:10px; letter-spacing:.15em; color:var(--muted); text-transform:uppercase; }
-
-/* ── MAIN LAYOUT ─────────────────────────────────── */
-.app {
-  display:flex;
-  height:calc(100vh - var(--hdr));
-  overflow:hidden; /* critical: contains children */
+header{
+  height:var(--hdr);min-height:var(--hdr);flex-shrink:0;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:max(10px, env(safe-area-inset-top)) 16px 10px 16px;
+  border-bottom:1px solid var(--border);background:var(--bg2);z-index:20;
 }
-
-/* ── SIDEBAR ─────────────────────────────────────── */
-.sidebar {
-  width:280px; flex-shrink:0;
-  height:100%; /* fill app height */
-  overflow-y:auto; overflow-x:hidden;
-  background:var(--bg2);
-  border-right:1px solid var(--border);
-  display:flex; flex-direction:column;
+.logo{display:flex;align-items:baseline;gap:10px;min-width:0}
+.logo-word{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;letter-spacing:.12em;color:var(--cream)}
+.logo-sub{font-size:10px;letter-spacing:.22em;color:var(--gold);text-transform:uppercase}
+.hdr-right{display:flex;align-items:center;gap:8px;min-width:0}
+.hdr-note{font-size:10px;letter-spacing:.15em;color:var(--muted);text-transform:uppercase}
+.hdr-btns{display:flex;gap:6px;align-items:center}
+.hdr-btn{
+  min-height:36px;padding:7px 10px;background:transparent;border:1px solid var(--border);
+  border-radius:3px;font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:.15s;
+  white-space:nowrap;
 }
-.sidebar::-webkit-scrollbar { width:3px; }
-.sidebar::-webkit-scrollbar-track { background:var(--bg2); }
-.sidebar::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
-
-/* ── PREVIEW AREA ────────────────────────────────── */
-.preview-area {
-  flex:1;
-  height:100%; /* fill app height */
-  overflow:hidden;
-  display:flex; align-items:center; justify-content:center;
-  position:relative;
-  background:var(--bg);
+.hdr-btn:hover,.hdr-btn:active{border-color:var(--gold);color:var(--text)}
+.hdr-btn:disabled{opacity:.25;cursor:not-allowed}
+.hdr-btn.before-btn.held{background:rgba(201,169,110,.15);border-color:var(--gold);color:var(--gold)}
+.hdr-btn.danger:hover,.hdr-btn.danger:active{border-color:var(--danger);color:#f26d5f}
+.app{display:flex;flex:1;min-height:0;overflow:hidden}
+.sidebar{
+  width:290px;flex-shrink:0;height:100%;overflow-y:auto;overflow-x:hidden;background:var(--bg2);
+  border-right:1px solid var(--border);display:flex;flex-direction:column;overscroll-behavior:contain;
 }
-/* grain texture */
-.preview-area::before {
-  content:''; position:absolute; inset:0; pointer-events:none; z-index:0;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.025'/%3E%3C/svg%3E");
-  opacity:.5;
+.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-track{background:var(--bg2)}.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.preview-area{flex:1;height:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative;background:var(--bg);padding:18px}
+.preview-area::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.025'/%3E%3C/svg%3E");opacity:.45}
+.canvas-wrapper{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:10px;max-width:100%;max-height:100%}
+.canvas-stack{position:relative;display:block;line-height:0;box-shadow:0 16px 60px rgba(0,0,0,.9),0 4px 16px rgba(0,0,0,.6);border-radius:8px;overflow:hidden}
+#preview-canvas{display:block;cursor:grab;max-width:100%;max-height:calc(100dvh - var(--hdr) - 112px)}
+#preview-canvas.dragging{cursor:grabbing}#preview-canvas.burn-mode{cursor:crosshair}
+#overlay-canvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
+.canvas-info{font-size:9px;letter-spacing:.14em;color:var(--muted);text-align:center;line-height:1.6;user-select:none;padding:0 10px}
+.mode-badge{position:absolute;top:12px;left:50%;transform:translateX(-50%);background:rgba(201,169,110,.92);color:#0e0c0a;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:5px 14px;border-radius:2px;pointer-events:none;opacity:0;transition:opacity .3s;white-space:nowrap;z-index:10}
+.mode-badge.show{opacity:1}
+.before-label{position:absolute;top:12px;right:16px;z-index:20;background:rgba(14,12,10,.88);border:1px solid var(--gold);color:var(--gold);font-size:10px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;padding:5px 12px;border-radius:2px;pointer-events:none;opacity:0;transition:opacity .15s}
+.before-label.show{opacity:1}
+.empty-state{position:absolute;z-index:2;text-align:center;pointer-events:none;padding:0 20px}
+.empty-icon{font-size:56px;opacity:.08;margin-bottom:14px}.empty-title{font-family:'Playfair Display',serif;font-size:22px;font-style:italic;color:var(--text);opacity:.3;margin-bottom:6px}.empty-sub{font-size:11px;letter-spacing:.15em;color:var(--muted);opacity:.35}
+.section{border-bottom:1px solid var(--border);padding:14px 15px}.sec-label{font-size:10px;font-weight:700;letter-spacing:.28em;color:var(--gold);text-transform:uppercase;margin-bottom:11px}
+.upload-zone{border:1px dashed var(--border);border-radius:4px;padding:16px 12px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg)}
+.upload-zone:hover,.upload-zone.over{border-color:var(--gold);background:rgba(201,169,110,.05)}
+.upl-icon{font-size:22px;opacity:.35;margin-bottom:5px}.upl-text{font-size:12px;font-weight:500;letter-spacing:.08em}.upl-sub{font-size:10px;color:var(--muted);margin-top:2px}
+.ratio-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}.ratio-btn{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:8px 4px;cursor:pointer;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:4px}.ratio-btn:hover{border-color:var(--gold)}.ratio-btn.active{border-color:var(--gold);background:rgba(201,169,110,.1)}.ratio-rect{background:var(--border);border:1px solid var(--muted);transition:all .15s}.ratio-btn.active .ratio-rect{background:var(--gold);border-color:var(--gold2)}.ratio-name{font-size:8px;font-weight:600;letter-spacing:.07em;color:var(--muted);text-align:center;line-height:1.3}.ratio-btn.active .ratio-name{color:var(--gold)}
+.tab-row{display:flex;margin-bottom:11px;border:1px solid var(--border);border-radius:4px;overflow:hidden}.tab{flex:1;padding:8px 4px;font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;text-align:center;background:var(--bg);color:var(--muted);border:none;transition:all .15s}.tab+.tab{border-left:1px solid var(--border)}.tab.active{background:var(--gold);color:var(--bg)}
+.panel{display:none}.panel.show{display:block}
+.slider-row{display:flex;align-items:center;gap:8px;margin-bottom:9px}.sl-lbl{font-size:9px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;min-width:58px}.sl-val{font-size:10px;color:var(--gold);min-width:34px;text-align:right;font-family:'Courier Prime',monospace}
+input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:3px;background:var(--border);border-radius:1px;outline:none;cursor:pointer}input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--gold);border:2px solid var(--bg2);cursor:pointer}
+.color-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:11px}.cswatch{width:24px;height:24px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .15s;position:relative;flex-shrink:0}.cswatch.active{border-color:var(--gold);transform:scale(1.12)}.cswatch::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:1px solid var(--gold);opacity:0;transition:opacity .15s}.cswatch.active::after{opacity:1}
+.sub-lbl{font-size:9px;font-weight:600;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;margin:9px 0 6px;opacity:.65}
+.stock-grid{display:flex;flex-direction:column;gap:5px}.stock-card{display:flex;align-items:center;gap:8px;padding:8px 9px;background:var(--bg);border:1px solid var(--border);border-radius:4px;cursor:pointer;transition:all .15s}.stock-card:hover{border-color:var(--gold)}.stock-card.active{border-color:var(--gold);background:rgba(201,169,110,.08)}.sswatch{width:30px;height:19px;border-radius:2px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:700;font-family:'Courier Prime',monospace}.sinfo{flex:1;min-width:0}.sname{font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--cream);line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ssub{font-size:9px;color:var(--muted);margin-top:2px}.stag{font-size:7px;font-weight:600;letter-spacing:.1em;padding:2px 4px;border-radius:2px;text-transform:uppercase;flex-shrink:0}
+.cust-hd{display:flex;align-items:center;justify-content:space-between;padding:7px 0 0;cursor:pointer;margin-top:7px;border-top:1px solid var(--border)}.cust-lbl{font-size:9px;font-weight:600;letter-spacing:.18em;color:var(--muted);text-transform:uppercase}.cust-arr{font-size:10px;color:var(--muted);transition:transform .2s}.cust-body{display:none;padding-top:9px}.cust-body.open{display:block}.tog-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.tog-lbl{font-size:9px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}.tog{width:32px;height:18px;border-radius:10px;background:var(--border);position:relative;cursor:pointer;transition:background .2s;flex-shrink:0}.tog.on{background:var(--gold)}.tog::after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--bg2);transition:left .2s}.tog.on::after{left:16px;background:var(--bg)}
+.burn-presets{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:12px}.bcard{border:1px solid var(--border);border-radius:4px;cursor:pointer;transition:all .15s;overflow:hidden;aspect-ratio:3/2;position:relative}.bcard:hover{border-color:var(--gold)}.bcard.active{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}.bcard canvas{width:100%;height:100%;display:block}.bcard-lbl{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.72);font-size:7px;font-weight:600;letter-spacing:.08em;color:var(--text);text-align:center;padding:3px 2px}
+.burn-controls{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:11px}.burn-pos-wrap{position:relative;margin-bottom:10px}.burn-pos-canvas{width:100%;aspect-ratio:3/2;border-radius:2px;border:1px solid var(--border);display:block;cursor:crosshair}.burn-pos-label{font-size:9px;letter-spacing:.15em;color:var(--muted);text-align:center;margin-bottom:5px;text-transform:uppercase}
+.burn-color-row{display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap}.bclr{width:20px;height:20px;border-radius:3px;cursor:pointer;border:2px solid transparent;transition:all .12s;flex-shrink:0}.bclr.active{border-color:var(--gold);transform:scale(1.14)}
+.blend-row,.canvas-mode-row{display:flex;gap:4px}.blend-btn,.cmode-btn{flex:1;padding:7px 4px;background:var(--bg);border:1px solid var(--border);border-radius:3px;font-size:8px;font-weight:700;letter-spacing:.12em;color:var(--muted);cursor:pointer;transition:all .15s;text-transform:uppercase;text-align:center}.blend-btn:hover,.cmode-btn:hover{border-color:var(--gold);color:var(--text)}.blend-btn.active,.cmode-btn.active{background:rgba(201,169,110,.15);border-color:var(--gold);color:var(--gold)}
+.dl-btn{margin:12px 15px calc(16px + env(safe-area-inset-bottom));padding:12px;background:var(--gold);color:var(--bg);font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;border:none;border-radius:4px;cursor:pointer;transition:all .2s}.dl-btn:hover{background:var(--gold2);transform:translateY(-1px)}.dl-btn:disabled{opacity:.2;cursor:not-allowed;transform:none}
+@media (max-width: 900px){
+  body{overflow:auto}
+  .app{flex-direction:column;overflow:visible;min-height:calc(100dvh - var(--hdr))}
+  header{height:auto;min-height:78px;align-items:flex-start;flex-wrap:wrap}
+  .logo{width:100%}.hdr-right{width:100%;justify-content:space-between}.hdr-btns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%}.hdr-btn{min-height:40px;padding:8px 6px;font-size:9px;letter-spacing:.1em}.hdr-note{display:none}
+  .preview-area{order:1;height:auto;min-height:42dvh;padding:14px 10px 12px;align-items:flex-start;overflow:visible}.canvas-wrapper{width:100%}.canvas-stack{display:flex;justify-content:center;width:100%}#preview-canvas{max-height:min(50dvh,430px)}.canvas-info{font-size:8px;letter-spacing:.1em}
+  .sidebar{order:2;width:100%;height:auto;max-height:none;border-right:none;border-top:1px solid var(--border);border-radius:18px 18px 0 0;padding-bottom:calc(10px + env(safe-area-inset-bottom))}
+  .section{padding:14px}.upload-zone{min-height:80px;padding:18px 12px}.ratio-btn{min-height:64px}.tab{min-height:40px;font-size:10px}.stock-card{min-height:52px;padding:10px}.sswatch{width:34px;height:22px;font-size:7px}.sname{font-size:12px}.ssub{font-size:10px}.stag{font-size:8px}
+  .slider-row{gap:10px;margin-bottom:10px}.sl-lbl{min-width:62px;font-size:10px}.sl-val{font-size:10px;min-width:36px}input[type=range]{height:4px}input[type=range]::-webkit-slider-thumb{width:20px;height:20px;border-width:3px}.cswatch{width:30px;height:30px}.tog{width:38px;height:22px}.tog::after{top:3px;left:3px;width:16px;height:16px}.tog.on::after{left:19px}.blend-btn,.cmode-btn{min-height:38px}.dl-btn{position:sticky;bottom:0;z-index:5;min-height:48px;font-size:13px}
 }
-
-/* canvas wrapper — fills the preview area */
-.canvas-wrapper {
-  position:relative; z-index:1;
-  display:flex; flex-direction:column; align-items:center; gap:10px;
-  max-width:calc(100% - 48px);
-  max-height:calc(100% - 48px);
+@media (max-width: 520px){
+  .ratio-grid{grid-template-columns:repeat(2,1fr)}.burn-presets{grid-template-columns:repeat(2,1fr)}.logo-word{font-size:20px}.logo-sub{font-size:9px}.hdr-btn{font-size:8px;letter-spacing:.06em}#preview-canvas{max-height:min(46dvh,350px)}
 }
-#preview-canvas {
-  display:block;
-  cursor:grab;
-}
-#preview-canvas.dragging   { cursor:grabbing; }
-#preview-canvas.burn-mode  { cursor:crosshair; }
-
-/* overlay canvas — sits exactly on top of preview-canvas, never exported */
-.canvas-stack {
-  position:relative;
-  display:block;   /* inline-block so it shrinks to canvas natural size */
-  line-height:0;
-  box-shadow:0 16px 60px rgba(0,0,0,.9), 0 4px 16px rgba(0,0,0,.6);
-}
-.canvas-stack #preview-canvas {
-  display:block;
-  /* constrain CSS display size — internal res stays 1200px, browser scales proportionally */
-  max-width:100%;
-  max-height:calc(100vh - var(--hdr) - 96px);
-  /* critical: no width/height set, so the browser uses canvas intrinsic aspect ratio */
-}
-#overlay-canvas {
-  position:absolute; top:0; left:0;
-  width:100%; height:100%;
-  pointer-events:none; /* clicks pass through to preview-canvas */
-}
-
-.canvas-info {
-  font-size:9px; letter-spacing:.14em; color:var(--muted); text-align:center; line-height:1.6;
-  user-select:none;
-}
-
-/* mode badge overlay */
-.mode-badge {
-  position:absolute; top:12px; left:50%; transform:translateX(-50%);
-  background:rgba(201,169,110,.92); color:#0e0c0a;
-  font-size:10px; font-weight:700; letter-spacing:.2em; text-transform:uppercase;
-  padding:5px 14px; border-radius:2px; pointer-events:none;
-  opacity:0; transition:opacity .3s; white-space:nowrap; z-index:10;
-}
-.mode-badge.show { opacity:1; }
-
-/* empty state */
-.empty-state {
-  position:absolute; z-index:2; text-align:center; pointer-events:none;
-}
-.empty-icon  { font-size:52px; opacity:.08; margin-bottom:14px; }
-.empty-title { font-family:'Playfair Display',serif; font-size:22px; font-style:italic; color:var(--text); opacity:.3; margin-bottom:6px; }
-.empty-sub   { font-size:11px; letter-spacing:.15em; color:var(--muted); opacity:.35; }
-
-/* ── SIDEBAR SECTIONS ────────────────────────────── */
-.section { border-bottom:1px solid var(--border); padding:13px 15px; }
-.sec-label { font-size:10px; font-weight:700; letter-spacing:.28em; color:var(--gold); text-transform:uppercase; margin-bottom:11px; }
-
-/* upload */
-.upload-zone {
-  border:1px dashed var(--border); border-radius:3px; padding:16px 12px;
-  text-align:center; cursor:pointer; transition:all .2s; background:var(--bg);
-}
-.upload-zone:hover, .upload-zone.over { border-color:var(--gold); background:rgba(201,169,110,.05); }
-.upl-icon { font-size:22px; opacity:.35; margin-bottom:5px; }
-.upl-text { font-size:12px; font-weight:500; letter-spacing:.08em; }
-.upl-sub  { font-size:10px; color:var(--muted); margin-top:2px; }
-
-/* ratio grid */
-.ratio-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:4px; }
-.ratio-btn {
-  background:var(--bg); border:1px solid var(--border); border-radius:3px;
-  padding:7px 3px; cursor:pointer; transition:all .15s;
-  display:flex; flex-direction:column; align-items:center; gap:4px;
-}
-.ratio-btn:hover       { border-color:var(--gold); }
-.ratio-btn.active      { border-color:var(--gold); background:rgba(201,169,110,.1); }
-.ratio-rect            { background:var(--border); border:1px solid var(--muted); transition:all .15s; }
-.ratio-btn.active .ratio-rect { background:var(--gold); border-color:var(--gold2); }
-.ratio-name { font-size:8px; font-weight:600; letter-spacing:.07em; color:var(--muted); text-align:center; line-height:1.3; }
-.ratio-btn.active .ratio-name { color:var(--gold); }
-
-/* tabs */
-.tab-row { display:flex; margin-bottom:11px; border:1px solid var(--border); border-radius:3px; overflow:hidden; }
-.tab { flex:1; padding:6px 3px; font-size:9px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; cursor:pointer; text-align:center; background:var(--bg); color:var(--muted); border:none; transition:all .15s; }
-.tab+.tab { border-left:1px solid var(--border); }
-.tab.active { background:var(--gold); color:var(--bg); }
-
-/* panels */
-.panel { display:none; } .panel.show { display:block; }
-
-/* sliders */
-.slider-row { display:flex; align-items:center; gap:7px; margin-bottom:7px; }
-.sl-lbl { font-size:9px; letter-spacing:.1em; color:var(--muted); text-transform:uppercase; min-width:56px; }
-.sl-val { font-size:10px; color:var(--gold); min-width:30px; text-align:right; font-family:'Courier Prime',monospace; }
-input[type=range] { -webkit-appearance:none; flex:1; height:2px; background:var(--border); border-radius:1px; outline:none; cursor:pointer; }
-input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:12px; height:12px; border-radius:50%; background:var(--gold); border:2px solid var(--bg2); cursor:pointer; }
-
-/* color swatches */
-.color-row { display:flex; gap:5px; flex-wrap:wrap; margin-bottom:11px; }
-.cswatch { width:24px; height:24px; border-radius:50%; cursor:pointer; border:2px solid transparent; transition:all .15s; position:relative; flex-shrink:0; }
-.cswatch.active { border-color:var(--gold); transform:scale(1.15); }
-.cswatch::after { content:''; position:absolute; inset:-4px; border-radius:50%; border:1px solid var(--gold); opacity:0; transition:opacity .15s; }
-.cswatch.active::after { opacity:1; }
-
-/* sub labels */
-.sub-lbl { font-size:9px; font-weight:600; letter-spacing:.2em; color:var(--muted); text-transform:uppercase; margin:9px 0 6px; opacity:.65; }
-
-/* stock cards */
-.stock-grid { display:flex; flex-direction:column; gap:4px; }
-.stock-card { display:flex; align-items:center; gap:8px; padding:7px 9px; background:var(--bg); border:1px solid var(--border); border-radius:3px; cursor:pointer; transition:all .15s; }
-.stock-card:hover  { border-color:var(--gold); }
-.stock-card.active { border-color:var(--gold); background:rgba(201,169,110,.08); }
-.sswatch { width:30px; height:19px; border-radius:2px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:6px; font-weight:700; font-family:'Courier Prime',monospace; }
-.sinfo { flex:1; min-width:0; }
-.sname { font-size:11px; font-weight:600; letter-spacing:.06em; color:var(--cream); line-height:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.ssub  { font-size:9px; color:var(--muted); margin-top:2px; }
-.stag  { font-size:7px; font-weight:600; letter-spacing:.1em; padding:2px 4px; border-radius:2px; text-transform:uppercase; flex-shrink:0; }
-
-/* customize accordion */
-.cust-hd { display:flex; align-items:center; justify-content:space-between; padding:7px 0 0; cursor:pointer; margin-top:7px; border-top:1px solid var(--border); }
-.cust-lbl { font-size:9px; font-weight:600; letter-spacing:.18em; color:var(--muted); text-transform:uppercase; }
-.cust-arr { font-size:10px; color:var(--muted); transition:transform .2s; }
-.cust-body { display:none; padding-top:9px; }
-.cust-body.open { display:block; }
-.tog-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:7px; }
-.tog-lbl { font-size:9px; letter-spacing:.1em; color:var(--muted); text-transform:uppercase; }
-.tog { width:30px; height:16px; border-radius:8px; background:var(--border); position:relative; cursor:pointer; transition:background .2s; flex-shrink:0; }
-.tog.on { background:var(--gold); }
-.tog::after { content:''; position:absolute; top:2px; left:2px; width:12px; height:12px; border-radius:50%; background:var(--bg2); transition:left .2s; }
-.tog.on::after { left:16px; background:var(--bg); }
-
-/* ── BURNS SECTION ───────────────────────────────── */
-.burn-presets { display:grid; grid-template-columns:repeat(3,1fr); gap:4px; margin-bottom:12px; }
-.bcard { border:1px solid var(--border); border-radius:3px; cursor:pointer; transition:all .15s; overflow:hidden; aspect-ratio:3/2; position:relative; }
-.bcard:hover  { border-color:var(--gold); }
-.bcard.active { border-color:var(--gold); box-shadow:0 0 0 1px var(--gold); }
-.bcard canvas { width:100%; height:100%; display:block; }
-.bcard-lbl { position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,.72); font-size:7px; font-weight:600; letter-spacing:.08em; color:var(--text); text-align:center; padding:3px 2px; }
-
-.burn-controls { background:var(--bg); border:1px solid var(--border); border-radius:3px; padding:11px; }
-
-/* position preview - the mini canvas showing burn position */
-.burn-pos-wrap { position:relative; margin-bottom:10px; }
-.burn-pos-canvas { width:100%; aspect-ratio:3/2; border-radius:2px; border:1px solid var(--border); display:block; cursor:crosshair; }
-.burn-pos-label { font-size:9px; letter-spacing:.15em; color:var(--muted); text-align:center; margin-bottom:5px; text-transform:uppercase; }
-
-/* color chips */
-.burn-color-row { display:flex; gap:4px; margin-bottom:8px; flex-wrap:wrap; }
-.bclr { width:20px; height:20px; border-radius:3px; cursor:pointer; border:2px solid transparent; transition:all .12s; flex-shrink:0; }
-.bclr.active { border-color:var(--gold); transform:scale(1.18); }
-
-/* blend btns */
-.blend-row { display:flex; gap:3px; }
-.blend-btn { flex:1; padding:5px 2px; background:var(--bg); border:1px solid var(--border); border-radius:2px; font-size:7px; font-weight:700; letter-spacing:.1em; color:var(--muted); cursor:pointer; transition:all .15s; text-transform:uppercase; }
-.blend-btn:hover  { border-color:var(--gold); color:var(--text); }
-.blend-btn.active { background:var(--gold); color:var(--bg); border-color:var(--gold); }
-
-/* mode toggle for canvas interaction */
-.canvas-mode-row { display:flex; gap:4px; padding:8px 0 0; }
-.cmode-btn { flex:1; padding:7px 4px; background:var(--bg); border:1px solid var(--border); border-radius:3px; font-size:9px; font-weight:700; letter-spacing:.14em; color:var(--muted); cursor:pointer; transition:all .15s; text-transform:uppercase; text-align:center; }
-.cmode-btn:hover  { border-color:var(--gold); color:var(--text); }
-.cmode-btn.active { background:rgba(201,169,110,.15); border-color:var(--gold); color:var(--gold); }
-
-/* ── DOWNLOAD BTN ───────────────────────────────── */
-.dl-btn {
-  margin:12px 15px 16px;
-  padding:11px; background:var(--gold); color:var(--bg);
-  font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700;
-  letter-spacing:.25em; text-transform:uppercase;
-  border:none; border-radius:3px; cursor:pointer; transition:all .2s;
-}
-.dl-btn:hover    { background:var(--gold2); transform:translateY(-1px); }
-.dl-btn:disabled { opacity:.2; cursor:not-allowed; transform:none; }
-
-/* ── HEADER UTILITY BUTTONS ──────────────────────── */
-.hdr-btns { display:flex; gap:6px; align-items:center; }
-.hdr-btn {
-  padding:5px 10px; background:transparent; border:1px solid var(--border);
-  border-radius:2px; font-family:'Barlow Condensed',sans-serif;
-  font-size:10px; font-weight:600; letter-spacing:.18em; text-transform:uppercase;
-  color:var(--muted); cursor:pointer; transition:all .15s; white-space:nowrap;
-}
-.hdr-btn:hover { border-color:var(--gold); color:var(--text); }
-.hdr-btn:disabled { opacity:.2; cursor:not-allowed; }
-.hdr-btn.danger:hover { border-color:#c0392b; color:#e05040; }
-.hdr-btn.before-btn:active,
-.hdr-btn.before-btn.held { background:rgba(201,169,110,.15); border-color:var(--gold); color:var(--gold); }
-
-/* ── BEFORE/AFTER LABEL OVERLAY ─────────────────── */
-.before-label {
-  position:absolute; top:12px; right:16px; z-index:20;
-  background:rgba(14,12,10,.88); border:1px solid var(--gold);
-  color:var(--gold); font-size:10px; font-weight:700; letter-spacing:.25em;
-  text-transform:uppercase; padding:5px 12px; border-radius:2px;
-  pointer-events:none; opacity:0; transition:opacity .15s;
-}
-.before-label.show { opacity:1; }
 </style>
 </head>
 <body>
-
 <header>
   <div class="logo">
     <span class="logo-word">FRAME</span>
@@ -283,41 +107,27 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:12px; h
       <button class="hdr-btn" id="btn-undo" disabled>↩ Undo</button>
       <button class="hdr-btn danger" id="btn-reset" disabled>✕ Reset All</button>
     </div>
-    <span class="hdr-note" style="margin-left:8px">v3</span>
+    <span class="hdr-note">Mobile Web App</span>
   </div>
 </header>
-
 <div class="app">
-
-  <!-- ════════════ SIDEBAR ════════════ -->
   <div class="sidebar">
-
-    <!-- 01 UPLOAD -->
     <div class="section">
       <div class="sec-label">01 — Load Photo</div>
       <div class="upload-zone" id="upload-zone">
         <div class="upl-icon">⬡</div>
-        <div class="upl-text">Drop photo here</div>
-        <div class="upl-sub">or click to browse</div>
+        <div class="upl-text">Tap to load photo</div>
+        <div class="upl-sub">iPhone-friendly uploader</div>
       </div>
       <input type="file" id="file-input" accept="image/*" style="display:none">
     </div>
-
-    <!-- 02 RATIO -->
-    <div class="section">
-      <div class="sec-label">02 — Crop Ratio</div>
-      <div class="ratio-grid" id="ratio-grid"></div>
-    </div>
-
-    <!-- 03 BORDER -->
+    <div class="section"><div class="sec-label">02 — Crop Ratio</div><div class="ratio-grid" id="ratio-grid"></div></div>
     <div class="section">
       <div class="sec-label">03 — Border</div>
       <div class="tab-row" id="border-tabs">
         <button class="tab active" data-tab="clean">Clean</button>
         <button class="tab" data-tab="film">Film Stocks</button>
       </div>
-
-      <!-- CLEAN PANEL -->
       <div class="panel show" id="panel-clean">
         <div class="sub-lbl">Border Color</div>
         <div class="color-row" id="color-row">
@@ -330,86 +140,34 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:12px; h
           <div class="cswatch" data-color="#8B7355" style="background:#8B7355"></div>
           <div class="cswatch" data-color="#3D3530" style="background:#3D3530"></div>
         </div>
-        <div class="slider-row">
-          <span class="sl-lbl">Thickness</span>
-          <input type="range" id="border-size" min="2" max="25" value="8">
-          <span class="sl-val" id="vBorderSize">8%</span>
-        </div>
-        <div class="slider-row">
-          <span class="sl-lbl">Inner Gap</span>
-          <input type="range" id="inner-gap" min="0" max="6" value="0">
-          <span class="sl-val" id="vInnerGap">0%</span>
-        </div>
+        <div class="slider-row"><span class="sl-lbl">Thickness</span><input type="range" id="border-size" min="2" max="25" value="8"><span class="sl-val" id="vBorderSize">8%</span></div>
+        <div class="slider-row"><span class="sl-lbl">Inner Gap</span><input type="range" id="inner-gap" min="0" max="6" value="0"><span class="sl-val" id="vInnerGap">0%</span></div>
       </div>
-
-      <!-- FILM PANEL -->
       <div class="panel" id="panel-film">
-        <div class="sub-lbl">35mm Film</div>
-        <div class="stock-grid" id="sg-35mm"></div>
-        <div class="sub-lbl" style="margin-top:10px">120 · Medium Format</div>
-        <div class="stock-grid" id="sg-120"></div>
-        <div class="sub-lbl" style="margin-top:10px">Specialty · Experimental</div>
-        <div class="stock-grid" id="sg-special"></div>
-
-        <!-- Customize accordion -->
-        <div class="cust-hd" id="cust-hd">
-          <span class="cust-lbl">Customize Border</span>
-          <span class="cust-arr" id="cust-arr">▾</span>
-        </div>
+        <div class="sub-lbl">35mm Film</div><div class="stock-grid" id="sg-35mm"></div>
+        <div class="sub-lbl" style="margin-top:10px">120 · Medium Format</div><div class="stock-grid" id="sg-120"></div>
+        <div class="sub-lbl" style="margin-top:10px">Specialty · Experimental</div><div class="stock-grid" id="sg-special"></div>
+        <div class="cust-hd" id="cust-hd"><span class="cust-lbl">Customize Border</span><span class="cust-arr" id="cust-arr">▾</span></div>
         <div class="cust-body" id="cust-body">
-          <div class="slider-row">
-            <span class="sl-lbl">Scale</span>
-            <input type="range" id="filmScale" min="40" max="200" value="100">
-            <span class="sl-val" id="vFilmScale">1.0×</span>
-          </div>
-          <div class="slider-row">
-            <span class="sl-lbl">Text α</span>
-            <input type="range" id="textOpacity" min="0" max="100" value="100">
-            <span class="sl-val" id="vTextOpacity">100%</span>
-          </div>
-          <div class="slider-row">
-            <span class="sl-lbl">Rebate</span>
-            <input type="range" id="rebateTint" min="-50" max="50" value="0">
-            <span class="sl-val" id="vRebateTint">0</span>
-          </div>
+          <div class="slider-row"><span class="sl-lbl">Scale</span><input type="range" id="filmScale" min="40" max="200" value="100"><span class="sl-val" id="vFilmScale">1.0×</span></div>
+          <div class="slider-row"><span class="sl-lbl">Text α</span><input type="range" id="textOpacity" min="0" max="100" value="100"><span class="sl-val" id="vTextOpacity">100%</span></div>
+          <div class="slider-row"><span class="sl-lbl">Rebate</span><input type="range" id="rebateTint" min="-50" max="50" value="0"><span class="sl-val" id="vRebateTint">0</span></div>
           <div class="tog-row"><span class="tog-lbl">Frame Numbers</span><div class="tog on" id="togFN"></div></div>
           <div class="tog-row"><span class="tog-lbl">Sprocket Holes</span><div class="tog on" id="togSP"></div></div>
           <div class="tog-row"><span class="tog-lbl">DX Barcode</span><div class="tog on" id="togDX"></div></div>
         </div>
       </div>
     </div>
-
-    <!-- 04 FILM BURNS -->
     <div class="section">
       <div class="sec-label">04 — Film Burns</div>
       <div class="burn-presets" id="burn-presets"></div>
-
       <div class="burn-controls" id="burn-controls" style="display:none">
-        <!-- position mini-map -->
-        <div class="burn-pos-label">Click map to reposition burn origin</div>
-        <div class="burn-pos-wrap">
-          <canvas class="burn-pos-canvas" id="burn-pos-canvas" width="240" height="160"></canvas>
-        </div>
-
-        <div class="slider-row">
-          <span class="sl-lbl">Intensity</span>
-          <input type="range" id="burnIntensity" min="5" max="100" value="60">
-          <span class="sl-val" id="vBurnIntensity">60%</span>
-        </div>
-        <div class="slider-row">
-          <span class="sl-lbl">Spread</span>
-          <input type="range" id="burnSpread" min="20" max="200" value="85">
-          <span class="sl-val" id="vBurnSpread">85%</span>
-        </div>
-        <div class="slider-row">
-          <span class="sl-lbl">Feather</span>
-          <input type="range" id="burnFeather" min="0" max="100" value="60">
-          <span class="sl-val" id="vBurnFeather">60%</span>
-        </div>
-
-        <div class="sub-lbl" style="margin-bottom:5px">Burn Color</div>
-        <div class="burn-color-row" id="burn-color-row"></div>
-
+        <div class="burn-pos-label">Tap map to reposition burn</div>
+        <div class="burn-pos-wrap"><canvas class="burn-pos-canvas" id="burn-pos-canvas" width="240" height="160"></canvas></div>
+        <div class="slider-row"><span class="sl-lbl">Intensity</span><input type="range" id="burnIntensity" min="5" max="100" value="60"><span class="sl-val" id="vBurnIntensity">60%</span></div>
+        <div class="slider-row"><span class="sl-lbl">Spread</span><input type="range" id="burnSpread" min="20" max="200" value="85"><span class="sl-val" id="vBurnSpread">85%</span></div>
+        <div class="slider-row"><span class="sl-lbl">Feather</span><input type="range" id="burnFeather" min="0" max="100" value="60"><span class="sl-val" id="vBurnFeather">60%</span></div>
+        <div class="sub-lbl" style="margin-bottom:5px">Burn Color</div><div class="burn-color-row" id="burn-color-row"></div>
         <div class="sub-lbl" style="margin-bottom:5px">Blend Mode</div>
         <div class="blend-row" id="blend-row">
           <button class="blend-btn active" data-blend="screen">Screen</button>
@@ -419,988 +177,74 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:12px; h
         </div>
       </div>
     </div>
-
-    <!-- 05 CANVAS MODE -->
     <div class="section">
       <div class="sec-label">05 — Canvas Mode</div>
       <div class="canvas-mode-row">
         <div class="cmode-btn active" data-mode="pan" id="cmode-pan">✦ Pan Photo</div>
         <div class="cmode-btn" data-mode="burn" id="cmode-burn">⬡ Place Burn</div>
       </div>
-      <div style="font-size:9px;color:var(--muted);margin-top:8px;letter-spacing:.05em;line-height:1.6">
-        Pan: drag canvas to reposition photo.<br>
-        Place Burn: click/drag canvas to move burn origin.
-      </div>
+      <div style="font-size:9px;color:var(--muted);margin-top:8px;letter-spacing:.05em;line-height:1.6">Pan: drag canvas to reposition photo.<br>Place Burn: tap canvas to move burn origin.</div>
     </div>
-
     <button class="dl-btn" id="dl-btn" disabled>↓ Export Image</button>
-  </div><!-- /sidebar -->
-
-  <!-- ════════════ PREVIEW ════════════ -->
+  </div>
   <div class="preview-area" id="preview-area">
-    <div class="empty-state" id="empty-state">
-      <div class="empty-icon">🎞</div>
-      <div class="empty-title">Load a photo to begin</div>
-      <div class="empty-sub">Upload · Crop · Border · Burn · Export</div>
-    </div>
+    <div class="empty-state" id="empty-state"><div class="empty-icon">🎞</div><div class="empty-title">Load a photo to begin</div><div class="empty-sub">Upload · Crop · Border · Burn · Export</div></div>
     <div class="canvas-wrapper" id="canvas-wrapper" style="display:none">
-      <div class="canvas-stack">
-        <canvas id="preview-canvas"></canvas>
-        <canvas id="overlay-canvas"></canvas>
-      </div>
+      <div class="canvas-stack"><canvas id="preview-canvas"></canvas><canvas id="overlay-canvas"></canvas></div>
       <div class="canvas-info" id="canvas-info"></div>
     </div>
     <div class="mode-badge" id="mode-badge"></div>
     <div class="before-label" id="before-label">◀ Before</div>
   </div>
-
-</div><!-- /app -->
-
+</div>
 <script>
-// ══════════════════════════════════════════════════════════════════
-// STATE
-// ══════════════════════════════════════════════════════════════════
-const S = {
-  img: null, ratio: '3:2', mode: 'clean',
-  // clean
-  cleanColor: '#FFFFFF', cleanSize: 8, innerGap: 0,
-  // film
-  stock: null, filmScale: 1.0, textOpacity: 1.0, rebateTint: 0,
-  showFN: true, showSP: true, showDX: true,
-  // pan
-  panX: 0, panY: 0,
-  // burn
-  burn: null,
-  burnX: 0.15, burnY: 0.85,  // normalized position (0-1)
-  burnIntensity: 0.60,
-  burnSpread: 0.85,
-  burnFeather: 0.60,
-  burnColor: null,           // override color (null = use preset default)
-  burnBlend: 'screen',
-  // canvas interaction mode
-  canvasMode: 'pan',         // 'pan' | 'burn'
-};
-
-// ══════════════════════════════════════════════════════════════════
-// UNDO HISTORY
-// ══════════════════════════════════════════════════════════════════
-const HISTORY = [];
-const MAX_HISTORY = 30;
-
-// Keys we snapshot (exclude img ref and canvasMode — those don't need undo)
-const SNAP_KEYS = [
-  'ratio','mode','cleanColor','cleanSize','innerGap',
-  'stock','filmScale','textOpacity','rebateTint','showFN','showSP','showDX',
-  'panX','panY','burn','burnX','burnY','burnIntensity','burnSpread',
-  'burnFeather','burnColor','burnBlend'
-];
-
-function snapshot() {
-  const snap = {};
-  SNAP_KEYS.forEach(k => snap[k] = S[k]);
-  HISTORY.push(snap);
-  if (HISTORY.length > MAX_HISTORY) HISTORY.shift();
-  updateUtilityBtns();
-}
-
-function undo() {
-  if (HISTORY.length < 2) return; // need at least current + one previous
-  HISTORY.pop(); // discard current
-  const prev = HISTORY[HISTORY.length - 1];
-  SNAP_KEYS.forEach(k => S[k] = prev[k]);
-  syncUIToState();
-  render(); drawBurnPosMap(); updateUtilityBtns();
-}
-
-function resetAll() {
-  if (!S.img) return;
-  snapshot(); // allow undoing the reset
-  S.ratio='3:2'; S.mode='clean';
-  S.cleanColor='#FFFFFF'; S.cleanSize=8; S.innerGap=0;
-  S.stock=null; S.filmScale=1.0; S.textOpacity=1.0; S.rebateTint=0;
-  S.showFN=true; S.showSP=true; S.showDX=true;
-  S.panX=0; S.panY=0;
-  S.burn=null; S.burnX=0.15; S.burnY=0.85;
-  S.burnIntensity=0.60; S.burnSpread=0.85; S.burnFeather=0.60;
-  S.burnColor=null; S.burnBlend='screen';
-  syncUIToState();
-  render(); drawBurnPosMap(); updateUtilityBtns();
-  showBadge('✕ Reset to original', 1800);
-}
-
-function updateUtilityBtns() {
-  const hasImg = !!S.img;
-  document.getElementById('btn-before').disabled = !hasImg;
-  document.getElementById('btn-undo').disabled   = !hasImg || HISTORY.length < 2;
-  document.getElementById('btn-reset').disabled  = !hasImg;
-}
-
-// Sync all UI widgets to match current S values (used after undo/reset)
-function syncUIToState() {
-  // ratio
-  document.querySelectorAll('.ratio-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.ratio === S.ratio);
-  });
-  // border tabs
-  document.querySelectorAll('#border-tabs .tab').forEach(t => {
-    t.classList.toggle('active', t.dataset.tab === S.mode);
-  });
-  document.getElementById('panel-clean').classList.toggle('show', S.mode==='clean');
-  document.getElementById('panel-film').classList.toggle('show',  S.mode==='film');
-  // clean color
-  document.querySelectorAll('#color-row .cswatch').forEach(sw => {
-    sw.classList.toggle('active', sw.dataset.color === S.cleanColor);
-  });
-  // sliders + value labels
-  setSlider('border-size',   'vBorderSize',    S.cleanSize,          v=>v+'%');
-  setSlider('inner-gap',     'vInnerGap',      S.innerGap,           v=>v+'%');
-  setSlider('filmScale',     'vFilmScale',     S.filmScale*100,      v=>(v/100).toFixed(1)+'×');
-  setSlider('textOpacity',   'vTextOpacity',   S.textOpacity*100,    v=>v+'%');
-  setSlider('rebateTint',    'vRebateTint',    S.rebateTint,         v=>v);
-  setSlider('burnIntensity', 'vBurnIntensity', S.burnIntensity*100,  v=>v+'%');
-  setSlider('burnSpread',    'vBurnSpread',    S.burnSpread*100,     v=>v+'%');
-  setSlider('burnFeather',   'vBurnFeather',   S.burnFeather*100,    v=>v+'%');
-  // toggles
-  document.getElementById('togFN').classList.toggle('on', S.showFN);
-  document.getElementById('togSP').classList.toggle('on', S.showSP);
-  document.getElementById('togDX').classList.toggle('on', S.showDX);
-  // stock cards
-  document.querySelectorAll('.stock-card').forEach(c => {
-    c.classList.toggle('active', S.stock && c.dataset.sid === S.stock.id);
-  });
-  // burn cards
-  document.querySelectorAll('.bcard').forEach(c => {
-    const isNone = c.dataset.bid === 'none';
-    c.classList.toggle('active', S.burn ? c.dataset.bid===S.burn.id : isNone);
-  });
-  document.getElementById('burn-controls').style.display = S.burn ? 'block' : 'none';
-  // blend
-  document.querySelectorAll('#blend-row .blend-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.blend === S.burnBlend);
-  });
-}
-function setSlider(id, valId, value, fmt) {
-  const el = document.getElementById(id);
-  if (el) { el.value = value; document.getElementById(valId).textContent = fmt(value); }
-}
-const RATIOS = [
-  {label:'3:2',  name:'35mm',   w:3,  h:2,  rw:22, rh:15},
-  {label:'1:1',  name:'6×6',   w:1,  h:1,  rw:18, rh:18},
-  {label:'4:3',  name:'645',   w:4,  h:3,  rw:22, rh:17},
-  {label:'7:6',  name:'6×7',   w:7,  h:6,  rw:22, rh:19},
-  {label:'4:5',  name:'4:5',   w:4,  h:5,  rw:16, rh:20},
-  {label:'16:9', name:'Cinema',w:16, h:9,  rw:22, rh:12},
-  {label:'2.7:1',name:'XPan',  w:2.7,h:1,  rw:22, rh:8 },
-  {label:'2:3',  name:'Portrt',w:2,  h:3,  rw:15, rh:22},
-];
-
-// ══════════════════════════════════════════════════════════════════
-// STOCKS (27 total)
-// ══════════════════════════════════════════════════════════════════
-const STOCKS = {
-'35mm':[
-  {id:'portra400', name:'Portra 400',     brand:'Kodak',     iso:'400', fmt:'35mm',type:'color',
-   sB:'#1a1008',sF:'#E6A020',sL:'P400',tag:{t:'Color',c:'#c0670c',b:'rgba(192,103,12,.15)'},
-   reb:'#0a0804',eC:'#E6A020',eb:true, eT:'KODAK PORTRA 400',nC:'#c8880a',pC:'#1a1008',hasSp:true},
-  {id:'gold200',   name:'Gold 200',        brand:'Kodak',     iso:'200', fmt:'35mm',type:'color',
-   sB:'#1a1205',sF:'#F5C542',sL:'G200',tag:{t:'Color',c:'#d4a017',b:'rgba(212,160,23,.15)'},
-   reb:'#0c0c06',eC:'#F5C542',eb:false,eT:'KODAK GOLD 200',nC:'#D4B020',pC:'#1a1a08',hasSp:true},
-  {id:'ektar100',  name:'Ektar 100',       brand:'Kodak',     iso:'100', fmt:'35mm',type:'color',
-   sB:'#0e0505',sF:'#E83030',sL:'E100',tag:{t:'Color',c:'#c0392b',b:'rgba(192,57,43,.15)'},
-   reb:'#080303',eC:'#E83030',eb:true, eT:'KODAK EKTAR 100',nC:'#c02020',pC:'#160606',hasSp:true},
-  {id:'colorplus', name:'ColorPlus 200',   brand:'Kodak',     iso:'200', fmt:'35mm',type:'color',
-   sB:'#0f0e08',sF:'#D4B840',sL:'CP2',tag:{t:'Color',c:'#b89c20',b:'rgba(184,156,32,.15)'},
-   reb:'#0a0a05',eC:'#D4B840',eb:false,eT:'KODAK COLORPLUS 200',nC:'#b89c20',pC:'#161508',hasSp:true},
-  {id:'ultramax',  name:'UltraMax 400',    brand:'Kodak',     iso:'400', fmt:'35mm',type:'color',
-   sB:'#0e0808',sF:'#FF6040',sL:'UX4',tag:{t:'Color',c:'#d04030',b:'rgba(208,64,48,.15)'},
-   reb:'#090505',eC:'#FF6040',eb:true, eT:'KODAK ULTRAMAX 400',nC:'#e05030',pC:'#140808',hasSp:true},
-  {id:'ektachrome',name:'Ektachrome E100', brand:'Kodak',     iso:'100', fmt:'35mm',type:'slide',
-   sB:'#050e18',sF:'#4090F0',sL:'E100',tag:{t:'Slide',c:'#3070d0',b:'rgba(48,112,208,.15)'},
-   reb:'#030810',eC:'#4090F0',eb:true, eT:'KODAK EKTACHROME E100',nC:'#2070d0',pC:'#0a1828',hasSp:true,isSlide:true},
-  {id:'trix400',   name:'Tri-X 400',       brand:'Kodak',     iso:'400', fmt:'35mm',type:'bw',
-   sB:'#141414',sF:'#DDDDDD',sL:'TX',tag:{t:'B&W',c:'#999',b:'rgba(150,150,150,.1)'},
-   reb:'#0a0a0a',eC:'#c8c8c8',eb:true, eT:'KODAK TRI-X PAN FILM',nC:'#aaaaaa',pC:'#1a1a1a',hasSp:true},
-  {id:'tmax400',   name:'T-Max 400',       brand:'Kodak',     iso:'400', fmt:'35mm',type:'bw',
-   sB:'#101010',sF:'#E0E0E0',sL:'TMY',tag:{t:'B&W',c:'#aaa',b:'rgba(150,150,150,.1)'},
-   reb:'#080808',eC:'#e0e0e0',eb:true, eT:'KODAK T-MAX 400',nC:'#c0c0c0',pC:'#161616',hasSp:true},
-  {id:'hp5',       name:'HP5 Plus 400',    brand:'Ilford',    iso:'400', fmt:'35mm',type:'bw',
-   sB:'#0f0f0f',sF:'#E8E8E0',sL:'HP5',tag:{t:'B&W',c:'#aaa',b:'rgba(150,150,150,.1)'},
-   reb:'#060606',eC:'#D8D8D0',eb:false,eT:'ILFORD HP5 PLUS 400',nC:'#b0b0a8',pC:'#141414',hasSp:true},
-  {id:'delta3200', name:'Delta 3200',      brand:'Ilford',    iso:'3200',fmt:'35mm',type:'bw',
-   sB:'#0a0a0a',sF:'#A8A8A0',sL:'D32',tag:{t:'B&W',c:'#888',b:'rgba(130,130,130,.1)'},
-   reb:'#040404',eC:'#A8A8A0',eb:false,eT:'ILFORD DELTA 3200 PROFESSIONAL',nC:'#888880',pC:'#0e0e0e',hasSp:true},
-  {id:'superia400',name:'Superia 400',     brand:'Fujifilm',  iso:'400', fmt:'35mm',type:'color',
-   sB:'#061a0a',sF:'#3DB86A',sL:'SU4',tag:{t:'Color',c:'#2d9e5a',b:'rgba(45,158,90,.12)'},
-   reb:'#030d05',eC:'#3DB86A',eb:false,eT:'FUJICOLOR SUPERIA 400',nC:'#2a9a50',pC:'#08180a',hasSp:true},
-  {id:'acros100',  name:'Acros 100 II',    brand:'Fujifilm',  iso:'100', fmt:'35mm',type:'bw',
-   sB:'#0d0d0d',sF:'#D0D0C8',sL:'ACS',tag:{t:'B&W',c:'#999',b:'rgba(150,150,150,.1)'},
-   reb:'#070707',eC:'#C8C8C0',eb:false,eT:'FUJIFILM NEOPAN ACROS 100 II',nC:'#a0a098',pC:'#121212',hasSp:true},
-  {id:'agfavista', name:'Agfa Vista 200',  brand:'Agfa',      iso:'200', fmt:'35mm',type:'color',
-   sB:'#0c0a16',sF:'#A060E8',sL:'AGF',tag:{t:'Color',c:'#8040c8',b:'rgba(128,64,200,.15)'},
-   reb:'#070512',eC:'#A060E8',eb:false,eT:'AGFA VISTA 200',nC:'#8040c0',pC:'#100820',hasSp:true},
-  {id:'rollei',    name:'Rollei Retro 80S',brand:'Rollei',    iso:'80',  fmt:'35mm',type:'bw',
-   sB:'#0e0e0a',sF:'#B8C880',sL:'R80',tag:{t:'B&W',c:'#909860',b:'rgba(144,152,96,.12)'},
-   reb:'#080808',eC:'#B8C880',eb:false,eT:'ROLLEI RETRO 80S',nC:'#989860',pC:'#141412',hasSp:true},
-],
-'120':[
-  {id:'portra400-120',name:'Portra 400',  brand:'Kodak',    iso:'400',fmt:'120',type:'color',
-   sB:'#1a1008',sF:'#E6A020',sL:'P120',tag:{t:'Color',c:'#c0670c',b:'rgba(192,103,12,.15)'},
-   reb:'#0a0804',eC:'#E6A020',eb:true, eT:'KODAK PORTRA 400',nC:'#c8880a',hasSp:false},
-  {id:'ektar100-120',name:'Ektar 100',   brand:'Kodak',    iso:'100',fmt:'120',type:'color',
-   sB:'#0e0505',sF:'#E83030',sL:'E120',tag:{t:'Color',c:'#c0392b',b:'rgba(192,57,43,.15)'},
-   reb:'#080303',eC:'#E83030',eb:true, eT:'KODAK EKTAR 100',nC:'#c02020',hasSp:false},
-  {id:'velvia50',  name:'Velvia 50',      brand:'Fujifilm', iso:'50', fmt:'120',type:'slide',
-   sB:'#0a0d18',sF:'#6080F0',sL:'V50',tag:{t:'Slide',c:'#5070d8',b:'rgba(80,112,216,.15)'},
-   reb:'#05080e',eC:'#8090D0',eb:false,eT:'FUJICHROME VELVIA 50',nC:'#5060a8',hasSp:false,isSlide:true},
-  {id:'pro400h',   name:'Pro 400H',       brand:'Fujifilm', iso:'400',fmt:'120',type:'color',
-   sB:'#071510',sF:'#50C890',sL:'P4H',tag:{t:'Color',c:'#30a870',b:'rgba(48,168,112,.15)'},
-   reb:'#030c08',eC:'#50C890',eb:false,eT:'FUJIFILM PRO 400H',nC:'#30a060',hasSp:false},
-  {id:'fp4',       name:'FP4 Plus 125',   brand:'Ilford',   iso:'125',fmt:'120',type:'bw',
-   sB:'#0f0f0f',sF:'#C8C8C0',sL:'FP4',tag:{t:'B&W',c:'#aaa',b:'rgba(150,150,150,.1)'},
-   reb:'#060606',eC:'#B8B8B0',eb:false,eT:'ILFORD FP4 PLUS 125',nC:'#989890',hasSp:false},
-  {id:'delta100-120',name:'Delta 100 Pro',brand:'Ilford',   iso:'100',fmt:'120',type:'bw',
-   sB:'#0d0d0d',sF:'#D0D0C8',sL:'D100',tag:{t:'B&W',c:'#aaa',b:'rgba(150,150,150,.1)'},
-   reb:'#070707',eC:'#C8C8C0',eb:false,eT:'ILFORD DELTA 100 PROFESSIONAL',nC:'#a8a8a0',hasSp:false},
-],
-'special':[
-  {id:'cinestill800t',name:'CineStill 800T',brand:'CineStill',iso:'800',fmt:'35mm',type:'cinema',
-   sB:'#110a1a',sF:'#B060E0',sL:'800T',tag:{t:'Cinema',c:'#9040c8',b:'rgba(144,64,200,.15)'},
-   reb:'#080510',eC:'#B060E0',eb:true, eT:'CINESTILL 800T',nC:'#8040b0',pC:'#150a20',hasSp:true},
-  {id:'cinestill50d', name:'CineStill 50D',brand:'CineStill',iso:'50', fmt:'35mm',type:'cinema',
-   sB:'#050d16',sF:'#40A8F0',sL:'50D',tag:{t:'Cinema',c:'#2080c8',b:'rgba(32,128,200,.15)'},
-   reb:'#030810',eC:'#40A8F0',eb:true, eT:'CINESTILL 50D',nC:'#2080c8',pC:'#080e1c',hasSp:true},
-  {id:'vision3',      name:'Vision3 500T',brand:'Kodak',    iso:'500',fmt:'35mm',type:'cinema',
-   sB:'#0a0814',sF:'#9070D0',sL:'V3',tag:{t:'Cinema',c:'#7050b0',b:'rgba(112,80,176,.15)'},
-   reb:'#060410',eC:'#9070D0',eb:true, eT:'KODAK VISION3 500T',nC:'#7050b0',pC:'#100c1c',hasSp:true},
-  {id:'lomopurple',   name:'LomoChrome Purple',brand:'Lomo',iso:'400',fmt:'35mm',type:'xprmntl',
-   sB:'#0e0510',sF:'#D060A0',sL:'LCP',tag:{t:'Xprmntl',c:'#b04080',b:'rgba(176,64,128,.15)'},
-   reb:'#070310',eC:'#D060A0',eb:false,eT:'LOMOGRAPHY LOMOCHROME PURPLE',nC:'#a03070',pC:'#120618',hasSp:true},
-  {id:'lomo800',      name:'Lomo Color 800',brand:'Lomo',  iso:'800',fmt:'35mm',type:'xprmntl',
-   sB:'#0a1008',sF:'#80D040',sL:'LC8',tag:{t:'Xprmntl',c:'#60a820',b:'rgba(96,168,32,.15)'},
-   reb:'#060a04',eC:'#80D040',eb:false,eT:'LOMOGRAPHY COLOR 800',nC:'#60a820',pC:'#0c1408',hasSp:true},
-  {id:'earlgrey',     name:'Earl Grey 100',brand:'Lomo',   iso:'100',fmt:'35mm',type:'bw',
-   sB:'#0e0e0c',sF:'#C0C8B0',sL:'EG',tag:{t:'B&W',c:'#9aa880',b:'rgba(154,168,128,.1)'},
-   reb:'#090908',eC:'#C0C8B0',eb:false,eT:'LOMOGRAPHY EARL GREY 100',nC:'#a0a890',pC:'#141414',hasSp:true},
-  {id:'disposable',   name:'Disposable',   brand:'Generic',iso:'400',fmt:'35mm',type:'lo-fi',
-   sB:'#0f0e0a',sF:'#C8B890',sL:'DSP',tag:{t:'Lo-Fi',c:'#9a8860',b:'rgba(154,136,96,.15)'},
-   reb:'#090807',eC:'#C8B890',eb:false,eT:'400-27 EXPOSURES',nC:'#a89870',pC:'#181510',hasSp:true},
-]};
-
-// ══════════════════════════════════════════════════════════════════
-// BURN PRESETS
-// ══════════════════════════════════════════════════════════════════
-const BURN_PRESETS = [
-  {id:'none',      label:'None',         shape:'none'},
-  {id:'corner',    label:'Corner Leak',  shape:'radial',  defColors:['#FF6000','#FF9A3C','#FFD080'], defX:.1, defY:.9},
-  {id:'edge-side', label:'Side Edge',    shape:'edge-h',  defColors:['#E89820','#F5C040','#FFE090'], defX:.0, defY:.5},
-  {id:'edge-top',  label:'Top Fade',     shape:'edge-v',  defColors:['#FF4010','#FF8040','#FFB880'], defX:.5, defY:.0},
-  {id:'diagonal',  label:'Diagonal',     shape:'diag',    defColors:['#D020A0','#FF50C0','#FF90D8'], defX:.0, defY:1.0},
-  {id:'center',    label:'Center Glow',  shape:'center',  defColors:['#FFB020','#FFD060','#FFF0A0'], defX:.5, defY:.5},
-  {id:'halation',  label:'Halation',     shape:'halation',defColors:['#FF1800','#FF5030','#FF9870'], defX:.5, defY:.5},
-  {id:'double-exp',label:'Double Exp',   shape:'radial',  defColors:['#FF1848','#FF5090','#FFA0C8'], defX:.3, defY:.4},
-  {id:'cold-wash', label:'Cold Wash',    shape:'full',    defColors:['#1030B0','#2068E0','#70B0FF'], defX:.5, defY:.5},
-  {id:'green-leak',label:'Green Leak',   shape:'radial',  defColors:['#10A028','#40D060','#80F090'], defX:.9, defY:.2},
-  {id:'kodak-warm',label:'Kodak Warm',   shape:'full',    defColors:['#F0A010','#E8C050','#F5D880'], defX:.5, defY:.5},
-  {id:'violet',    label:'Violet Haze',  shape:'radial',  defColors:['#5010C8','#A040FF','#D090FF'], defX:.85,defY:.15},
-];
-
-// Burn color palettes (user can override)
-const BURN_COLORS = [
-  {hex:'#FF6000',label:'Orange'},  {hex:'#FF1800',label:'Red'},
-  {hex:'#FFE000',label:'Yellow'},  {hex:'#E89820',label:'Gold'},
-  {hex:'#40D060',label:'Green'},   {hex:'#20A8E0',label:'Cyan'},
-  {hex:'#2060D8',label:'Blue'},    {hex:'#A040FF',label:'Violet'},
-  {hex:'#E02880',label:'Pink'},    {hex:'#FFFFFF',label:'White'},
-  {hex:'#C8C8C0',label:'Silver'},  {hex:'custom', label:'Custom'},
-];
-
-// ══════════════════════════════════════════════════════════════════
-// BUILD UI — RATIO GRID
-// ══════════════════════════════════════════════════════════════════
-(()=>{
-  const g = document.getElementById('ratio-grid');
-  RATIOS.forEach(r => {
-    const btn = document.createElement('button');
-    btn.className = 'ratio-btn' + (r.label===S.ratio?' active':'');
-    btn.innerHTML = `<div class="ratio-rect" style="width:${r.rw}px;height:${r.rh}px"></div><div class="ratio-name">${r.label}<br>${r.name}</div>`;
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.ratio-btn').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      S.ratio = r.label; S.panX = 0; S.panY = 0;
-      snapshot(); render();
-    });
-    g.appendChild(btn);
-  });
-})();
-
-// ══════════════════════════════════════════════════════════════════
-// BUILD UI — STOCK CARDS
-// ══════════════════════════════════════════════════════════════════
-function buildStocks(arr, cid) {
-  const c = document.getElementById(cid);
-  arr.forEach(s => {
-    const card = document.createElement('div');
-    card.className = 'stock-card'; card.dataset.sid = s.id;
-    card.innerHTML = `
-      <div class="sswatch" style="background:${s.sB};color:${s.sF};border:1px solid ${s.sF}33">${s.sL}</div>
-      <div class="sinfo"><div class="sname">${s.name}</div><div class="ssub">${s.brand} · ${s.fmt} · ${s.iso}</div></div>
-      <div class="stag" style="color:${s.tag.c};background:${s.tag.b}">${s.tag.t}</div>`;
-    card.addEventListener('click', () => {
-      document.querySelectorAll('.stock-card').forEach(c=>c.classList.remove('active'));
-      card.classList.add('active'); S.stock = s; snapshot(); render();
-    });
-    c.appendChild(card);
-  });
-}
-buildStocks(STOCKS['35mm'],    'sg-35mm');
-buildStocks(STOCKS['120'],     'sg-120');
-buildStocks(STOCKS['special'], 'sg-special');
-
-// ══════════════════════════════════════════════════════════════════
-// BUILD UI — BURN PRESETS
-// ══════════════════════════════════════════════════════════════════
-(()=>{
-  const g = document.getElementById('burn-presets');
-  BURN_PRESETS.forEach(p => {
-    const card = document.createElement('div');
-    card.className = 'bcard' + (p.id==='none'?' active':'');
-    card.dataset.bid = p.id;
-
-    const cv = document.createElement('canvas');
-    cv.width = 60; cv.height = 40;
-    const pc = cv.getContext('2d');
-    pc.fillStyle = '#1a1410'; pc.fillRect(0,0,60,40);
-    if (p.id === 'none') {
-      pc.fillStyle='#3a3028'; pc.fillRect(4,4,52,32);
-      pc.fillStyle='#6b5e4a'; pc.font='7px sans-serif';
-      pc.textAlign='center'; pc.textBaseline='middle';
-      pc.fillText('NONE',30,20);
-    } else {
-      pc.save(); pc.globalCompositeOperation='screen'; pc.globalAlpha=0.8;
-      paintBurn(pc, p, p.defX, p.defY, 0.75, 0.85, 0.6, 0,0,60,40);
-      pc.restore();
-    }
-    const lbl = document.createElement('div');
-    lbl.className = 'bcard-lbl'; lbl.textContent = p.label;
-    card.appendChild(cv); card.appendChild(lbl);
-
-    card.addEventListener('click', () => {
-      document.querySelectorAll('.bcard').forEach(c=>c.classList.remove('active'));
-      card.classList.add('active');
-      if (p.id === 'none') {
-        S.burn = null;
-        document.getElementById('burn-controls').style.display = 'none';
-      } else {
-        S.burn = p;
-        S.burnX = p.defX; S.burnY = p.defY;
-        document.getElementById('burn-controls').style.display = 'block';
-        drawBurnPosMap();
-      }
-      snapshot(); render();
-    });
-    g.appendChild(card);
-  });
-})();
-
-// ══════════════════════════════════════════════════════════════════
-// BUILD UI — BURN COLORS
-// ══════════════════════════════════════════════════════════════════
-(()=>{
-  const row = document.getElementById('burn-color-row');
-  BURN_COLORS.forEach(c => {
-    if (c.hex === 'custom') {
-      const inp = document.createElement('input');
-      inp.type = 'color'; inp.title = 'Custom color';
-      inp.style.cssText = 'width:20px;height:20px;border-radius:3px;cursor:pointer;border:2px solid var(--border);background:none;padding:0';
-      inp.addEventListener('input', () => { S.burnColor = inp.value; snapshot(); render(); drawBurnPosMap(); });
-      row.appendChild(inp);
-    } else {
-      const chip = document.createElement('div');
-      chip.className = 'bclr';
-      chip.style.background = c.hex;
-      chip.title = c.label;
-      chip.dataset.clr = c.hex;
-      chip.addEventListener('click', () => {
-        document.querySelectorAll('.bclr').forEach(x=>x.classList.remove('active'));
-        chip.classList.add('active'); S.burnColor = c.hex;
-        snapshot(); render(); drawBurnPosMap();
-      });
-      row.appendChild(chip);
-    }
-  });
-})();
-
-// ══════════════════════════════════════════════════════════════════
-// BURN POSITION MINI-MAP
-// ══════════════════════════════════════════════════════════════════
-const posCanvas = document.getElementById('burn-pos-canvas');
-const posCtx = posCanvas.getContext('2d');
-
-function drawBurnPosMap() {
-  const w = posCanvas.width, h = posCanvas.height;
-  posCtx.clearRect(0,0,w,h);
-  posCtx.fillStyle = '#1a1410'; posCtx.fillRect(0,0,w,h);
-
-  // Draw a faint image thumbnail if available
-  if (S.img) {
-    posCtx.save(); posCtx.globalAlpha = 0.35;
-    const sc = Math.min(w/S.img.width, h/S.img.height);
-    const iw = S.img.width*sc, ih = S.img.height*sc;
-    posCtx.drawImage(S.img, (w-iw)/2, (h-ih)/2, iw, ih);
-    posCtx.restore();
-  }
-
-  if (!S.burn) return;
-
-  // Draw burn preview at current position
-  posCtx.save();
-  posCtx.globalCompositeOperation = S.burnBlend;
-  posCtx.globalAlpha = Math.min(0.9, S.burnIntensity * 1.2);
-  const colors = getBurnColors(S.burn, S.burnColor);
-  paintBurn(posCtx, S.burn, S.burnX, S.burnY, S.burnIntensity, S.burnSpread, S.burnFeather, 0,0,w,h, colors);
-  posCtx.restore();
-
-  // Position crosshair
-  const px = S.burnX * w, py = S.burnY * h;
-  posCtx.strokeStyle = 'rgba(255,255,255,.8)'; posCtx.lineWidth = 1;
-  posCtx.setLineDash([2,2]);
-  posCtx.beginPath(); posCtx.moveTo(px,0); posCtx.lineTo(px,h); posCtx.stroke();
-  posCtx.beginPath(); posCtx.moveTo(0,py); posCtx.lineTo(w,py); posCtx.stroke();
-  posCtx.setLineDash([]);
-  posCtx.fillStyle = '#fff';
-  posCtx.beginPath(); posCtx.arc(px, py, 4, 0, Math.PI*2); posCtx.fill();
-  posCtx.strokeStyle = '#0e0c0a'; posCtx.lineWidth = 1.5;
-  posCtx.stroke();
-}
-
-// Drag on pos map
-let posDrag = false;
-posCanvas.addEventListener('mousedown', e => { posDrag = true; setPosByEvent(e); });
-posCanvas.addEventListener('mousemove', e => { if (posDrag) setPosByEvent(e); });
-window.addEventListener('mouseup', () => { posDrag = false; });
-function setPosByEvent(e) {
-  const r = posCanvas.getBoundingClientRect();
-  S.burnX = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
-  S.burnY = Math.max(0, Math.min(1, (e.clientY - r.top) / r.height));
-  drawBurnPosMap(); render();
-}
-
-// ══════════════════════════════════════════════════════════════════
-// WIRE ALL CONTROLS
-// ══════════════════════════════════════════════════════════════════
-// border tabs
-document.querySelectorAll('#border-tabs .tab').forEach(t => {
-  t.addEventListener('click', () => {
-    document.querySelectorAll('#border-tabs .tab').forEach(x=>x.classList.remove('active'));
-    t.classList.add('active'); S.mode = t.dataset.tab;
-    document.getElementById('panel-clean').classList.toggle('show', S.mode==='clean');
-    document.getElementById('panel-film').classList.toggle('show',  S.mode==='film');
-    snapshot(); render();
-  });
-});
-// clean colors
-document.querySelectorAll('#color-row .cswatch').forEach(sw => {
-  sw.addEventListener('click', () => {
-    document.querySelectorAll('#color-row .cswatch').forEach(s=>s.classList.remove('active'));
-    sw.classList.add('active'); S.cleanColor = sw.dataset.color; snapshot(); render();
-  });
-});
-// sliders — snapshot on pointerup (not every input tick, that would flood history)
-function sl(id, valId, fmt, setter) {
-  const el = document.getElementById(id);
-  el.addEventListener('input', () => {
-    setter(parseFloat(el.value));
-    document.getElementById(valId).textContent = fmt(el.value);
-    render(); if (id.startsWith('burn')) drawBurnPosMap();
-  });
-  el.addEventListener('pointerup', () => { snapshot(); updateUtilityBtns(); });
-}
-sl('border-size',   'vBorderSize',    v=>v+'%',        v=>S.cleanSize=v);
-sl('inner-gap',     'vInnerGap',      v=>v+'%',        v=>S.innerGap=v);
-sl('filmScale',     'vFilmScale',     v=>(v/100).toFixed(1)+'×', v=>S.filmScale=v/100);
-sl('textOpacity',   'vTextOpacity',   v=>v+'%',        v=>S.textOpacity=v/100);
-sl('rebateTint',    'vRebateTint',    v=>v,            v=>S.rebateTint=v);
-sl('burnIntensity', 'vBurnIntensity', v=>v+'%',        v=>S.burnIntensity=v/100);
-sl('burnSpread',    'vBurnSpread',    v=>v+'%',        v=>S.burnSpread=v/100);
-sl('burnFeather',   'vBurnFeather',   v=>v+'%',        v=>S.burnFeather=v/100);
-// toggles
-function tog(id, key) {
-  const el = document.getElementById(id);
-  el.addEventListener('click', () => { S[key]=!S[key]; el.classList.toggle('on',S[key]); snapshot(); render(); });
-}
-tog('togFN','showFN'); tog('togSP','showSP'); tog('togDX','showDX');
-// blend
-document.querySelectorAll('#blend-row .blend-btn').forEach(b => {
-  b.addEventListener('click', () => {
-    document.querySelectorAll('#blend-row .blend-btn').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active'); S.burnBlend = b.dataset.blend; snapshot(); render(); drawBurnPosMap();
-  });
-});
-// customize accordion
-document.getElementById('cust-hd').addEventListener('click', () => {
-  const body = document.getElementById('cust-body');
-  const arr  = document.getElementById('cust-arr');
-  const open = body.classList.toggle('open');
-  arr.style.transform = open ? 'rotate(180deg)' : '';
-});
-// canvas mode buttons
-document.querySelectorAll('.cmode-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.cmode-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    S.canvasMode = btn.dataset.mode;
-    updateCanvasCursor();
-    if (S.canvasMode === 'pan') clearOverlay();
-    else drawOverlay();
-    showBadge(S.canvasMode==='pan' ? '✦ Pan Mode' : '⬡ Burn Placement');
-  });
-});
-
-// ── UTILITY HEADER BUTTONS ────────────────────────────────────────
-// Before / After — hold to preview original, release to restore
-const btnBefore = document.getElementById('btn-before');
-let beforeHeld = false;
-btnBefore.addEventListener('mousedown', () => {
-  if (!S.img) return;
-  beforeHeld = true;
-  btnBefore.classList.add('held');
-  document.getElementById('before-label').classList.add('show');
-  renderBefore();
-});
-const releaseBefore = () => {
-  if (!beforeHeld) return;
-  beforeHeld = false;
-  btnBefore.classList.remove('held');
-  document.getElementById('before-label').classList.remove('show');
-  render(); drawOverlay();
-};
-btnBefore.addEventListener('mouseup',    releaseBefore);
-btnBefore.addEventListener('mouseleave', releaseBefore);
-btnBefore.addEventListener('touchstart', e => { e.preventDefault(); btnBefore.dispatchEvent(new MouseEvent('mousedown')); }, {passive:false});
-btnBefore.addEventListener('touchend',   () => releaseBefore());
-
-document.getElementById('btn-undo').addEventListener('click', () => { if (!beforeHeld) undo(); });
-document.getElementById('btn-reset').addEventListener('click', () => {
-  if (!S.img) return;
-  if (confirm('Reset all edits? This cannot be undone beyond current history.')) resetAll();
-});
-
-// ══════════════════════════════════════════════════════════════════
-// UPLOAD
-// ══════════════════════════════════════════════════════════════════
-const uz=document.getElementById('upload-zone'), fi=document.getElementById('file-input');
-uz.addEventListener('click',()=>fi.click());
-uz.addEventListener('dragover',e=>{e.preventDefault();uz.classList.add('over');});
-uz.addEventListener('dragleave',()=>uz.classList.remove('over'));
-uz.addEventListener('drop',e=>{e.preventDefault();uz.classList.remove('over');const f=e.dataTransfer.files[0];if(f&&f.type.startsWith('image/'))loadImg(f);});
-fi.addEventListener('change',()=>{if(fi.files[0])loadImg(fi.files[0]);});
-
-function loadImg(file) {
-  const reader = new FileReader();
-  reader.onload = e => {
-    const img = new Image();
-    img.onload = () => {
-      S.img = img; S.panX = 0; S.panY = 0;
-      HISTORY.length = 0; // clear history for new image
-      document.getElementById('empty-state').style.display = 'none';
-      document.getElementById('canvas-wrapper').style.display = 'flex';
-      document.getElementById('dl-btn').disabled = false;
-      snapshot(); // initial state as history base
-      render(); drawBurnPosMap();
-      showBadge('✦ Pan Mode — drag to reposition', 3000);
-    };
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
-}
-
-// ══════════════════════════════════════════════════════════════════
-// CANVAS INTERACTION — PAN + BURN PLACEMENT
-// ══════════════════════════════════════════════════════════════════
-const canvas = document.getElementById('preview-canvas');
-const ctx    = canvas.getContext('2d');
-let drag = { on:false, sx:0, sy:0, spx:0, spy:0 };
-
-function updateCanvasCursor() {
-  canvas.className = S.canvasMode === 'burn' ? 'burn-mode' : '';
-}
-
-canvas.addEventListener('mousedown', e => {
-  if (!S.img) return;
-  drag = { on:true, sx:e.clientX, sy:e.clientY, spx:S.panX, spy:S.panY };
-  if (S.canvasMode === 'pan') canvas.classList.add('dragging');
-  if (S.canvasMode === 'burn') handleBurnPlace(e);
-  e.preventDefault();
-});
-window.addEventListener('mousemove', e => {
-  if (!drag.on || !S.img) return;
-  if (S.canvasMode === 'pan') {
-    const r = canvas.getBoundingClientRect();
-    const sc = r.width / canvas.width;
-    S.panX = drag.spx + (e.clientX - drag.sx) / sc;
-    S.panY = drag.spy + (e.clientY - drag.sy) / sc;
-    render();
-  } else if (S.canvasMode === 'burn' && S.burn) {
-    handleBurnPlace(e);
-  }
-});
-window.addEventListener('mouseup', () => { drag.on=false; canvas.classList.remove('dragging'); });
-canvas.addEventListener('dblclick', () => { S.panX=0; S.panY=0; render(); showBadge('↺ Reset to center',1500); });
-
-// touch
-canvas.addEventListener('touchstart',e=>{
-  if(!S.img||e.touches.length!==1)return;
-  const t=e.touches[0];
-  drag={on:true,sx:t.clientX,sy:t.clientY,spx:S.panX,spy:S.panY};
-  if(S.canvasMode==='burn')handleBurnTouchPlace(t);
-  e.preventDefault();
-},{passive:false});
-window.addEventListener('touchmove',e=>{
-  if(!drag.on||e.touches.length!==1)return;
-  const t=e.touches[0];
-  if(S.canvasMode==='pan'){
-    const r=canvas.getBoundingClientRect(),sc=r.width/canvas.width;
-    S.panX=drag.spx+(t.clientX-drag.sx)/sc;
-    S.panY=drag.spy+(t.clientY-drag.sy)/sc;
-    render();
-  } else if(S.canvasMode==='burn'&&S.burn){
-    handleBurnTouchPlace(t);
-  }
-  e.preventDefault();
-},{passive:false});
-window.addEventListener('touchend',()=>{drag.on=false;});
-
-function handleBurnPlace(e) {
-  if (!S.burn) return;
-  const r = canvas.getBoundingClientRect();
-  S.burnX = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
-  S.burnY = Math.max(0, Math.min(1, (e.clientY - r.top)  / r.height));
-  render(); drawBurnPosMap();
-}
-function handleBurnTouchPlace(t) {
-  if (!S.burn) return;
-  const r = canvas.getBoundingClientRect();
-  S.burnX = Math.max(0, Math.min(1, (t.clientX - r.left) / r.width));
-  S.burnY = Math.max(0, Math.min(1, (t.clientY - r.top)  / r.height));
-  render(); drawBurnPosMap();
-}
-
-// badge
-let badgeTimer;
-function showBadge(msg, dur=2000) {
-  const badge = document.getElementById('mode-badge');
-  badge.textContent = msg; badge.classList.add('show');
-  clearTimeout(badgeTimer);
-  badgeTimer = setTimeout(() => badge.classList.remove('show'), dur);
-}
-
-// ══════════════════════════════════════════════════════════════════
-// RENDER PIPELINE
-// ══════════════════════════════════════════════════════════════════
-function getAsp() { const r=RATIOS.find(r=>r.label===S.ratio)||RATIOS[0]; return {w:r.w,h:r.h}; }
-
-// Renders just the bare photo at the current crop+pan — used for Before view
-function renderBefore() {
-  if (!S.img) return;
-  const BASE = 1200;
-  const {w:rw,h:rh} = getAsp();
-  const asp = rw/rh;
-  let W,H;
-  if(asp>=1){W=BASE;H=Math.round(BASE/asp);}else{H=BASE;W=Math.round(BASE*asp);}
-  canvas.width=W; canvas.height=H;
-  // Draw photo edge-to-edge with no border, same pan position
-  drawImg(0, 0, W, H);
-  clearOverlay();
-}
-
-function render() {
-  if (!S.img) return;
-  const BASE = 1200;
-  const {w:rw,h:rh} = getAsp();
-  const asp = rw/rh;
-  let W,H;
-  if(asp>=1){W=BASE;H=Math.round(BASE/asp);}else{H=BASE;W=Math.round(BASE*asp);}
-  canvas.width=W; canvas.height=H;
-
-  if(S.mode==='film'&&S.stock) renderFilm(W,H,S.stock);
-  else renderClean(W,H);
-
-  // Burns
-  if(S.burn){
-    ctx.save();
-    ctx.globalCompositeOperation=S.burnBlend;
-    ctx.globalAlpha=S.burnIntensity;
-    const colors=getBurnColors(S.burn,S.burnColor);
-    paintBurn(ctx,S.burn,S.burnX,S.burnY,S.burnIntensity,S.burnSpread,S.burnFeather,0,0,W,H,colors);
-    ctx.restore();
-  }
-
-  drawOverlay(); // crosshair on separate canvas — never exports
-
-  // info
-  const info=document.getElementById('canvas-info');
-  const bLabel=S.burn?` + ${S.burn.label} burn`:'' ;
-  info.textContent=`${S.ratio} · ${W}×${H}px · ${S.mode==='film'&&S.stock?S.stock.brand+' '+S.stock.name:'Clean'}${bLabel}  ·  ${S.canvasMode==='pan'?'drag=pan · dbl=reset':'click=place burn'}`;
-}
-
-// ── CLEAN ──────────────────────────────────────────
-function renderClean(W,H){
-  const bx=Math.round(W*S.cleanSize/100);
-  const by=Math.round(H*S.cleanSize/100);
-  ctx.fillStyle=S.cleanColor; ctx.fillRect(0,0,W,H);
-  if(S.innerGap>0){
-    const dark=['#0D0C0A','#1C1A15','#3D3530'].includes(S.cleanColor);
-    ctx.strokeStyle=dark?'#ffffff12':'#00000012';
-    ctx.lineWidth=1;
-    const gx=Math.round(W*S.innerGap/100),gy=Math.round(H*S.innerGap/100);
-    ctx.strokeRect(bx-gx+4,by-gy+4,W-(bx-gx+4)*2,H-(by-gy+4)*2);
-  }
-  drawImg(bx,by,W-bx*2,H-by*2);
-}
-
-// ── FILM ──────────────────────────────────────────
-function renderFilm(W,H,s){
-  const sc=S.filmScale;
-  const side=Math.round(W*0.04*sc);
-  const top=s.hasSp?Math.round(H*0.115*sc):(s.isSlide?Math.round(H*0.065*sc):Math.round(H*0.06*sc));
-  ctx.fillStyle=tintHex(s.reb,S.rebateTint); ctx.fillRect(0,0,W,H);
-  const ix=side,iy=top,iw=W-side*2,ih=H-top*2;
-  drawImg(ix,iy,iw,ih);
-  ctx.strokeStyle=s.eC+'50'; ctx.lineWidth=1.5;
-  ctx.strokeRect(ix+.75,iy+.75,iw-1.5,ih-1.5);
-  if(s.hasSp) draw35E(W,H,ix,iy,iw,ih,top,side,s);
-  else if(s.isSlide) drawSlideE(W,H,ix,iy,iw,ih,top,side,s);
-  else draw120E(W,H,ix,iy,iw,ih,top,side,s);
-}
-function tintHex(hex,amt){
-  if(!amt)return hex;
-  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
-  const v=Math.abs(amt)/50;
-  let nr,ng,nb;
-  if(amt>0){nr=Math.min(255,Math.round(r+(255-r)*v*.3));ng=Math.min(255,Math.round(g+(255-g)*v*.2));nb=Math.min(255,Math.round(b+(255-b)*v*.1));}
-  else{nr=Math.round(r*(1-v));ng=Math.round(g*(1-v));nb=Math.round(b*(1-v));}
-  return'#'+[nr,ng,nb].map(x=>Math.max(0,x).toString(16).padStart(2,'0')).join('');
-}
-function draw35E(W,H,ix,iy,iw,ih,top,side,s){
-  const to=S.textOpacity;
-  if(S.showSP){
-    const pw=Math.round(top*.52),ph=Math.round(top*.62),pr=Math.round(ph*.15);
-    const np=Math.floor(iw/(pw*2.2)),sp=iw/np;
-    const psx=ix+sp/2-pw/2,pyt=Math.round(top*.19),pyb=H-top+Math.round(top*.19);
-    ctx.fillStyle=s.pC||'#1a1a1a';
-    for(let i=0;i<np;i++){const px=psx+i*sp;rndR(px,pyt,pw,ph,pr);ctx.fill();rndR(px,pyb,pw,ph,pr);ctx.fill();}
-  }
-  const fs=Math.round(top*.22);
-  ctx.textBaseline='middle'; ctx.globalAlpha=to;
-  ctx.fillStyle=s.eC; ctx.font=`${s.eb?'700':'400'} ${fs}px 'Courier Prime',monospace`;
-  ctx.textAlign='left'; ctx.fillText(s.eT,ix,top*.72);
-  ctx.font=`400 ${Math.round(fs*.82)}px 'Courier Prime',monospace`;
-  ctx.fillStyle=s.eC+'aa'; ctx.fillText('ISO '+s.iso+' · 36 EXP',ix,H-top*.47);
-  if(S.showFN){
-    ctx.fillStyle=s.nC||s.eC; ctx.font=`700 ${Math.round(fs*.88)}px 'Courier Prime',monospace`; ctx.textAlign='right';
-    const nc=Math.floor(iw/(top*2)),ns=iw/nc;
-    for(let i=1;i<=nc;i++){const nx=ix+i*ns-ns/2;ctx.fillText(String(i).padStart(2,'0')+'A',nx,top*.49);ctx.fillText(String(i).padStart(2,'0')+'A',nx,H-top*.47);}
-  }
-  if(S.showDX&&side>10){ctx.globalAlpha=to*.65;drawDX(W-side+4,iy+ih*.1,side-8,ih*.3,s.eC);}
-  ctx.globalAlpha=1;
-}
-function draw120E(W,H,ix,iy,iw,ih,top,side,s){
-  const fs=Math.round(top*.28); ctx.globalAlpha=S.textOpacity;
-  ctx.strokeStyle=s.eC+'30'; ctx.lineWidth=1; ctx.strokeRect(ix-2,iy-2,iw+4,ih+4);
-  ctx.fillStyle=s.eC; ctx.font=`400 ${fs}px 'Courier Prime',monospace`;
-  ctx.textBaseline='middle'; ctx.textAlign='left'; ctx.fillText(s.eT,ix,top/2);
-  ctx.font=`400 ${Math.round(fs*.85)}px 'Courier Prime',monospace`; ctx.fillStyle=s.eC+'aa';
-  ctx.fillText('120 · ISO '+s.iso,ix,H-top/2);
-  if(S.showFN){
-    ctx.fillStyle=(s.nC||s.eC)+'cc'; ctx.font=`700 ${Math.round(fs*1.1)}px 'Courier Prime',monospace`; ctx.textAlign='center';
-    ctx.fillText('01',W-side/2,iy+ih/2); ctx.fillStyle=(s.nC||s.eC)+'55';
-    ctx.fillText('▸',W-side/2,iy+ih/2-fs*1.4); ctx.fillText('▸',W-side/2,iy+ih/2+fs*1.4);
-  }
-  ctx.globalAlpha=1;
-}
-function drawSlideE(W,H,ix,iy,iw,ih,top,side,s){
-  const mp=Math.round(top*.3); ctx.globalAlpha=S.textOpacity;
-  ctx.strokeStyle='#e0d8c4'; ctx.lineWidth=mp;
-  ctx.strokeRect(ix-mp/2,iy-mp/2,iw+mp,ih+mp);
-  ctx.strokeStyle=s.eC+'80'; ctx.lineWidth=2;
-  ctx.strokeRect(ix-mp-1,iy-mp-1,iw+mp*2+2,ih+mp*2+2);
-  const fs=Math.round(top*.22); ctx.fillStyle=s.eC;
-  ctx.font=`400 ${fs}px 'Courier Prime',monospace`; ctx.textBaseline='middle'; ctx.textAlign='left';
-  ctx.fillText(s.eT,ix,top/2); ctx.fillStyle=s.eC+'aa';
-  ctx.font=`400 ${Math.round(fs*.85)}px 'Courier Prime',monospace`;
-  ctx.fillText('E6 · ISO '+s.iso,ix,H-top/2); ctx.globalAlpha=1;
-}
-function drawDX(x,y,w,h,color){
-  const bars=[1,0,1,1,0,1,0,1,1,0,1,0,1,1,0],gh=h/bars.length;
-  ctx.fillStyle=color+'55';
-  bars.forEach((on,i)=>{if(on)ctx.fillRect(x+w*.18,y+i*gh,w*.28,gh*.72);});
-}
-function rndR(x,y,w,h,r){
-  ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);
-  ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);
-  ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);
-  ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);
-  ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();
-}
-function drawImg(x,y,w,h){
-  if(!S.img)return;
-  const img=S.img,scale=Math.max(w/img.width,h/img.height);
-  const sw=img.width*scale,sh=img.height*scale;
-  let sx=x+(w-sw)/2+S.panX,sy=y+(h-sh)/2+S.panY;
-  sx=Math.min(x,Math.max(x+w-sw,sx)); sy=Math.min(y,Math.max(y+h-sh,sy));
-  S.panX=sx-(x+(w-sw)/2); S.panY=sy-(y+(h-sh)/2);
-  ctx.save(); ctx.beginPath(); ctx.rect(x,y,w,h); ctx.clip();
-  ctx.drawImage(img,sx,sy,sw,sh); ctx.restore();
-}
-
-// ══════════════════════════════════════════════════════════════════
-// OVERLAY — crosshair drawn on separate canvas, never exported
-// ══════════════════════════════════════════════════════════════════
-const overlayCanvas = document.getElementById('overlay-canvas');
-const octx = overlayCanvas.getContext('2d');
-
-function drawOverlay() {
-  // Match overlay logical size to preview canvas so coordinates map 1:1
-  overlayCanvas.width  = canvas.width;
-  overlayCanvas.height = canvas.height;
-  octx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
-
-  if (S.canvasMode !== 'burn' || !S.burn) return;
-
-  const W = overlayCanvas.width, H = overlayCanvas.height;
-  const px = S.burnX * W, py = S.burnY * H;
-
-  // dashed crosshair lines
-  octx.save();
-  octx.strokeStyle = 'rgba(255,255,255,.55)';
-  octx.lineWidth = 1.5;
-  octx.setLineDash([5, 5]);
-  octx.beginPath(); octx.moveTo(px, 0); octx.lineTo(px, H); octx.stroke();
-  octx.beginPath(); octx.moveTo(0, py); octx.lineTo(W, py); octx.stroke();
-  octx.setLineDash([]);
-
-  // dot
-  octx.fillStyle = 'rgba(255,255,255,.92)';
-  octx.beginPath(); octx.arc(px, py, 7, 0, Math.PI*2); octx.fill();
-  octx.strokeStyle = 'rgba(0,0,0,.55)'; octx.lineWidth = 2;
-  octx.stroke();
-  octx.restore();
-}
-
-// clear overlay when switching away from burn mode
-function clearOverlay() {
-  overlayCanvas.width = canvas.width;
-  overlayCanvas.height = canvas.height;
-  octx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
-}
-function getBurnColors(preset, override) {
-  if (!override) return preset.defColors;
-  // Build gradient from single color override
-  const base = override;
-  const mid  = lighten(base, .35);
-  const hi   = lighten(base, .65);
-  return [base, mid, hi];
-}
-function lighten(hex, amt) {
-  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
-  return '#'+[r,g,b].map(v=>Math.min(255,Math.round(v+(255-v)*amt)).toString(16).padStart(2,'0')).join('');
-}
-function hexA(hex,a){
-  if(!hex||hex==='transparent')return'transparent';
-  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
-  return`rgba(${r},${g},${b},${a})`;
-}
-
-function paintBurn(c, preset, bx, by, intensity, spread, feather, x, y, w, h, colors) {
-  if (!preset || preset.shape==='none') return;
-  colors = colors || preset.defColors;
-  const px = x + bx * w;
-  const py = y + by * h;
-  const maxDim = Math.max(w, h);
-  const radius = maxDim * spread * 1.2;
-  const innerStop = Math.max(0, 1 - feather);
-
-  let gr;
-  switch(preset.shape) {
-    case 'radial': {
-      gr = c.createRadialGradient(px,py,0, px,py,radius);
-      gr.addColorStop(0,          hexA(colors[0], Math.min(.95, intensity*1.2)));
-      gr.addColorStop(innerStop,  hexA(colors[1], intensity*.6));
-      gr.addColorStop(Math.min(1, innerStop+.3), hexA(colors[2], intensity*.15));
-      gr.addColorStop(1,          'transparent');
-      c.fillStyle=gr; c.fillRect(x,y,w,h);
-      break;
-    }
-    case 'edge-h': {
-      // horizontal edge — origin x determines which side
-      const fromX = bx < 0.5 ? x : x+w;
-      const toX   = bx < 0.5 ? x+w*spread : x+w*(1-spread);
-      gr = c.createLinearGradient(fromX,py, toX,py);
-      gr.addColorStop(0,         hexA(colors[0], Math.min(.92, intensity*1.1)));
-      gr.addColorStop(innerStop, hexA(colors[1], intensity*.5));
-      gr.addColorStop(1,         'transparent');
-      c.fillStyle=gr; c.fillRect(x,y,w,h);
-      break;
-    }
-    case 'edge-v': {
-      const fromY = by < 0.5 ? y : y+h;
-      const toY   = by < 0.5 ? y+h*spread : y+h*(1-spread);
-      gr = c.createLinearGradient(px,fromY, px,toY);
-      gr.addColorStop(0,         hexA(colors[0], Math.min(.92, intensity*1.1)));
-      gr.addColorStop(innerStop, hexA(colors[1], intensity*.5));
-      gr.addColorStop(1,         'transparent');
-      c.fillStyle=gr; c.fillRect(x,y,w,h);
-      break;
-    }
-    case 'diag': {
-      const len = Math.sqrt(w*w+h*h);
-      const ang = Math.atan2(py-(y+h/2), px-(x+w/2));
-      const dx = Math.cos(ang)*len, dy = Math.sin(ang)*len;
-      gr = c.createLinearGradient(px-dx*.1,py-dy*.1, px+dx*.9,py+dy*.9);
-      gr.addColorStop(0,         hexA(colors[0], Math.min(.9, intensity*1.1)));
-      gr.addColorStop(innerStop, hexA(colors[1], intensity*.45));
-      gr.addColorStop(1,         'transparent');
-      c.fillStyle=gr; c.fillRect(x,y,w,h);
-      break;
-    }
-    case 'center':
-    case 'full': {
-      gr = c.createRadialGradient(px,py,0, x+w/2,y+h/2,maxDim*.75*spread);
-      gr.addColorStop(0,         hexA(colors[2], intensity*.4));
-      gr.addColorStop(.5,        hexA(colors[1], intensity*.6));
-      gr.addColorStop(1,         hexA(colors[0], intensity*.9));
-      c.fillStyle=gr; c.fillRect(x,y,w,h);
-      break;
-    }
-    case 'halation': {
-      // glow at corners and at cursor position
-      const corners = [[x,y],[x+w,y],[x,y+h],[x+w,y+h],[px,py]];
-      const alphas  = [.5,.5,.5,.5,.85];
-      corners.forEach(([cx,cy],i)=>{
-        const r = maxDim*(i===4?spread*.9:spread*.55);
-        gr = c.createRadialGradient(cx,cy,0, cx,cy,r);
-        gr.addColorStop(0,   hexA(colors[0], Math.min(.8, intensity*alphas[i])));
-        gr.addColorStop(.3,  hexA(colors[1], intensity*.2));
-        gr.addColorStop(.6,  hexA(colors[2], intensity*.05));
-        gr.addColorStop(1,   'transparent');
-        c.fillStyle=gr; c.fillRect(x,y,w,h);
-      });
-      break;
-    }
-  }
-}
-
-// ══════════════════════════════════════════════════════════════════
-// DOWNLOAD
-// ══════════════════════════════════════════════════════════════════
-document.getElementById('dl-btn').addEventListener('click',()=>{
-  const a=document.createElement('a');
-  const bn=S.burn?`-${S.burn.id}`:'';
-  const sn=S.stock?`-${S.stock.brand.toLowerCase()}-${S.stock.name.replace(/\s+/g,'-').toLowerCase()}`:`-clean`;
-  a.download=`frame${sn}-${S.ratio.replace(':','-')}${bn}.png`;
-  a.href=canvas.toDataURL('image/png');
-  a.click();
-});
+// core logic pasted from working version
+const S={img:null,ratio:'3:2',mode:'clean',cleanColor:'#FFFFFF',cleanSize:8,innerGap:0,stock:null,filmScale:1.0,textOpacity:1.0,rebateTint:0,showFN:true,showSP:true,showDX:true,panX:0,panY:0,burn:null,burnX:0.15,burnY:0.85,burnIntensity:0.60,burnSpread:0.85,burnFeather:0.60,burnColor:null,burnBlend:'screen',canvasMode:'pan'};
+const HISTORY=[];const MAX_HISTORY=30;const SNAP_KEYS=['ratio','mode','cleanColor','cleanSize','innerGap','stock','filmScale','textOpacity','rebateTint','showFN','showSP','showDX','panX','panY','burn','burnX','burnY','burnIntensity','burnSpread','burnFeather','burnColor','burnBlend'];
+function snapshot(){const snap={};SNAP_KEYS.forEach(k=>snap[k]=S[k]);HISTORY.push(snap);if(HISTORY.length>MAX_HISTORY)HISTORY.shift();updateUtilityBtns()}
+function undo(){if(HISTORY.length<2)return;HISTORY.pop();const prev=HISTORY[HISTORY.length-1];SNAP_KEYS.forEach(k=>S[k]=prev[k]);syncUIToState();render();drawBurnPosMap();updateUtilityBtns()}
+function resetAll(){if(!S.img)return;snapshot();S.ratio='3:2';S.mode='clean';S.cleanColor='#FFFFFF';S.cleanSize=8;S.innerGap=0;S.stock=null;S.filmScale=1.0;S.textOpacity=1.0;S.rebateTint=0;S.showFN=true;S.showSP=true;S.showDX=true;S.panX=0;S.panY=0;S.burn=null;S.burnX=0.15;S.burnY=0.85;S.burnIntensity=0.60;S.burnSpread=0.85;S.burnFeather=0.60;S.burnColor=null;S.burnBlend='screen';syncUIToState();render();drawBurnPosMap();updateUtilityBtns();showBadge('✕ Reset to original',1800)}
+function updateUtilityBtns(){const hasImg=!!S.img;document.getElementById('btn-before').disabled=!hasImg;document.getElementById('btn-undo').disabled=!hasImg||HISTORY.length<2;document.getElementById('btn-reset').disabled=!hasImg}
+function setSlider(id,valId,value,fmt){const el=document.getElementById(id);if(el){el.value=value;document.getElementById(valId).textContent=fmt(value)}}
+function syncUIToState(){document.querySelectorAll('.ratio-btn').forEach(b=>b.classList.toggle('active',b.dataset.ratio===S.ratio));document.querySelectorAll('#border-tabs .tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===S.mode));document.getElementById('panel-clean').classList.toggle('show',S.mode==='clean');document.getElementById('panel-film').classList.toggle('show',S.mode==='film');document.querySelectorAll('#color-row .cswatch').forEach(sw=>sw.classList.toggle('active',sw.dataset.color===S.cleanColor));setSlider('border-size','vBorderSize',S.cleanSize,v=>v+'%');setSlider('inner-gap','vInnerGap',S.innerGap,v=>v+'%');setSlider('filmScale','vFilmScale',S.filmScale*100,v=>(v/100).toFixed(1)+'×');setSlider('textOpacity','vTextOpacity',S.textOpacity*100,v=>v+'%');setSlider('rebateTint','vRebateTint',S.rebateTint,v=>v);setSlider('burnIntensity','vBurnIntensity',S.burnIntensity*100,v=>v+'%');setSlider('burnSpread','vBurnSpread',S.burnSpread*100,v=>v+'%');setSlider('burnFeather','vBurnFeather',S.burnFeather*100,v=>v+'%');document.getElementById('togFN').classList.toggle('on',S.showFN);document.getElementById('togSP').classList.toggle('on',S.showSP);document.getElementById('togDX').classList.toggle('on',S.showDX);document.querySelectorAll('.stock-card').forEach(c=>c.classList.toggle('active',S.stock&&c.dataset.sid===S.stock.id));document.querySelectorAll('.bcard').forEach(c=>{const isNone=c.dataset.bid==='none';c.classList.toggle('active',S.burn?c.dataset.bid===S.burn.id:isNone)});document.getElementById('burn-controls').style.display=S.burn?'block':'none';document.querySelectorAll('#blend-row .blend-btn').forEach(b=>b.classList.toggle('active',b.dataset.blend===S.burnBlend))}
+const RATIOS=[{label:'3:2',name:'35mm',w:3,h:2,rw:22,rh:15},{label:'1:1',name:'6×6',w:1,h:1,rw:18,rh:18},{label:'4:3',name:'645',w:4,h:3,rw:22,rh:17},{label:'7:6',name:'6×7',w:7,h:6,rw:22,rh:19},{label:'4:5',name:'4:5',w:4,h:5,rw:16,rh:20},{label:'16:9',name:'Cinema',w:16,h:9,rw:22,rh:12},{label:'2.7:1',name:'XPan',w:2.7,h:1,rw:22,rh:8},{label:'2:3',name:'Portrt',w:2,h:3,rw:15,rh:22}];
+const STOCKS={'35mm':[{id:'portra400',name:'Portra 400',brand:'Kodak',iso:'400',fmt:'35mm',type:'color',sB:'#1a1008',sF:'#E6A020',sL:'P400',tag:{t:'Color',c:'#c0670c',b:'rgba(192,103,12,.15)'},reb:'#0a0804',eC:'#E6A020',eb:true,eT:'KODAK PORTRA 400',nC:'#c8880a',pC:'#1a1008',hasSp:true},{id:'gold200',name:'Gold 200',brand:'Kodak',iso:'200',fmt:'35mm',type:'color',sB:'#1a1205',sF:'#F5C542',sL:'G200',tag:{t:'Color',c:'#d4a017',b:'rgba(212,160,23,.15)'},reb:'#0c0c06',eC:'#F5C542',eb:false,eT:'KODAK GOLD 200',nC:'#D4B020',pC:'#1a1a08',hasSp:true},{id:'ektar100',name:'Ektar 100',brand:'Kodak',iso:'100',fmt:'35mm',type:'color',sB:'#0e0505',sF:'#E83030',sL:'E100',tag:{t:'Color',c:'#c0392b',b:'rgba(192,57,43,.15)'},reb:'#080303',eC:'#E83030',eb:true,eT:'KODAK EKTAR 100',nC:'#c02020',pC:'#160606',hasSp:true},{id:'colorplus',name:'ColorPlus 200',brand:'Kodak',iso:'200',fmt:'35mm',type:'color',sB:'#0f0e08',sF:'#D4B840',sL:'CP2',tag:{t:'Color',c:'#b89c20',b:'rgba(184,156,32,.15)'},reb:'#0a0a05',eC:'#D4B840',eb:false,eT:'KODAK COLORPLUS 200',nC:'#b89c20',pC:'#161508',hasSp:true},{id:'ultramax',name:'UltraMax 400',brand:'Kodak',iso:'400',fmt:'35mm',type:'color',sB:'#0e0808',sF:'#FF6040',sL:'UX4',tag:{t:'Color',c:'#d04030',b:'rgba(208,64,48,.15)'},reb:'#090505',eC:'#FF6040',eb:true,eT:'KODAK ULTRAMAX 400',nC:'#e05030',pC:'#140808',hasSp:true},{id:'ektachrome',name:'Ektachrome E100',brand:'Kodak',iso:'100',fmt:'35mm',type:'slide',sB:'#050e18',sF:'#4090F0',sL:'E100',tag:{t:'Slide',c:'#3070d0',b:'rgba(48,112,208,.15)'},reb:'#030810',eC:'#4090F0',eb:true,eT:'KODAK EKTACHROME E100',nC:'#2070d0',pC:'#0a1828',hasSp:true,isSlide:true},{id:'trix400',name:'Tri-X 400',brand:'Kodak',iso:'400',fmt:'35mm',type:'bw',sB:'#141414',sF:'#DDDDDD',sL:'TX',tag:{t:'B&W',c:'#999',b:'rgba(150,150,150,.1)'},reb:'#0a0a0a',eC:'#c8c8c8',eb:true,eT:'KODAK TRI-X PAN FILM',nC:'#aaaaaa',pC:'#1a1a1a',hasSp:true},{id:'tmax400',name:'T-Max 400',brand:'Kodak',iso:'400',fmt:'35mm',type:'bw',sB:'#101010',sF:'#E0E0E0',sL:'TMY',tag:{t:'B&W',c:'#aaa',b:'rgba(150,150,150,.1)'},reb:'#080808',eC:'#e0e0e0',eb:true,eT:'KODAK T-MAX 400',nC:'#c0c0c0',pC:'#161616',hasSp:true},{id:'hp5',name:'HP5 Plus 400',brand:'Ilford',iso:'400',fmt:'35mm',type:'bw',sB:'#0f0f0f',sF:'#E8E8E0',sL:'HP5',tag:{t:'B&W',c:'#aaa',b:'rgba(150,150,150,.1)'},reb:'#060606',eC:'#D8D8D0',eb:false,eT:'ILFORD HP5 PLUS 400',nC:'#b0b0a8',pC:'#141414',hasSp:true},{id:'delta3200',name:'Delta 3200',brand:'Ilford',iso:'3200',fmt:'35mm',type:'bw',sB:'#0a0a0a',sF:'#A8A8A0',sL:'D32',tag:{t:'B&W',c:'#888',b:'rgba(130,130,130,.1)'},reb:'#040404',eC:'#A8A8A0',eb:false,eT:'ILFORD DELTA 3200 PROFESSIONAL',nC:'#888880',pC:'#0e0e0e',hasSp:true},{id:'superia400',name:'Superia 400',brand:'Fujifilm',iso:'400',fmt:'35mm',type:'color',sB:'#061a0a',sF:'#3DB86A',sL:'SU4',tag:{t:'Color',c:'#2d9e5a',b:'rgba(45,158,90,.12)'},reb:'#030d05',eC:'#3DB86A',eb:false,eT:'FUJICOLOR SUPERIA 400',nC:'#2a9a50',pC:'#08180a',hasSp:true},{id:'acros100',name:'Acros 100 II',brand:'Fujifilm',iso:'100',fmt:'35mm',type:'bw',sB:'#0d0d0d',sF:'#D0D0C8',sL:'ACS',tag:{t:'B&W',c:'#999',b:'rgba(150,150,150,.1)'},reb:'#070707',eC:'#C8C8C0',eb:false,eT:'FUJIFILM NEOPAN ACROS 100 II',nC:'#a0a098',pC:'#121212',hasSp:true},{id:'agfavista',name:'Agfa Vista 200',brand:'Agfa',iso:'200',fmt:'35mm',type:'color',sB:'#0c0a16',sF:'#A060E8',sL:'AGF',tag:{t:'Color',c:'#8040c8',b:'rgba(128,64,200,.15)'},reb:'#070512',eC:'#A060E8',eb:false,eT:'AGFA VISTA 200',nC:'#8040c0',pC:'#100820',hasSp:true},{id:'rollei',name:'Rollei Retro 80S',brand:'Rollei',iso:'80',fmt:'35mm',type:'bw',sB:'#0e0e0a',sF:'#B8C880',sL:'R80',tag:{t:'B&W',c:'#909860',b:'rgba(144,152,96,.12)'},reb:'#080808',eC:'#B8C880',eb:false,eT:'ROLLEI RETRO 80S',nC:'#989860',pC:'#141412',hasSp:true}], '120':[{id:'portra400-120',name:'Portra 400',brand:'Kodak',iso:'400',fmt:'120',type:'color',sB:'#1a1008',sF:'#E6A020',sL:'P120',tag:{t:'Color',c:'#c0670c',b:'rgba(192,103,12,.15)'},reb:'#0a0804',eC:'#E6A020',eb:true,eT:'KODAK PORTRA 400',nC:'#c8880a',hasSp:false},{id:'ektar100-120',name:'Ektar 100',brand:'Kodak',iso:'100',fmt:'120',type:'color',sB:'#0e0505',sF:'#E83030',sL:'E120',tag:{t:'Color',c:'#c0392b',b:'rgba(192,57,43,.15)'},reb:'#080303',eC:'#E83030',eb:true,eT:'KODAK EKTAR 100',nC:'#c02020',hasSp:false},{id:'velvia50',name:'Velvia 50',brand:'Fujifilm',iso:'50',fmt:'120',type:'slide',sB:'#0a0d18',sF:'#6080F0',sL:'V50',tag:{t:'Slide',c:'#5070d8',b:'rgba(80,112,216,.15)'},reb:'#05080e',eC:'#8090D0',eb:false,eT:'FUJICHROME VELVIA 50',nC:'#5060a8',hasSp:false,isSlide:true},{id:'pro400h',name:'Pro 400H',brand:'Fujifilm',iso:'400',fmt:'120',type:'color',sB:'#071510',sF:'#50C890',sL:'P4H',tag:{t:'Color',c:'#30a870',b:'rgba(48,168,112,.15)'},reb:'#030c08',eC:'#50C890',eb:false,eT:'FUJIFILM PRO 400H',nC:'#30a060',hasSp:false},{id:'fp4',name:'FP4 Plus 125',brand:'Ilford',iso:'125',fmt:'120',type:'bw',sB:'#0f0f0f',sF:'#C8C8C0',sL:'FP4',tag:{t:'B&W',c:'#aaa',b:'rgba(150,150,150,.1)'},reb:'#060606',eC:'#B8B8B0',eb:false,eT:'ILFORD FP4 PLUS 125',nC:'#989890',hasSp:false},{id:'delta100-120',name:'Delta 100 Pro',brand:'Ilford',iso:'100',fmt:'120',type:'bw',sB:'#0d0d0d',sF:'#D0D0C8',sL:'D100',tag:{t:'B&W',c:'#aaa',b:'rgba(150,150,150,.1)'},reb:'#070707',eC:'#C8C8C0',eb:false,eT:'ILFORD DELTA 100 PROFESSIONAL',nC:'#a8a8a0',hasSp:false}], 'special':[{id:'cinestill800t',name:'CineStill 800T',brand:'CineStill',iso:'800',fmt:'35mm',type:'cinema',sB:'#110a1a',sF:'#B060E0',sL:'800T',tag:{t:'Cinema',c:'#9040c8',b:'rgba(144,64,200,.15)'},reb:'#080510',eC:'#B060E0',eb:true,eT:'CINESTILL 800T',nC:'#8040b0',pC:'#150a20',hasSp:true},{id:'cinestill50d',name:'CineStill 50D',brand:'CineStill',iso:'50',fmt:'35mm',type:'cinema',sB:'#050d16',sF:'#40A8F0',sL:'50D',tag:{t:'Cinema',c:'#2080c8',b:'rgba(32,128,200,.15)'},reb:'#030810',eC:'#40A8F0',eb:true,eT:'CINESTILL 50D',nC:'#2080c8',pC:'#080e1c',hasSp:true},{id:'vision3',name:'Vision3 500T',brand:'Kodak',iso:'500',fmt:'35mm',type:'cinema',sB:'#0a0814',sF:'#9070D0',sL:'V3',tag:{t:'Cinema',c:'#7050b0',b:'rgba(112,80,176,.15)'},reb:'#060410',eC:'#9070D0',eb:true,eT:'KODAK VISION3 500T',nC:'#7050b0',pC:'#100c1c',hasSp:true},{id:'lomopurple',name:'LomoChrome Purple',brand:'Lomo',iso:'400',fmt:'35mm',type:'xprmntl',sB:'#0e0510',sF:'#D060A0',sL:'LCP',tag:{t:'Xprmntl',c:'#b04080',b:'rgba(176,64,128,.15)'},reb:'#070310',eC:'#D060A0',eb:false,eT:'LOMOGRAPHY LOMOCHROME PURPLE',nC:'#a03070',pC:'#120618',hasSp:true},{id:'lomo800',name:'Lomo Color 800',brand:'Lomo',iso:'800',fmt:'35mm',type:'xprmntl',sB:'#0a1008',sF:'#80D040',sL:'LC8',tag:{t:'Xprmntl',c:'#60a820',b:'rgba(96,168,32,.15)'},reb:'#060a04',eC:'#80D040',eb:false,eT:'LOMOGRAPHY COLOR 800',nC:'#60a820',pC:'#0c1408',hasSp:true},{id:'earlgrey',name:'Earl Grey 100',brand:'Lomo',iso:'100',fmt:'35mm',type:'bw',sB:'#0e0e0c',sF:'#C0C8B0',sL:'EG',tag:{t:'B&W',c:'#9aa880',b:'rgba(154,168,128,.1)'},reb:'#090908',eC:'#C0C8B0',eb:false,eT:'LOMOGRAPHY EARL GREY 100',nC:'#a0a890',pC:'#141414',hasSp:true},{id:'disposable',name:'Disposable',brand:'Generic',iso:'400',fmt:'35mm',type:'lo-fi',sB:'#0f0e0a',sF:'#C8B890',sL:'DSP',tag:{t:'Lo-Fi',c:'#9a8860',b:'rgba(154,136,96,.15)'},reb:'#090807',eC:'#C8B890',eb:false,eT:'400-27 EXPOSURES',nC:'#a89870',pC:'#181510',hasSp:true}]};
+const BURN_PRESETS=[{id:'none',label:'None',shape:'none'},{id:'corner',label:'Corner Leak',shape:'radial',defColors:['#FF6000','#FF9A3C','#FFD080'],defX:.1,defY:.9},{id:'edge-side',label:'Side Edge',shape:'edge-h',defColors:['#E89820','#F5C040','#FFE090'],defX:.0,defY:.5},{id:'edge-top',label:'Top Fade',shape:'edge-v',defColors:['#FF4010','#FF8040','#FFB880'],defX:.5,defY:.0},{id:'diagonal',label:'Diagonal',shape:'diag',defColors:['#D020A0','#FF50C0','#FF90D8'],defX:.0,defY:1.0},{id:'center',label:'Center Glow',shape:'center',defColors:['#FFB020','#FFD060','#FFF0A0'],defX:.5,defY:.5},{id:'halation',label:'Halation',shape:'halation',defColors:['#FF1800','#FF5030','#FF9870'],defX:.5,defY:.5},{id:'double-exp',label:'Double Exp',shape:'radial',defColors:['#FF1848','#FF5090','#FFA0C8'],defX:.3,defY:.4},{id:'cold-wash',label:'Cold Wash',shape:'full',defColors:['#1030B0','#2068E0','#70B0FF'],defX:.5,defY:.5},{id:'green-leak',label:'Green Leak',shape:'radial',defColors:['#10A028','#40D060','#80F090'],defX:.9,defY:.2},{id:'kodak-warm',label:'Kodak Warm',shape:'full',defColors:['#F0A010','#E8C050','#F5D880'],defX:.5,defY:.5},{id:'violet',label:'Violet Haze',shape:'radial',defColors:['#5010C8','#A040FF','#D090FF'],defX:.85,defY:.15}];
+const BURN_COLORS=[{hex:'#FF6000',label:'Orange'},{hex:'#FF1800',label:'Red'},{hex:'#FFE000',label:'Yellow'},{hex:'#E89820',label:'Gold'},{hex:'#40D060',label:'Green'},{hex:'#20A8E0',label:'Cyan'},{hex:'#2060D8',label:'Blue'},{hex:'#A040FF',label:'Violet'},{hex:'#E02880',label:'Pink'},{hex:'#FFFFFF',label:'White'},{hex:'#C8C8C0',label:'Silver'},{hex:'custom',label:'Custom'}];
+(()=>{const g=document.getElementById('ratio-grid');RATIOS.forEach(r=>{const btn=document.createElement('button');btn.className='ratio-btn'+(r.label===S.ratio?' active':'');btn.dataset.ratio=r.label;btn.innerHTML=`<div class="ratio-rect" style="width:${r.rw}px;height:${r.rh}px"></div><div class="ratio-name">${r.label}<br>${r.name}</div>`;btn.addEventListener('click',()=>{S.ratio=r.label;S.panX=0;S.panY=0;snapshot();syncUIToState();render()});g.appendChild(btn)})})();
+function buildStocks(arr,cid){const c=document.getElementById(cid);arr.forEach(s=>{const card=document.createElement('div');card.className='stock-card';card.dataset.sid=s.id;card.innerHTML=`<div class="sswatch" style="background:${s.sB};color:${s.sF};border:1px solid ${s.sF}33">${s.sL}</div><div class="sinfo"><div class="sname">${s.name}</div><div class="ssub">${s.brand} · ${s.fmt} · ${s.iso}</div></div><div class="stag" style="color:${s.tag.c};background:${s.tag.b}">${s.tag.t}</div>`;card.addEventListener('click',()=>{S.stock=s;snapshot();syncUIToState();render()});c.appendChild(card)})}
+buildStocks(STOCKS['35mm'],'sg-35mm');buildStocks(STOCKS['120'],'sg-120');buildStocks(STOCKS['special'],'sg-special');
+(()=>{const g=document.getElementById('burn-presets');BURN_PRESETS.forEach(p=>{const card=document.createElement('div');card.className='bcard'+(p.id==='none'?' active':'');card.dataset.bid=p.id;const cv=document.createElement('canvas');cv.width=60;cv.height=40;const pc=cv.getContext('2d');pc.fillStyle='#1a1410';pc.fillRect(0,0,60,40);if(p.id==='none'){pc.fillStyle='#3a3028';pc.fillRect(4,4,52,32);pc.fillStyle='#6b5e4a';pc.font='7px sans-serif';pc.textAlign='center';pc.textBaseline='middle';pc.fillText('NONE',30,20)}else{pc.save();pc.globalCompositeOperation='screen';pc.globalAlpha=0.8;paintBurn(pc,p,p.defX,p.defY,0.75,0.85,0.6,0,0,60,40);pc.restore()}const lbl=document.createElement('div');lbl.className='bcard-lbl';lbl.textContent=p.label;card.appendChild(cv);card.appendChild(lbl);card.addEventListener('click',()=>{if(p.id==='none'){S.burn=null;document.getElementById('burn-controls').style.display='none'}else{S.burn=p;S.burnX=p.defX;S.burnY=p.defY;document.getElementById('burn-controls').style.display='block'}snapshot();syncUIToState();drawBurnPosMap();render()});g.appendChild(card)})})();
+(()=>{const row=document.getElementById('burn-color-row');BURN_COLORS.forEach(c=>{if(c.hex==='custom'){const inp=document.createElement('input');inp.type='color';inp.title='Custom color';inp.style.cssText='width:20px;height:20px;border-radius:3px;cursor:pointer;border:2px solid var(--border);background:none;padding:0';inp.addEventListener('input',()=>{S.burnColor=inp.value;snapshot();render();drawBurnPosMap()});row.appendChild(inp)}else{const chip=document.createElement('div');chip.className='bclr';chip.style.background=c.hex;chip.title=c.label;chip.dataset.clr=c.hex;chip.addEventListener('click',()=>{S.burnColor=c.hex;document.querySelectorAll('.bclr').forEach(x=>x.classList.remove('active'));chip.classList.add('active');snapshot();render();drawBurnPosMap()});row.appendChild(chip)}})})();
+const posCanvas=document.getElementById('burn-pos-canvas');const posCtx=posCanvas.getContext('2d');function drawBurnPosMap(){const w=posCanvas.width,h=posCanvas.height;posCtx.clearRect(0,0,w,h);posCtx.fillStyle='#1a1410';posCtx.fillRect(0,0,w,h);if(S.img){posCtx.save();posCtx.globalAlpha=0.35;const sc=Math.min(w/S.img.width,h/S.img.height);const iw=S.img.width*sc,ih=S.img.height*sc;posCtx.drawImage(S.img,(w-iw)/2,(h-ih)/2,iw,ih);posCtx.restore()}if(!S.burn)return;posCtx.save();posCtx.globalCompositeOperation=S.burnBlend;posCtx.globalAlpha=Math.min(0.9,S.burnIntensity*1.2);const colors=getBurnColors(S.burn,S.burnColor);paintBurn(posCtx,S.burn,S.burnX,S.burnY,S.burnIntensity,S.burnSpread,S.burnFeather,0,0,w,h,colors);posCtx.restore();const px=S.burnX*w,py=S.burnY*h;posCtx.strokeStyle='rgba(255,255,255,.8)';posCtx.lineWidth=1;posCtx.setLineDash([2,2]);posCtx.beginPath();posCtx.moveTo(px,0);posCtx.lineTo(px,h);posCtx.stroke();posCtx.beginPath();posCtx.moveTo(0,py);posCtx.lineTo(w,py);posCtx.stroke();posCtx.setLineDash([]);posCtx.fillStyle='#fff';posCtx.beginPath();posCtx.arc(px,py,4,0,Math.PI*2);posCtx.fill();posCtx.strokeStyle='#0e0c0a';posCtx.lineWidth=1.5;posCtx.stroke()}
+let posDrag=false;function setPosByEvent(e){const r=posCanvas.getBoundingClientRect();S.burnX=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));S.burnY=Math.max(0,Math.min(1,(e.clientY-r.top)/r.height));drawBurnPosMap();render()}
+posCanvas.addEventListener('mousedown',e=>{posDrag=true;setPosByEvent(e)});posCanvas.addEventListener('mousemove',e=>{if(posDrag)setPosByEvent(e)});window.addEventListener('mouseup',()=>{posDrag=false});posCanvas.addEventListener('touchstart',e=>{const t=e.touches[0];if(!t)return;posDrag=true;setPosByEvent(t);e.preventDefault()},{passive:false});posCanvas.addEventListener('touchmove',e=>{if(!posDrag)return;const t=e.touches[0];if(!t)return;setPosByEvent(t);e.preventDefault()},{passive:false});window.addEventListener('touchend',()=>{posDrag=false});
+document.querySelectorAll('#border-tabs .tab').forEach(t=>{t.addEventListener('click',()=>{S.mode=t.dataset.tab;snapshot();syncUIToState();render()})});document.querySelectorAll('#color-row .cswatch').forEach(sw=>{sw.addEventListener('click',()=>{S.cleanColor=sw.dataset.color;snapshot();syncUIToState();render()})});
+function sl(id,valId,fmt,setter){const el=document.getElementById(id);el.addEventListener('input',()=>{setter(parseFloat(el.value));document.getElementById(valId).textContent=fmt(el.value);render();if(id.startsWith('burn'))drawBurnPosMap()});el.addEventListener('change',()=>{snapshot();updateUtilityBtns()})}
+sl('border-size','vBorderSize',v=>v+'%',v=>S.cleanSize=v);sl('inner-gap','vInnerGap',v=>v+'%',v=>S.innerGap=v);sl('filmScale','vFilmScale',v=>(v/100).toFixed(1)+'×',v=>S.filmScale=v/100);sl('textOpacity','vTextOpacity',v=>v+'%',v=>S.textOpacity=v/100);sl('rebateTint','vRebateTint',v=>v,v=>S.rebateTint=v);sl('burnIntensity','vBurnIntensity',v=>v+'%',v=>S.burnIntensity=v/100);sl('burnSpread','vBurnSpread',v=>v+'%',v=>S.burnSpread=v/100);sl('burnFeather','vBurnFeather',v=>v+'%',v=>S.burnFeather=v/100);
+function tog(id,key){const el=document.getElementById(id);el.addEventListener('click',()=>{S[key]=!S[key];el.classList.toggle('on',S[key]);snapshot();render()})}
+tog('togFN','showFN');tog('togSP','showSP');tog('togDX','showDX');document.querySelectorAll('#blend-row .blend-btn').forEach(b=>{b.addEventListener('click',()=>{S.burnBlend=b.dataset.blend;snapshot();syncUIToState();render();drawBurnPosMap()})});document.getElementById('cust-hd').addEventListener('click',()=>{const body=document.getElementById('cust-body');const arr=document.getElementById('cust-arr');const open=body.classList.toggle('open');arr.style.transform=open?'rotate(180deg)':''});document.querySelectorAll('.cmode-btn').forEach(btn=>{btn.addEventListener('click',()=>{document.querySelectorAll('.cmode-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');S.canvasMode=btn.dataset.mode;updateCanvasCursor();if(S.canvasMode==='pan')clearOverlay();else drawOverlay();showBadge(S.canvasMode==='pan'?'✦ Pan Mode':'⬡ Burn Placement')})});
+const btnBefore=document.getElementById('btn-before');let beforeHeld=false;function startBefore(){if(!S.img)return;beforeHeld=true;btnBefore.classList.add('held');document.getElementById('before-label').classList.add('show');renderBefore()}function releaseBefore(){if(!beforeHeld)return;beforeHeld=false;btnBefore.classList.remove('held');document.getElementById('before-label').classList.remove('show');render();drawOverlay()}btnBefore.addEventListener('mousedown',startBefore);btnBefore.addEventListener('mouseup',releaseBefore);btnBefore.addEventListener('mouseleave',releaseBefore);btnBefore.addEventListener('touchstart',e=>{e.preventDefault();startBefore()},{passive:false});btnBefore.addEventListener('touchend',releaseBefore);document.getElementById('btn-undo').addEventListener('click',()=>{if(!beforeHeld)undo()});document.getElementById('btn-reset').addEventListener('click',()=>{if(!S.img)return;if(confirm('Reset all edits?'))resetAll()});
+const uz=document.getElementById('upload-zone'),fi=document.getElementById('file-input');uz.addEventListener('click',()=>fi.click());uz.addEventListener('dragover',e=>{e.preventDefault();uz.classList.add('over')});uz.addEventListener('dragleave',()=>uz.classList.remove('over'));uz.addEventListener('drop',e=>{e.preventDefault();uz.classList.remove('over');const f=e.dataTransfer.files[0];if(f&&f.type.startsWith('image/'))loadImg(f)});fi.addEventListener('change',()=>{if(fi.files[0])loadImg(fi.files[0])});
+function loadImg(file){const reader=new FileReader();reader.onload=e=>{const img=new Image();img.onload=()=>{S.img=img;S.panX=0;S.panY=0;HISTORY.length=0;document.getElementById('empty-state').style.display='none';document.getElementById('canvas-wrapper').style.display='flex';document.getElementById('dl-btn').disabled=false;snapshot();render();drawBurnPosMap();showBadge('✦ Pan Mode — drag to reposition',2400)};img.src=e.target.result};reader.readAsDataURL(file)}
+const canvas=document.getElementById('preview-canvas');const ctx=canvas.getContext('2d');let drag={on:false,sx:0,sy:0,spx:0,spy:0};function updateCanvasCursor(){canvas.className=S.canvasMode==='burn'?'burn-mode':''}canvas.addEventListener('mousedown',e=>{if(!S.img)return;drag={on:true,sx:e.clientX,sy:e.clientY,spx:S.panX,spy:S.panY};if(S.canvasMode==='pan')canvas.classList.add('dragging');if(S.canvasMode==='burn')handleBurnPlace(e);e.preventDefault()});window.addEventListener('mousemove',e=>{if(!drag.on||!S.img)return;if(S.canvasMode==='pan'){const r=canvas.getBoundingClientRect(),sc=r.width/canvas.width;S.panX=drag.spx+(e.clientX-drag.sx)/sc;S.panY=drag.spy+(e.clientY-drag.sy)/sc;render()}else if(S.canvasMode==='burn'&&S.burn){handleBurnPlace(e)}});window.addEventListener('mouseup',()=>{drag.on=false;canvas.classList.remove('dragging')});canvas.addEventListener('dblclick',()=>{S.panX=0;S.panY=0;render();showBadge('↺ Reset to center',1500)});canvas.addEventListener('touchstart',e=>{if(!S.img||e.touches.length!==1)return;const t=e.touches[0];drag={on:true,sx:t.clientX,sy:t.clientY,spx:S.panX,spy:S.panY};if(S.canvasMode==='burn')handleBurnTouchPlace(t);e.preventDefault()},{passive:false});window.addEventListener('touchmove',e=>{if(!drag.on||e.touches.length!==1)return;const t=e.touches[0];if(S.canvasMode==='pan'){const r=canvas.getBoundingClientRect(),sc=r.width/canvas.width;S.panX=drag.spx+(t.clientX-drag.sx)/sc;S.panY=drag.spy+(t.clientY-drag.sy)/sc;render()}else if(S.canvasMode==='burn'&&S.burn){handleBurnTouchPlace(t)}e.preventDefault()},{passive:false});window.addEventListener('touchend',()=>{drag.on=false;canvas.classList.remove('dragging')});function handleBurnPlace(e){if(!S.burn)return;const r=canvas.getBoundingClientRect();S.burnX=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));S.burnY=Math.max(0,Math.min(1,(e.clientY-r.top)/r.height));render();drawBurnPosMap()}function handleBurnTouchPlace(t){if(!S.burn)return;const r=canvas.getBoundingClientRect();S.burnX=Math.max(0,Math.min(1,(t.clientX-r.left)/r.width));S.burnY=Math.max(0,Math.min(1,(t.clientY-r.top)/r.height));render();drawBurnPosMap()}
+let badgeTimer;function showBadge(msg,dur=2000){const badge=document.getElementById('mode-badge');badge.textContent=msg;badge.classList.add('show');clearTimeout(badgeTimer);badgeTimer=setTimeout(()=>badge.classList.remove('show'),dur)}function getAsp(){const r=RATIOS.find(r=>r.label===S.ratio)||RATIOS[0];return{w:r.w,h:r.h}}function renderBefore(){if(!S.img)return;const BASE=1200;const{w:rw,h:rh}=getAsp();const asp=rw/rh;let W,H;if(asp>=1){W=BASE;H=Math.round(BASE/asp)}else{H=BASE;W=Math.round(BASE*asp)}canvas.width=W;canvas.height=H;drawImg(0,0,W,H);clearOverlay()}function render(){if(!S.img)return;const BASE=1200;const{w:rw,h:rh}=getAsp();const asp=rw/rh;let W,H;if(asp>=1){W=BASE;H=Math.round(BASE/asp)}else{H=BASE;W=Math.round(BASE*asp)}canvas.width=W;canvas.height=H;if(S.mode==='film'&&S.stock)renderFilm(W,H,S.stock);else renderClean(W,H);if(S.burn){ctx.save();ctx.globalCompositeOperation=S.burnBlend;ctx.globalAlpha=S.burnIntensity;const colors=getBurnColors(S.burn,S.burnColor);paintBurn(ctx,S.burn,S.burnX,S.burnY,S.burnIntensity,S.burnSpread,S.burnFeather,0,0,W,H,colors);ctx.restore()}drawOverlay();document.getElementById('canvas-info').textContent=`${S.ratio} · ${W}×${H}px · ${S.mode==='film'&&S.stock?S.stock.brand+' '+S.stock.name:'Clean'}${S.burn?` + ${S.burn.label}`:''}`}
+function renderClean(W,H){const bx=Math.round(W*S.cleanSize/100),by=Math.round(H*S.cleanSize/100);ctx.fillStyle=S.cleanColor;ctx.fillRect(0,0,W,H);if(S.innerGap>0){const dark=['#0D0C0A','#1C1A15','#3D3530'].includes(S.cleanColor);ctx.strokeStyle=dark?'#ffffff12':'#00000012';ctx.lineWidth=1;const gx=Math.round(W*S.innerGap/100),gy=Math.round(H*S.innerGap/100);ctx.strokeRect(bx-gx+4,by-gy+4,W-(bx-gx+4)*2,H-(by-gy+4)*2)}drawImg(bx,by,W-bx*2,H-by*2)}
+function renderFilm(W,H,s){const sc=S.filmScale;const side=Math.round(W*0.04*sc);const top=s.hasSp?Math.round(H*0.115*sc):(s.isSlide?Math.round(H*0.065*sc):Math.round(H*0.06*sc));ctx.fillStyle=tintHex(s.reb,S.rebateTint);ctx.fillRect(0,0,W,H);const ix=side,iy=top,iw=W-side*2,ih=H-top*2;drawImg(ix,iy,iw,ih);ctx.strokeStyle=s.eC+'50';ctx.lineWidth=1.5;ctx.strokeRect(ix+.75,iy+.75,iw-1.5,ih-1.5);if(s.hasSp)draw35E(W,H,ix,iy,iw,ih,top,side,s);else if(s.isSlide)drawSlideE(W,H,ix,iy,iw,ih,top,side,s);else draw120E(W,H,ix,iy,iw,ih,top,side,s)}
+function tintHex(hex,amt){if(!amt)return hex;const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);const v=Math.abs(amt)/50;let nr,ng,nb;if(amt>0){nr=Math.min(255,Math.round(r+(255-r)*v*.3));ng=Math.min(255,Math.round(g+(255-g)*v*.2));nb=Math.min(255,Math.round(b+(255-b)*v*.1))}else{nr=Math.round(r*(1-v));ng=Math.round(g*(1-v));nb=Math.round(b*(1-v))}return'#'+[nr,ng,nb].map(x=>Math.max(0,x).toString(16).padStart(2,'0')).join('')}
+function draw35E(W,H,ix,iy,iw,ih,top,side,s){const to=S.textOpacity;if(S.showSP){const pw=Math.round(top*.52),ph=Math.round(top*.62),pr=Math.round(ph*.15);const np=Math.max(1,Math.floor(iw/(pw*2.2))),sp=iw/np;const psx=ix+sp/2-pw/2,pyt=Math.round(top*.19),pyb=H-top+Math.round(top*.19);ctx.fillStyle=s.pC||'#1a1a1a';for(let i=0;i<np;i++){const px=psx+i*sp;rndR(px,pyt,pw,ph,pr);ctx.fill();rndR(px,pyb,pw,ph,pr);ctx.fill()}}const fs=Math.round(top*.22);ctx.textBaseline='middle';ctx.globalAlpha=to;ctx.fillStyle=s.eC;ctx.font=`${s.eb?'700':'400'} ${fs}px 'Courier Prime',monospace`;ctx.textAlign='left';ctx.fillText(s.eT,ix,top*.72);ctx.font=`400 ${Math.round(fs*.82)}px 'Courier Prime',monospace`;ctx.fillStyle=s.eC+'aa';ctx.fillText('ISO '+s.iso+' · 36 EXP',ix,H-top*.47);if(S.showFN){ctx.fillStyle=s.nC||s.eC;ctx.font=`700 ${Math.round(fs*.88)}px 'Courier Prime',monospace`;ctx.textAlign='right';const nc=Math.max(1,Math.floor(iw/(top*2))),ns=iw/nc;for(let i=1;i<=nc;i++){const nx=ix+i*ns-ns/2;ctx.fillText(String(i).padStart(2,'0')+'A',nx,top*.49);ctx.fillText(String(i).padStart(2,'0')+'A',nx,H-top*.47)}}if(S.showDX&&side>10){ctx.globalAlpha=to*.65;drawDX(W-side+4,iy+ih*.1,side-8,ih*.3,s.eC)}ctx.globalAlpha=1}
+function draw120E(W,H,ix,iy,iw,ih,top,side,s){const fs=Math.round(top*.28);ctx.globalAlpha=S.textOpacity;ctx.strokeStyle=s.eC+'30';ctx.lineWidth=1;ctx.strokeRect(ix-2,iy-2,iw+4,ih+4);ctx.fillStyle=s.eC;ctx.font=`400 ${fs}px 'Courier Prime',monospace`;ctx.textBaseline='middle';ctx.textAlign='left';ctx.fillText(s.eT,ix,top/2);ctx.font=`400 ${Math.round(fs*.85)}px 'Courier Prime',monospace`;ctx.fillStyle=s.eC+'aa';ctx.fillText('120 · ISO '+s.iso,ix,H-top/2);if(S.showFN){ctx.fillStyle=(s.nC||s.eC)+'cc';ctx.font=`700 ${Math.round(fs*1.1)}px 'Courier Prime',monospace`;ctx.textAlign='center';ctx.fillText('01',W-side/2,iy+ih/2);ctx.fillStyle=(s.nC||s.eC)+'55';ctx.fillText('▸',W-side/2,iy+ih/2-fs*1.4);ctx.fillText('▸',W-side/2,iy+ih/2+fs*1.4)}ctx.globalAlpha=1}
+function drawSlideE(W,H,ix,iy,iw,ih,top,side,s){const mp=Math.round(top*.3);ctx.globalAlpha=S.textOpacity;ctx.strokeStyle='#e0d8c4';ctx.lineWidth=mp;ctx.strokeRect(ix-mp/2,iy-mp/2,iw+mp,ih+mp);ctx.strokeStyle=s.eC+'80';ctx.lineWidth=2;ctx.strokeRect(ix-mp-1,iy-mp-1,iw+mp*2+2,ih+mp*2+2);const fs=Math.round(top*.22);ctx.fillStyle=s.eC;ctx.font=`400 ${fs}px 'Courier Prime',monospace`;ctx.textBaseline='middle';ctx.textAlign='left';ctx.fillText(s.eT,ix,top/2);ctx.fillStyle=s.eC+'aa';ctx.font=`400 ${Math.round(fs*.85)}px 'Courier Prime',monospace`;ctx.fillText('E6 · ISO '+s.iso,ix,H-top/2);ctx.globalAlpha=1}
+function drawDX(x,y,w,h,color){const bars=[1,0,1,1,0,1,0,1,1,0,1,0,1,1,0],gh=h/bars.length;ctx.fillStyle=color+'55';bars.forEach((on,i)=>{if(on)ctx.fillRect(x+w*.18,y+i*gh,w*.28,gh*.72)})}
+function rndR(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath()}
+function drawImg(x,y,w,h){if(!S.img)return;const img=S.img,scale=Math.max(w/img.width,h/img.height);const sw=img.width*scale,sh=img.height*scale;let sx=x+(w-sw)/2+S.panX,sy=y+(h-sh)/2+S.panY;sx=Math.min(x,Math.max(x+w-sw,sx));sy=Math.min(y,Math.max(y+h-sh,sy));S.panX=sx-(x+(w-sw)/2);S.panY=sy-(y+(h-sh)/2);ctx.save();ctx.beginPath();ctx.rect(x,y,w,h);ctx.clip();ctx.drawImage(img,sx,sy,sw,sh);ctx.restore()}
+const overlayCanvas=document.getElementById('overlay-canvas');const octx=overlayCanvas.getContext('2d');function drawOverlay(){overlayCanvas.width=canvas.width;overlayCanvas.height=canvas.height;octx.clearRect(0,0,overlayCanvas.width,overlayCanvas.height);if(S.canvasMode!=='burn'||!S.burn)return;const W=overlayCanvas.width,H=overlayCanvas.height,px=S.burnX*W,py=S.burnY*H;octx.save();octx.strokeStyle='rgba(255,255,255,.55)';octx.lineWidth=1.5;octx.setLineDash([5,5]);octx.beginPath();octx.moveTo(px,0);octx.lineTo(px,H);octx.stroke();octx.beginPath();octx.moveTo(0,py);octx.lineTo(W,py);octx.stroke();octx.setLineDash([]);octx.fillStyle='rgba(255,255,255,.92)';octx.beginPath();octx.arc(px,py,7,0,Math.PI*2);octx.fill();octx.strokeStyle='rgba(0,0,0,.55)';octx.lineWidth=2;octx.stroke();octx.restore()}
+function clearOverlay(){overlayCanvas.width=canvas.width;overlayCanvas.height=canvas.height;octx.clearRect(0,0,overlayCanvas.width,overlayCanvas.height)}
+function getBurnColors(preset,override){if(!override)return preset.defColors;const base=override,mid=lighten(base,.35),hi=lighten(base,.65);return[base,mid,hi]}
+function lighten(hex,amt){const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return'#'+[r,g,b].map(v=>Math.min(255,Math.round(v+(255-v)*amt)).toString(16).padStart(2,'0')).join('')}
+function hexA(hex,a){if(!hex||hex==='transparent')return'transparent';const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return`rgba(${r},${g},${b},${a})`}
+function paintBurn(c,preset,bx,by,intensity,spread,feather,x,y,w,h,colors){if(!preset||preset.shape==='none')return;colors=colors||preset.defColors;const px=x+bx*w,py=y+by*h,maxDim=Math.max(w,h),radius=maxDim*spread*1.2,innerStop=Math.max(0,1-feather);let gr;switch(preset.shape){case 'radial':gr=c.createRadialGradient(px,py,0,px,py,radius);gr.addColorStop(0,hexA(colors[0],Math.min(.95,intensity*1.2)));gr.addColorStop(innerStop,hexA(colors[1],intensity*.6));gr.addColorStop(Math.min(1,innerStop+.3),hexA(colors[2],intensity*.15));gr.addColorStop(1,'transparent');c.fillStyle=gr;c.fillRect(x,y,w,h);break;case 'edge-h':{const fromX=bx<0.5?x:x+w,toX=bx<0.5?x+w*spread:x+w*(1-spread);gr=c.createLinearGradient(fromX,py,toX,py);gr.addColorStop(0,hexA(colors[0],Math.min(.92,intensity*1.1)));gr.addColorStop(innerStop,hexA(colors[1],intensity*.5));gr.addColorStop(1,'transparent');c.fillStyle=gr;c.fillRect(x,y,w,h)}break;case 'edge-v':{const fromY=by<0.5?y:y+h,toY=by<0.5?y+h*spread:y+h*(1-spread);gr=c.createLinearGradient(px,fromY,px,toY);gr.addColorStop(0,hexA(colors[0],Math.min(.92,intensity*1.1)));gr.addColorStop(innerStop,hexA(colors[1],intensity*.5));gr.addColorStop(1,'transparent');c.fillStyle=gr;c.fillRect(x,y,w,h)}break;case 'diag':{const len=Math.sqrt(w*w+h*h),ang=Math.atan2(py-(y+h/2),px-(x+w/2)),dx=Math.cos(ang)*len,dy=Math.sin(ang)*len;gr=c.createLinearGradient(px-dx*.1,py-dy*.1,px+dx*.9,py+dy*.9);gr.addColorStop(0,hexA(colors[0],Math.min(.9,intensity*1.1)));gr.addColorStop(innerStop,hexA(colors[1],intensity*.45));gr.addColorStop(1,'transparent');c.fillStyle=gr;c.fillRect(x,y,w,h)}break;case 'center':case 'full':gr=c.createRadialGradient(px,py,0,x+w/2,y+h/2,maxDim*.75*spread);gr.addColorStop(0,hexA(colors[2],intensity*.4));gr.addColorStop(.5,hexA(colors[1],intensity*.6));gr.addColorStop(1,hexA(colors[0],intensity*.9));c.fillStyle=gr;c.fillRect(x,y,w,h);break;case 'halation':{const corners=[[x,y],[x+w,y],[x,y+h],[x+w,y+h],[px,py]],alphas=[.5,.5,.5,.5,.85];corners.forEach(([cx,cy],i)=>{const r=maxDim*(i===4?spread*.9:spread*.55);gr=c.createRadialGradient(cx,cy,0,cx,cy,r);gr.addColorStop(0,hexA(colors[0],Math.min(.8,intensity*alphas[i])));gr.addColorStop(.3,hexA(colors[1],intensity*.2));gr.addColorStop(.6,hexA(colors[2],intensity*.05));gr.addColorStop(1,'transparent');c.fillStyle=gr;c.fillRect(x,y,w,h)})}break}}
+document.getElementById('dl-btn').addEventListener('click',()=>{const a=document.createElement('a');const bn=S.burn?`-${S.burn.id}`:'';const sn=S.stock?`-${S.stock.brand.toLowerCase()}-${S.stock.name.replace(/\s+/g,'-').toLowerCase()}`:`-clean`;a.download=`frame${sn}-${S.ratio.replace(':','-')}${bn}.png`;a.href=canvas.toDataURL('image/png');a.click()});updateUtilityBtns();
 </script>
 </body>
 </html>
