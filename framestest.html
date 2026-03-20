@@ -76,15 +76,29 @@ header {
 }
 #preview-canvas {
   display:block;
-  /* key: canvas scales to fit its container */
-  max-width:100%;
-  max-height:calc(100vh - var(--hdr) - 80px);
-  object-fit:contain;
-  box-shadow:0 16px 60px rgba(0,0,0,.9), 0 4px 16px rgba(0,0,0,.6);
   cursor:grab;
 }
 #preview-canvas.dragging   { cursor:grabbing; }
 #preview-canvas.burn-mode  { cursor:crosshair; }
+
+/* overlay canvas — sits exactly on top of preview-canvas, never exported */
+.canvas-stack {
+  position:relative;
+  display:flex; /* shrinks to canvas size */
+  max-width:100%;
+  max-height:calc(100vh - var(--hdr) - 80px);
+}
+.canvas-stack #preview-canvas {
+  display:block;
+  max-width:100%;
+  max-height:100%;
+  box-shadow:0 16px 60px rgba(0,0,0,.9), 0 4px 16px rgba(0,0,0,.6);
+}
+#overlay-canvas {
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  pointer-events:none; /* clicks pass through to preview-canvas */
+}
 
 .canvas-info {
   font-size:9px; letter-spacing:.14em; color:var(--muted); text-align:center; line-height:1.6;
@@ -400,7 +414,10 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:12px; h
       <div class="empty-sub">Upload · Crop · Border · Burn · Export</div>
     </div>
     <div class="canvas-wrapper" id="canvas-wrapper" style="display:none">
-      <canvas id="preview-canvas"></canvas>
+      <div class="canvas-stack">
+        <canvas id="preview-canvas"></canvas>
+        <canvas id="overlay-canvas"></canvas>
+      </div>
       <div class="canvas-info" id="canvas-info"></div>
     </div>
     <div class="mode-badge" id="mode-badge"></div>
@@ -802,6 +819,8 @@ document.querySelectorAll('.cmode-btn').forEach(btn => {
     btn.classList.add('active');
     S.canvasMode = btn.dataset.mode;
     updateCanvasCursor();
+    if (S.canvasMode === 'pan') clearOverlay();
+    else drawOverlay();
     showBadge(S.canvasMode==='pan' ? '✦ Pan Mode' : '⬡ Burn Placement');
   });
 });
@@ -938,22 +957,9 @@ function render() {
     const colors=getBurnColors(S.burn,S.burnColor);
     paintBurn(ctx,S.burn,S.burnX,S.burnY,S.burnIntensity,S.burnSpread,S.burnFeather,0,0,W,H,colors);
     ctx.restore();
-
-    // If burn-mode, draw a subtle crosshair on canvas
-    if(S.canvasMode==='burn'){
-      const px=S.burnX*W, py=S.burnY*H;
-      ctx.save();
-      ctx.strokeStyle='rgba(255,255,255,.5)'; ctx.lineWidth=1.5;
-      ctx.setLineDash([4,4]);
-      ctx.beginPath();ctx.moveTo(px,0);ctx.lineTo(px,H);ctx.stroke();
-      ctx.beginPath();ctx.moveTo(0,py);ctx.lineTo(W,py);ctx.stroke();
-      ctx.setLineDash([]);
-      ctx.fillStyle='rgba(255,255,255,.9)';
-      ctx.beginPath();ctx.arc(px,py,8,0,Math.PI*2);ctx.fill();
-      ctx.strokeStyle='rgba(0,0,0,.5)';ctx.lineWidth=2;ctx.stroke();
-      ctx.restore();
-    }
   }
+
+  drawOverlay(); // crosshair on separate canvas — never exports
 
   // info
   const info=document.getElementById('canvas-info');
@@ -1072,8 +1078,45 @@ function drawImg(x,y,w,h){
 }
 
 // ══════════════════════════════════════════════════════════════════
-// BURN PAINTING ENGINE
+// OVERLAY — crosshair drawn on separate canvas, never exported
 // ══════════════════════════════════════════════════════════════════
+const overlayCanvas = document.getElementById('overlay-canvas');
+const octx = overlayCanvas.getContext('2d');
+
+function drawOverlay() {
+  // Match overlay logical size to preview canvas so coordinates map 1:1
+  overlayCanvas.width  = canvas.width;
+  overlayCanvas.height = canvas.height;
+  octx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
+
+  if (S.canvasMode !== 'burn' || !S.burn) return;
+
+  const W = overlayCanvas.width, H = overlayCanvas.height;
+  const px = S.burnX * W, py = S.burnY * H;
+
+  // dashed crosshair lines
+  octx.save();
+  octx.strokeStyle = 'rgba(255,255,255,.55)';
+  octx.lineWidth = 1.5;
+  octx.setLineDash([5, 5]);
+  octx.beginPath(); octx.moveTo(px, 0); octx.lineTo(px, H); octx.stroke();
+  octx.beginPath(); octx.moveTo(0, py); octx.lineTo(W, py); octx.stroke();
+  octx.setLineDash([]);
+
+  // dot
+  octx.fillStyle = 'rgba(255,255,255,.92)';
+  octx.beginPath(); octx.arc(px, py, 7, 0, Math.PI*2); octx.fill();
+  octx.strokeStyle = 'rgba(0,0,0,.55)'; octx.lineWidth = 2;
+  octx.stroke();
+  octx.restore();
+}
+
+// clear overlay when switching away from burn mode
+function clearOverlay() {
+  overlayCanvas.width = canvas.width;
+  overlayCanvas.height = canvas.height;
+  octx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
+}
 function getBurnColors(preset, override) {
   if (!override) return preset.defColors;
   // Build gradient from single color override
