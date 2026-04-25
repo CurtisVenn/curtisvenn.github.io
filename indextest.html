@@ -29,7 +29,31 @@
       color: var(--white);
       overflow: hidden;
       height: 100vh;
-      cursor: none;
+    }
+
+    /* ─── Custom Cursor ─── */
+    .cursor-dot {
+      width: 6px; height: 6px;
+      background: var(--warm);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s;
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(201,169,110,0.5);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.18s ease, width 0.25s, height 0.25s, border-color 0.25s;
+    }
+    body:has(a:hover) .cursor-ring,
+    body:has(button:hover) .cursor-ring {
+      width: 58px; height: 58px;
+      border-color: var(--warm);
     }
 
     /* ─── Grain Overlay ─── */
@@ -121,7 +145,7 @@
 
     /* Mobile */
     .hamburger {
-      display: none; background: none; border: none; cursor: none;
+      display: none; background: none; border: none; cursor: pointer;
       flex-direction: column; gap: 5px;
     }
     .hamburger span { display: block; width: 24px; height: 1px; background: var(--white); transition: transform 0.3s, opacity 0.3s; }
