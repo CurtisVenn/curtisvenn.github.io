@@ -14,7 +14,7 @@
 
   <style>
     :root {
-      --accent: #d97706;
+      --accent: #0f766e;
       --accent-light: #fde68a;
       --sidebar: #111318;
       --sidebar-2: #1c1f27;
@@ -26,13 +26,11 @@
     * { box-sizing: border-box; }
     body { font-family: 'DM Sans', sans-serif; }
 
-    /* ---------- SCROLLBARS ---------- */
     .sidebar-scroll { overflow-y: auto; }
     .sidebar-scroll::-webkit-scrollbar { width: 4px; }
     .sidebar-scroll::-webkit-scrollbar-track { background: transparent; }
     .sidebar-scroll::-webkit-scrollbar-thumb { background: var(--sidebar-3); border-radius: 2px; }
 
-    /* ---------- SIDEBAR STYLES ---------- */
     .form-input {
       width: 100%;
       background: var(--sidebar-3);
@@ -44,7 +42,7 @@
       font-family: 'DM Sans', sans-serif;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .form-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(217,119,6,0.2); }
+    .form-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(15,118,110,0.2); }
     .form-input::placeholder { color: #6b7280; }
     textarea.form-input { resize: vertical; }
 
@@ -59,7 +57,6 @@
     }
     .form-group { margin-bottom: 0.9rem; }
 
-    /* ---------- TAB STYLES ---------- */
     .tab-btn {
       flex: 1;
       padding: 0.6rem 0;
@@ -76,7 +73,6 @@
     .tab-btn.active { background: var(--accent); color: #fff; }
     .tab-btn:not(.active):hover { color: #e5e7eb; background: var(--sidebar-3); }
 
-    /* ---------- JOB/EDU CARDS ---------- */
     .entry-card {
       background: var(--sidebar-3);
       border: 1px solid var(--sidebar-border);
@@ -99,7 +95,6 @@
     .chevron { transition: transform 0.2s; display: inline-block; }
     .chevron.open { transform: rotate(180deg); }
 
-    /* ---------- SKILL CHIPS ---------- */
     .skill-chip {
       display: inline-flex;
       align-items: center;
@@ -116,7 +111,6 @@
     .skill-chip button { color: #6b7280; font-size: 0.7rem; line-height: 1; }
     .skill-chip button:hover { color: #ef4444; }
 
-    /* ---------- ACTION BUTTONS ---------- */
     .btn-primary {
       background: var(--accent);
       color: #fff;
@@ -154,7 +148,6 @@
     .btn-danger { border-color: #7f1d1d; color: #f87171; }
     .btn-danger:hover { background: rgba(239,68,68,0.1); border-color: #ef4444; color: #ef4444; }
 
-    /* ---------- AI BUTTON ---------- */
     .btn-ai {
       display: inline-flex;
       align-items: center;
@@ -175,7 +168,6 @@
     .btn-ai:active { transform: scale(0.97); }
     .btn-ai:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-    /* ---------- TEMPLATE CARDS ---------- */
     .tmpl-card {
       border: 2px solid var(--sidebar-border);
       border-radius: 10px;
@@ -185,7 +177,7 @@
       background: var(--sidebar-3);
     }
     .tmpl-card:hover { border-color: #6b7280; }
-    .tmpl-card.selected { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(217,119,6,0.25); }
+    .tmpl-card.selected { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(15,118,110,0.25); }
     .tmpl-card-thumb {
       height: 60px;
       display: flex;
@@ -198,7 +190,6 @@
     .tmpl-card-thumb .thumb-bar { height: 4px; border-radius: 2px; margin-bottom: 2px; }
     .tmpl-card-name { font-size: 0.7rem; font-weight: 600; padding: 0.4rem 0.5rem; color: #d1d5db; border-top: 1px solid var(--sidebar-border); }
 
-    /* ---------- COLOR SWATCHES ---------- */
     .swatch {
       width: 22px; height: 22px;
       border-radius: 50%;
@@ -209,11 +200,9 @@
     .swatch:hover { transform: scale(1.15); }
     .swatch.selected { border-color: #fff; box-shadow: 0 0 0 2px var(--accent); }
 
-    /* ---------- PROGRESS DOT ---------- */
     .progress-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--sidebar-border); }
     .progress-dot.filled { background: var(--accent); }
 
-    /* ---------- PREVIEW FRAME ---------- */
     #previewScroll {
       overflow-y: auto;
       height: calc(100vh - 7rem);
@@ -239,7 +228,6 @@
       overflow: hidden;
     }
 
-    /* ---------- EMPTY STATE ---------- */
     .empty-state {
       display: flex;
       flex-direction: column;
@@ -262,7 +250,6 @@
     .empty-state h3 { font-size: 1.1rem; font-weight: 600; color: #6b7280; margin: 0; }
     .empty-state p { font-size: 0.8rem; color: #9ca3af; margin: 0; line-height: 1.5; max-width: 260px; }
 
-    /* ---------- REORDER BUTTONS ---------- */
     .reorder-btn {
       color: #6b7280;
       font-size: 0.65rem;
@@ -277,11 +264,9 @@
     .reorder-btn:hover { color: #e5e7eb; background: rgba(255,255,255,0.08); }
     .reorder-btn:disabled { opacity: 0.2; cursor: not-allowed; }
 
-    /* ---------- CHAR COUNTER ---------- */
     .char-count { font-size: 0.68rem; color: #6b7280; text-align: right; margin-top: -0.5rem; margin-bottom: 0.6rem; }
     .char-count.warn { color: #f59e0b; }
 
-    /* ---------- SAVE INDICATOR ---------- */
     #saveIndicator {
       font-size: 0.68rem;
       color: #6b7280;
@@ -294,7 +279,6 @@
     #saveIndicator.visible { opacity: 1; }
     .save-dot { width: 5px; height: 5px; border-radius: 50%; background: #22c55e; }
 
-    /* ---------- TOOLTIP ---------- */
     .tooltip-wrap { position: relative; }
     .tooltip-wrap:hover .tooltip-box { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
     .tooltip-box {
@@ -315,7 +299,6 @@
       border: 1px solid #2e3240;
     }
 
-    /* ---------- SECTION LABEL ---------- */
     .section-label {
       font-size: 0.68rem;
       font-weight: 700;
@@ -334,7 +317,6 @@
       background: #2e3240;
     }
 
-    /* ---------- BADGE ---------- */
     .badge-new {
       background: linear-gradient(135deg, #7c3aed, #2563eb);
       color: #fff;
@@ -348,19 +330,15 @@
       margin-left: 0.25rem;
     }
 
-    /* ---------- ANIMATION ---------- */
     @keyframes fadeSlideIn {
       from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
     }
     .tab-content { animation: fadeSlideIn 0.2s ease; }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
     .spin { animation: spin 0.8s linear infinite; display: inline-block; }
 
-    /* ---------- PRINT ---------- */
     @media print {
       body { margin: 0; padding: 0; -webkit-print-color-adjust: exact; color-adjust: exact; }
       #resumePreview { width: 210mm !important; max-width: none !important; padding: 0 !important; margin: 0 auto !important; }
@@ -369,7 +347,6 @@
       .resume-header, h1, h2, h3 { page-break-after: avoid !important; }
     }
 
-    /* ---------- RESPONSIVE ---------- */
     @media (max-width: 768px) {
       #previewScroll { height: auto; min-height: 60vh; }
     }
@@ -395,7 +372,6 @@
     <!-- ===================== SIDEBAR ===================== -->
     <aside style="background: var(--sidebar); border-right: 1px solid var(--sidebar-border); display: flex; flex-direction: column; overflow: hidden;">
 
-      <!-- Sidebar header -->
       <div style="padding: 1rem 1.25rem 0.75rem; border-bottom: 1px solid var(--sidebar-border);">
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
           <h1 style="font-family: 'Playfair Display', serif; color: #f9fafb; font-size: 1.1rem; font-weight: 700;">Resume Builder</h1>
@@ -406,7 +382,6 @@
         </div>
         <p style="font-size: 0.73rem; color: #6b7280; line-height: 1.4; margin-bottom: 0.75rem;">Edits update live. Your data is auto-saved.</p>
 
-        <!-- TABS -->
         <div style="display: flex; gap: 0.35rem; background: var(--sidebar-2); padding: 0.3rem; border-radius: 10px;">
           <div class="tab-btn active" data-tab="info">Info</div>
           <div class="tab-btn" data-tab="experience">Experience</div>
@@ -414,10 +389,9 @@
         </div>
       </div>
 
-      <!-- Sidebar body (scrollable) -->
       <div class="sidebar-scroll" style="flex: 1; padding: 1rem 1.25rem; overflow-y: auto;">
 
-        <!-- ====== TAB: INFO ====== -->
+        <!-- TAB: INFO -->
         <div id="tab-info" class="tab-content">
           <div class="section-label">Personal Info</div>
 
@@ -427,7 +401,7 @@
           </div>
           <div class="form-group">
             <label class="form-label">Title / Role</label>
-            <input id="inputTitle" class="form-input" placeholder="Photographer / Creator">
+            <input id="inputTitle" class="form-input" placeholder="Creator | Leader | Fintech Forward">
           </div>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
             <div class="form-group">
@@ -440,7 +414,7 @@
             </div>
             <div class="form-group">
               <label class="form-label">Location</label>
-              <input id="inputLocation" class="form-input" placeholder="Salt Lake City, UT">
+              <input id="inputLocation" class="form-input" placeholder="Bountiful, UT">
             </div>
             <div class="form-group">
               <label class="form-label">Website</label>
@@ -450,7 +424,6 @@
 
           <div class="section-label" style="margin-top: 0.5rem;">Summary</div>
 
-          <!-- AI Summary row -->
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.35rem;">
             <label class="form-label" style="margin-bottom: 0;">Professional Summary</label>
             <button id="aiSummaryBtn" class="btn-ai" onclick="generateSummary()" title="Generate a summary using AI">
@@ -467,24 +440,21 @@
           <div id="aiStatus" style="font-size:0.72rem;color:#9ca3af;margin-top:-0.4rem;margin-bottom:0.75rem;min-height:1rem;"></div>
         </div>
 
-        <!-- ====== TAB: EXPERIENCE ====== -->
+        <!-- TAB: EXPERIENCE -->
         <div id="tab-experience" class="tab-content" style="display: none;">
 
-          <!-- Work Experience -->
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
             <div class="section-label" style="margin-bottom: 0; flex: 1;">Work Experience</div>
             <button class="btn-outline" style="margin-left: 0.75rem; color: var(--accent); border-color: var(--accent);" onclick="addJob()">+ Add Job</button>
           </div>
           <div id="workContainer"></div>
 
-          <!-- Education -->
           <div style="display: flex; align-items: center; justify-content: space-between; margin: 1.25rem 0 0.75rem;">
             <div class="section-label" style="margin-bottom: 0; flex: 1;">Education</div>
             <button class="btn-outline" style="margin-left: 0.75rem; color: var(--accent); border-color: var(--accent);" onclick="addEdu()">+ Add</button>
           </div>
           <div id="eduContainer"></div>
 
-          <!-- Skills -->
           <div style="margin-top: 1.25rem;">
             <div class="section-label">Skills</div>
             <div style="display: flex; gap: 0.5rem; margin-bottom: 0.65rem;">
@@ -495,18 +465,16 @@
           </div>
         </div>
 
-        <!-- ====== TAB: DESIGN ====== -->
+        <!-- TAB: DESIGN -->
         <div id="tab-design" class="tab-content" style="display: none;">
 
-          <!-- Template selector -->
           <div class="section-label">Template</div>
           <div id="templateGrid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1.25rem;"></div>
 
-          <!-- Accent color -->
           <div class="section-label">Accent Color</div>
           <div style="display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
             <div class="tooltip-wrap">
-              <div class="swatch selected" data-color="#d97706" style="background: #d97706;"></div>
+              <div class="swatch" data-color="#d97706" style="background: #d97706;"></div>
               <div class="tooltip-box">Amber</div>
             </div>
             <div class="tooltip-wrap">
@@ -526,7 +494,7 @@
               <div class="tooltip-box">Violet</div>
             </div>
             <div class="tooltip-wrap">
-              <div class="swatch" data-color="#0f766e" style="background: #0f766e;"></div>
+              <div class="swatch selected" data-color="#0f766e" style="background: #0f766e;"></div>
               <div class="tooltip-box">Teal</div>
             </div>
             <div class="tooltip-wrap">
@@ -542,7 +510,7 @@
 
       </div>
 
-      <!-- Sidebar footer actions -->
+      <!-- Sidebar footer -->
       <div style="padding: 0.85rem 1.25rem; border-top: 1px solid var(--sidebar-border); display: flex; flex-direction: column; gap: 0.5rem; background: var(--sidebar);">
         <button id="downloadBtn" class="btn-primary">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -564,7 +532,6 @@
     <!-- ===================== PREVIEW ===================== -->
     <div style="display: flex; flex-direction: column; background: #161820; overflow: hidden;">
 
-      <!-- Preview toolbar -->
       <div style="background: #111318; border-bottom: 1px solid var(--sidebar-border); padding: 0.6rem 1.25rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
         <div style="display: flex; align-items: center; gap: 0.75rem;">
           <span style="font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: #6b7280;">Live Preview</span>
@@ -575,7 +542,6 @@
         </div>
       </div>
 
-      <!-- Preview scroll area -->
       <div id="previewScroll">
         <div id="resumePreview"></div>
         <p style="text-align: center; font-size: 0.68rem; color: #9ca3af; margin-top: 0.75rem; font-family: 'DM Mono', monospace;">curtisvenn.com • resume builder</p>
@@ -585,10 +551,6 @@
   </div>
 
 <script>
-/* =====================================================
-   RESUME BUILDER — v3 REFRESHED
-   ===================================================== */
-
 const $ = sel => document.querySelector(sel);
 const $$ = sel => Array.from(document.querySelectorAll(sel));
 const escapeHtml = s => String(s||'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
@@ -598,27 +560,24 @@ let jobs = [];
 let edus = [];
 let skills = [];
 let currentTemplate = 'modern';
-let accentColor = '#d97706';
+let accentColor = '#0f766e';
 let collapsedJobs = new Set();
 let collapsedEdus = new Set();
 let saveTimer = null;
 
-/* =====================================================
-   TEMPLATES CONFIG
-   ===================================================== */
 const TEMPLATES = [
-  { id: 'modern',       name: 'Modern',       isNew: false, thumbColors: ['#d97706','#f3f4f6','#374151'], thumbBg: '#f8f8f8' },
+  { id: 'modern',       name: 'Modern',       isNew: false, thumbColors: ['#0f766e','#f3f4f6','#374151'], thumbBg: '#f8f8f8' },
   { id: 'classic',      name: 'Classic',      isNew: false, thumbColors: ['#1e293b','#e5e7eb','#9ca3af'], thumbBg: '#fff' },
   { id: 'minimal',      name: 'Minimal',      isNew: false, thumbColors: ['#374151','#6b7280','#d1d5db'], thumbBg: '#fafafa' },
-  { id: 'executive',    name: 'Executive',    isNew: false, thumbColors: ['#111827','#d97706','#374151'], thumbBg: '#111827' },
-  { id: 'creative',     name: 'Creative',     isNew: false, thumbColors: ['#2563eb','#eff6ff','#1d4ed8'], thumbBg: '#eff6ff' },
+  { id: 'executive',    name: 'Executive',    isNew: false, thumbColors: ['#111827','#0f766e','#374151'], thumbBg: '#111827' },
+  { id: 'creative',     name: 'Creative',     isNew: false, thumbColors: ['#0f766e','#eff6ff','#0d5e57'], thumbBg: '#f0fafa' },
   { id: 'professional', name: 'Professional', isNew: false, thumbColors: ['#374151','#f9fafb','#9ca3af'], thumbBg: '#f0f0f0' },
   { id: 'elegant',      name: 'Elegant',      isNew: true,  thumbColors: ['#78350f','#e7e0d6','#92400e'], thumbBg: '#fdf6ee' },
   { id: 'bold',         name: 'Bold',         isNew: true,  thumbColors: ['#111827','#f9fafb','#4b5563'], thumbBg: '#111827' },
 ];
 
 /* =====================================================
-   LOCALSTORAGE SAVE / LOAD
+   LOCALSTORAGE
    ===================================================== */
 function saveToStorage() {
   const data = {
@@ -641,7 +600,6 @@ function saveToStorage() {
 }
 
 function loadFromStorage() {
-  // Try v3 first, fall back to v2
   let raw = localStorage.getItem('cv_resume_v3') || localStorage.getItem('cv_resume_v2');
   try {
     if (!raw) return false;
@@ -663,26 +621,68 @@ function loadFromStorage() {
 }
 
 /* =====================================================
-   SAMPLE DATA
+   DEFAULT / SAMPLE DATA  ← Curtis Venn's real resume
    ===================================================== */
 function loadSampleData() {
-  $('#inputName').value = 'Curtis Venn';
-  $('#inputTitle').value = 'Creator | Leader | Fintech Forward | Consultant';
-  $('#inputEmail').value = 'curtis.hi95@gmail.com';
-  $('#inputPhone').value = '801-815-7592';
+  $('#inputName').value     = 'Curtis Venn';
+  $('#inputTitle').value    = 'Creator | Leader | Fintech Forward | Consultant';
+  $('#inputEmail').value    = 'curtis.hi95@gmail.com';
+  $('#inputPhone').value    = '801-815-7592';
   $('#inputLocation').value = 'Bountiful, UT';
-  $('#inputWebsite').value = 'curtisvenn.com';
-  $('#inputSummary').value = 'Collaborative leader and creator. Helping to simplify work life and seeing the bigger picture. Documented strengths in building and maintaining relationships with diverse stakeholders in dynamic, fast-paced settings.';
+  $('#inputWebsite').value  = 'curtisvenn.com';
+  $('#inputSummary').value  = 'Collaborative leader and creator. Helping to simplify work life and seeing the bigger picture. Documented strengths in building and maintaining relationships with diverse stakeholders in dynamic, fast-paced settings.';
+
   jobs = [
-    { job: 'Operations Fraud & Claims Specialist', company: 'LendingClub', years: 'June 2025 – Present', details: ['Fraud Investigations and case management','Reviewed onboarding applications and assessed risk factors','Account management and closure pertaining to fraud and risk','Card management and dispute resolution','Check fraud investigations'] },
-    { job: 'Data Analyst', company: 'Tesla', years: 'April 2024 – October 2024', details: ['Identified, analyzed and interpreted trends or patterns in complex data sets','Improved decision-making processes with accurate data analysis and visualization techniques','Upheld security and confidentiality of documents and data','Assisted in training AI models through data annotation'] },
-    { job: 'SMB Banking Specialist', company: 'Bluevine', years: 'February 2021 – October 2023', details: ['Specialized in banking software, ACH, Wires, PPP loans and documentation','Collaborated cross-functionally to resolve technical issues with site logic','Worked directly with clients on applications, banking software, and banking issues'] },
+    {
+      job: 'Fraud & Claims Operations',
+      company: 'LendingClub',
+      years: 'June 2025 – Present',
+      details: [
+        'Fraud investigations and case management',
+        'Application fraud rules with Alloy and Fraud Strategy',
+        'Account management and closure pertaining to fraud and risk',
+        'Card management and dispute resolution',
+        'Check fraud investigations',
+        'Trend analysis with Fraud Strategy',
+      ]
+    },
+    {
+      job: 'Data Analyst',
+      company: 'Tesla',
+      years: 'April 2024 – October 2024',
+      details: [
+        'Identified, analyzed and interpreted trends or patterns in complex data sets',
+        'Improved decision-making processes with accurate data analysis and visualization techniques',
+        'Upheld security and confidentiality of documents and data',
+        'Assisted in training AI models through data annotation',
+      ]
+    },
+    {
+      job: 'SMB Banking Specialist',
+      company: 'Bluevine',
+      years: 'February 2021 – October 2023',
+      details: [
+        'Specialized in banking software, ACH, Wires, PPP loans and documentation',
+        'Collaborated cross-functionally to resolve technical issues with site logic',
+        'Worked directly with clients on applications, banking software, and banking issues',
+        'Worked closely with PPP fraud cases',
+      ]
+    },
   ];
+
   edus = [
     { school: 'Salt Lake Community College (SLCC)', degree: 'Computer Science & Information Technology', years: '' },
-    { school: 'Weber State University', degree: 'General Studies', years: '' },
+    { school: 'Weber State University',              degree: 'General Studies',                           years: '' },
+    { school: 'Udemy',                               degree: 'Agile Scrum / Scrum Master',                years: 'Current' },
   ];
-  skills = ['Client Relations','Onboarding','Data Entry','HTML','Research','Document Proofreading','CPR / First Aid','CRM Software','AI Prompting','Photography','Consulting','Website Building','Tool Building','Spanish (Secondary)'];
+
+  skills = [
+    'Client Relations', 'Onboarding', 'Data Entry', 'HTML', 'Research',
+    'Document Proofreading', 'CPR / First Aid', 'CRM Software', 'AI Prompting',
+    'Photography', 'Consulting', 'Website Building', 'Tool Building',
+    'Spanish (Secondary)', 'Javascript', 'Trend Analysis', 'Multitasking',
+  ];
+
   saveToStorage();
   renderAll();
 }
@@ -791,7 +791,6 @@ function selectTemplate(id) {
    FORM RENDERING
    ===================================================== */
 function renderForm() {
-  // Jobs
   const wc = $('#workContainer');
   wc.innerHTML = '';
   jobs.forEach((job, i) => {
@@ -847,7 +846,6 @@ function renderForm() {
     wc.innerHTML = `<div style="text-align:center;padding:1.25rem 0.5rem;color:#6b7280;font-size:0.78rem;">No jobs yet — click <strong>+ Add Job</strong> to get started.</div>`;
   }
 
-  // Edus
   const ec = $('#eduContainer');
   ec.innerHTML = '';
   edus.forEach((ed, i) => {
@@ -885,7 +883,6 @@ function renderForm() {
     ec.appendChild(div);
   });
 
-  // Skills
   const sl = $('#skillList');
   sl.innerHTML = '';
   skills.forEach((sk, i) => {
@@ -898,9 +895,6 @@ function renderForm() {
   updateProgressDots();
 }
 
-/* =====================================================
-   TOGGLE COLLAPSE
-   ===================================================== */
 function toggleJob(i) {
   if (collapsedJobs.has(i)) collapsedJobs.delete(i); else collapsedJobs.add(i);
   renderForm();
@@ -910,9 +904,6 @@ function toggleEdu(i) {
   renderForm();
 }
 
-/* =====================================================
-   DATA MUTATIONS
-   ===================================================== */
 function updateJob(i, field, value) { jobs[i][field] = value; renderPreview(); debounceSave(); }
 function updateJobDetail(i, j, value) { jobs[i].details[j] = value; renderPreview(); debounceSave(); }
 function addJobDetail(i) { jobs[i].details.push(''); renderForm(); renderPreview(); debounceSave(); }
@@ -951,9 +942,6 @@ function clearAll() {
 let saveDebounce;
 function debounceSave() { clearTimeout(saveDebounce); saveDebounce = setTimeout(saveToStorage, 800); }
 
-/* =====================================================
-   PROGRESS DOTS
-   ===================================================== */
 function updateProgressDots() {
   const checks = [
     !!($('#inputName').value.trim()),
@@ -968,9 +956,6 @@ function updateProgressDots() {
   }).join('');
 }
 
-/* =====================================================
-   CHAR COUNTER
-   ===================================================== */
 function updateCharCount() {
   const len = $('#inputSummary').value.length;
   const el = $('#summaryCount');
@@ -978,9 +963,6 @@ function updateCharCount() {
   el.classList.toggle('warn', len > 250);
 }
 
-/* =====================================================
-   SHARED HELPERS FOR TEMPLATES
-   ===================================================== */
 function getFields() {
   return {
     name:     $('#inputName').value,
@@ -1016,13 +998,11 @@ function renderPreview() {
         <h3>Your resume will appear here</h3>
         <p>Fill in your name, experience, and skills on the left to get started. Try <strong>Load Sample</strong> for a quick preview.</p>
       </div>`;
-    const preview = $('#resumePreview');
-    preview.innerHTML = html;
+    $('#resumePreview').innerHTML = html;
     updateProgressDots();
     return;
   }
 
-  /* ---- MODERN ---- */
   if (currentTemplate === 'modern') {
     html = `
       <div style="font-family:'DM Sans',sans-serif;">
@@ -1073,7 +1053,6 @@ function renderPreview() {
         </div>
       </div>`;
 
-  /* ---- CLASSIC ---- */
   } else if (currentTemplate === 'classic') {
     html = `
       <div style="font-family:'DM Sans',sans-serif;padding:2.5rem 2.75rem;">
@@ -1088,7 +1067,6 @@ function renderPreview() {
         ${skills.length?`<div><h3 style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#111827;margin:0 0 0.5rem;padding-bottom:0.35rem;border-bottom:1px solid #e5e7eb;">Skills</h3><p style="font-size:0.8rem;color:#4b5563;line-height:1.7;margin:0;">${skills.map(k=>s(k)).join('  ·  ')}</p></div>`:''}
       </div>`;
 
-  /* ---- MINIMAL ---- */
   } else if (currentTemplate === 'minimal') {
     html = `
       <div style="font-family:'DM Sans',sans-serif;padding:2.25rem 2.5rem;background:#fff;">
@@ -1102,7 +1080,6 @@ function renderPreview() {
         ${skills.length?`<div><div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#374151;margin-bottom:0.5rem;">Skills</div><p style="font-size:0.78rem;color:#4b5563;line-height:1.7;margin:0;">${skills.map(k=>s(k)).join(' · ')}</p></div>`:''}
       </div>`;
 
-  /* ---- EXECUTIVE ---- */
   } else if (currentTemplate === 'executive') {
     html = `
       <div style="font-family:'DM Sans',sans-serif;">
@@ -1127,7 +1104,6 @@ function renderPreview() {
         </div>
       </div>`;
 
-  /* ---- CREATIVE ---- */
   } else if (currentTemplate === 'creative') {
     html = `
       <div style="font-family:'DM Sans',sans-serif;display:grid;grid-template-columns:220px 1fr;min-height:11in;">
@@ -1149,7 +1125,6 @@ function renderPreview() {
         </div>
       </div>`;
 
-  /* ---- PROFESSIONAL ---- */
   } else if (currentTemplate === 'professional') {
     html = `
       <div style="font-family:'DM Sans',sans-serif;">
@@ -1170,7 +1145,6 @@ function renderPreview() {
         </div>
       </div>`;
 
-  /* ---- ELEGANT (NEW) ---- */
   } else if (currentTemplate === 'elegant') {
     html = `
       <div style="font-family:'Cormorant Garamond',Georgia,serif;padding:3rem 3.5rem;background:#fdfaf6;">
@@ -1230,7 +1204,6 @@ function renderPreview() {
         </div>
       </div>`;
 
-  /* ---- BOLD (NEW) ---- */
   } else if (currentTemplate === 'bold') {
     html = `
       <div style="font-family:'DM Sans',sans-serif;background:#fff;">
@@ -1308,9 +1281,6 @@ function renderPreview() {
   updateProgressDots();
 }
 
-/* =====================================================
-   RENDER ALL
-   ===================================================== */
 function renderAll() {
   renderForm();
   renderPreview();
@@ -1364,7 +1334,6 @@ function downloadPDF() {
 /* =====================================================
    EVENT WIRING
    ===================================================== */
-// Tabs
 $$('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     $$('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -1375,21 +1344,16 @@ $$('.tab-btn').forEach(btn => {
   });
 });
 
-// Main field live update
 ['inputName','inputTitle','inputEmail','inputPhone','inputLocation','inputWebsite'].forEach(id => {
   document.getElementById(id).addEventListener('input', () => { renderPreview(); debounceSave(); updateProgressDots(); });
 });
 $('#inputSummary').addEventListener('input', () => { renderPreview(); updateCharCount(); debounceSave(); updateProgressDots(); });
-
-// Skill enter key
 $('#skillInput').addEventListener('keydown', e => { if (e.key === 'Enter') addSkill(); });
 
-// Buttons
 $('#downloadBtn').addEventListener('click', downloadPDF);
 $('#clearBtn').addEventListener('click', clearAll);
 $('#loadSampleBtn').addEventListener('click', loadSampleData);
 
-// Color swatches
 $$('.swatch').forEach(sw => {
   sw.addEventListener('click', () => {
     applyAccent(sw.dataset.color);
@@ -1399,7 +1363,7 @@ $$('.swatch').forEach(sw => {
 });
 
 /* =====================================================
-   INIT
+   INIT — load saved data, fall back to your real resume
    ===================================================== */
 const hadSaved = loadFromStorage();
 if (!hadSaved) loadSampleData();
