@@ -41,29 +41,36 @@
     /* ─── Navbar ─── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 500;
-      padding: 1.5rem 3rem;
-      display: flex; align-items: center; justify-content: space-between;
-      transition: background 0.4s, padding 0.4s, backdrop-filter 0.4s;
+      padding: 1.25rem 2.5rem;
+      display: flex; align-items: center; gap: 2rem;
+      transition: background 0.4s, padding 0.4s;
     }
     nav.scrolled {
-      background: rgba(13,13,13,0.92);
+      background: rgba(13,13,13,0.93);
       backdrop-filter: blur(14px);
-      padding: 1rem 3rem;
+      padding: 0.9rem 2.5rem;
       border-bottom: 1px solid rgba(201,169,110,0.1);
     }
+
+    /* Logo */
     .nav-logo {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.5rem; font-weight: 400;
+      font-size: 1.4rem; font-weight: 400;
       letter-spacing: 0.08em; text-transform: uppercase;
       color: var(--white); text-decoration: none;
+      flex-shrink: 0;
     }
     .nav-logo span { color: var(--warm); }
 
-    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    /* Centre links */
+    .nav-links {
+      display: flex; gap: 1.8rem; align-items: center;
+      flex: 1;
+    }
     .nav-links a {
-      font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
+      font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
       color: rgba(253,250,245,0.55); text-decoration: none;
-      transition: color 0.25s; position: relative;
+      transition: color 0.25s; position: relative; white-space: nowrap;
     }
     .nav-links a::after {
       content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
@@ -74,16 +81,37 @@
     .nav-links a:hover { color: var(--white); }
     .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
 
-    .nav-right { display: flex; align-items: center; gap: 1.5rem; }
-    .nav-divider { width: 1px; height: 18px; background: rgba(201,169,110,0.25); }
-    .nav-social { display: flex; gap: 1.2rem; }
-    .nav-social a { color: rgba(253,250,245,0.4); font-size: 0.9rem; transition: color 0.25s; text-decoration: none; }
+    /* Right cluster: resume btn + socials */
+    .nav-right {
+      display: flex; align-items: center; gap: 1.2rem;
+      flex-shrink: 0; margin-left: auto;
+    }
+    .nav-btn {
+      font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--warm); text-decoration: none; white-space: nowrap;
+      border: 1px solid rgba(201,169,110,0.35);
+      padding: 0.4rem 0.9rem;
+      transition: background 0.25s, border-color 0.25s, color 0.25s;
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .nav-btn:hover {
+      background: rgba(201,169,110,0.1);
+      border-color: var(--warm);
+    }
+    .nav-divider { width: 1px; height: 18px; background: rgba(201,169,110,0.2); flex-shrink: 0; }
+    .nav-social { display: flex; gap: 1rem; align-items: center; }
+    .nav-social a {
+      color: rgba(253,250,245,0.5); font-size: 1rem;
+      transition: color 0.25s; text-decoration: none;
+      display: flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px;
+    }
     .nav-social a:hover { color: var(--warm); }
 
     /* Hamburger */
     .hamburger {
       display: none; background: none; border: none; cursor: pointer;
-      flex-direction: column; gap: 5px; padding: 4px;
+      flex-direction: column; gap: 5px; padding: 4px; flex-shrink: 0;
     }
     .hamburger span { display: block; width: 24px; height: 1px; background: var(--white); transition: transform 0.3s, opacity 0.3s; }
     .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
@@ -93,22 +121,25 @@
     .mobile-menu {
       display: none; position: fixed; inset: 0;
       background: rgba(13,13,13,0.97); z-index: 490;
-      flex-direction: column; align-items: center; justify-content: center; gap: 2.5rem;
+      flex-direction: column; align-items: center; justify-content: center; gap: 2.2rem;
     }
     .mobile-menu.open { display: flex; }
     .mobile-menu a {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 2.5rem; font-weight: 300;
+      font-size: 2.4rem; font-weight: 300;
       color: var(--white); text-decoration: none;
       letter-spacing: 0.04em; transition: color 0.25s;
     }
     .mobile-menu a:hover { color: var(--warm); }
-    .mobile-menu .mobile-social {
-      display: flex; gap: 1.8rem; margin-top: 1rem;
+    .mobile-social {
+      display: flex; gap: 2rem; margin-top: 0.5rem;
     }
-    .mobile-menu .mobile-social a {
-      font-size: 1.3rem; font-family: inherit;
+    .mobile-social a {
+      font-size: 1.4rem !important;
+      color: rgba(253,250,245,0.5) !important;
+      font-family: inherit !important;
     }
+    .mobile-social a:hover { color: var(--warm) !important; }
 
     /* ─── Hero ─── */
     .hero {
@@ -470,9 +501,9 @@
       .gallery-grid .span-2 { grid-column: span 2; }
     }
     @media (max-width: 768px) {
-      nav { padding: 1.2rem 1.5rem; }
-      nav.scrolled { padding: 0.9rem 1.5rem; }
-      .nav-links, .nav-right { display: none; }
+      nav { padding: 1rem 1.25rem; }
+      nav.scrolled { padding: 0.8rem 1.25rem; }
+      .nav-links, .nav-right { display: none !important; }
       .hamburger { display: flex; }
       .portfolio-section { padding: 4rem 1.25rem; }
       .hero-content { padding: 0 1.5rem 4rem; flex-direction: column; gap: 1.5rem; align-items: flex-start; }
@@ -503,6 +534,7 @@
   <!-- ─── Navbar ─── -->
   <nav id="navbar">
     <a href="#home" class="nav-logo">Curtis <span>Venn</span></a>
+
     <div class="nav-links">
       <a href="#portraits">Portraits</a>
       <a href="#landscapes">Landscapes</a>
@@ -511,16 +543,22 @@
       <a href="pricing.html">Pricing</a>
       <a href="#contact">Contact</a>
     </div>
+
     <div class="nav-right">
-      <a href="resumebuilder.html" class="nav-links" style="display:flex; align-items:center; gap:0.4rem; font-size:0.65rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--warm); text-decoration:none; border:1px solid rgba(201,169,110,0.3); padding:0.45rem 1rem; transition:background 0.25s, border-color 0.25s;" onmouseover="this.style.background='rgba(201,169,110,0.1)'; this.style.borderColor='var(--warm)'" onmouseout="this.style.background=''; this.style.borderColor='rgba(201,169,110,0.3)'">
+      <a href="resumebuilder.html" class="nav-btn">
         <i class="fas fa-file-alt"></i> Resume Builder
       </a>
       <div class="nav-divider"></div>
       <div class="nav-social">
-        <a href="https://www.instagram.com/curtis_venn/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="https://www.linkedin.com/in/curtis-venn" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="https://www.instagram.com/curtis_venn/" target="_blank" aria-label="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/curtis-venn" target="_blank" aria-label="LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
       </div>
     </div>
+
     <button class="hamburger" id="hamburger" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
@@ -528,13 +566,13 @@
 
   <!-- Mobile Menu -->
   <div class="mobile-menu" id="mobileMenu">
-    <a href="#portraits"    class="ml">Portraits</a>
-    <a href="#landscapes"   class="ml">Landscapes</a>
-    <a href="#vehicles"     class="ml">Vehicles</a>
-    <a href="#product"      class="ml">Product</a>
-    <a href="pricing.html"  class="ml">Pricing</a>
+    <a href="#portraits"         class="ml">Portraits</a>
+    <a href="#landscapes"        class="ml">Landscapes</a>
+    <a href="#vehicles"          class="ml">Vehicles</a>
+    <a href="#product"           class="ml">Product</a>
+    <a href="pricing.html"       class="ml">Pricing</a>
     <a href="resumebuilder.html" class="ml">Resume Builder</a>
-    <a href="#contact"      class="ml">Contact</a>
+    <a href="#contact"           class="ml">Contact</a>
     <div class="mobile-social">
       <a href="https://www.instagram.com/curtis_venn/" target="_blank"><i class="fab fa-instagram"></i></a>
       <a href="https://www.linkedin.com/in/curtis-venn" target="_blank"><i class="fab fa-linkedin"></i></a>
