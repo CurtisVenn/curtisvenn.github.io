@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Work — Curtis Venn</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0c0c0c;
+      --surface:  #141414;
+      --border:   #222;
+      --text:     #e8e3dc;
+      --muted:    #6b6660;
+      --accent:   #c8a96e;
+      --accent2:  #8eb8a0;
+      --code-bg:  #1a1a1a;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 60px;
+      background: rgba(12,12,12,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.15rem;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+    .nav-links {
+      display: flex; gap: 2rem; list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 140px 2.5rem 80px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .hero-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.6rem, 6vw, 4.2rem);
+      line-height: 1.1;
+      font-weight: 400;
+      margin-bottom: 1.4rem;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .hero p {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.8;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 48px; height: 1px;
+      background: var(--accent);
+      margin: 3rem auto;
+    }
+
+    /* ── SECTION ── */
+    .section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 2.5rem 100px;
+    }
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 3rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1; height: 1px;
+      background: var(--border);
+    }
+
+    /* ── PROJECT CARD ── */
+    .project {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 3rem;
+      background: var(--surface);
+      transition: border-color 0.25s;
+    }
+    .project:hover { border-color: #333; }
+
+    .project-header {
+      padding: 2rem 2.5rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .project-meta { flex: 1; }
+    .project-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 0.5rem;
+    }
+    .project-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.6rem;
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 0.6rem;
+    }
+    .project-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      max-width: 480px;
+      line-height: 1.7;
+    }
+    .project-link {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid var(--accent);
+      padding: 0.5rem 1rem;
+      border-radius: 2px;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+      align-self: flex-start;
+      margin-top: 0.2rem;
+    }
+    .project-link:hover { background: var(--accent); color: var(--bg); }
+
+    /* ── PROMPT PANELS ── */
+    .prompts {
+      padding: 2rem 2.5rem;
+    }
+    .prompts-intro {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 1.8rem;
+      line-height: 1.7;
+    }
+    .prompt-stack { display: flex; flex-direction: column; gap: 1.2rem; }
+
+    .prompt-block {
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .prompt-role {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.45rem 1rem;
+      background: #1e1e1e;
+      border-bottom: 1px solid var(--border);
+    }
+    .prompt-role-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .role-user .prompt-role-label  { color: var(--accent); }
+    .role-ai   .prompt-role-label  { color: var(--accent2); }
+    .role-result .prompt-role-label { color: #a0a0a0; }
+
+    .prompt-tool {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.58rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+    .prompt-body {
+      padding: 1rem 1rem;
+      background: var(--code-bg);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      line-height: 1.75;
+      color: #c9c3bc;
+      white-space: pre-wrap;
+    }
+    .role-result .prompt-body {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      color: #b0aba4;
+    }
+    .hl { color: var(--accent); }
+    .hl2 { color: var(--accent2); }
+
+    /* ── INSIGHT BOX ── */
+    .insight {
+      margin: 1.6rem 0 0;
+      padding: 1rem 1.2rem;
+      border-left: 2px solid var(--accent);
+      background: rgba(200,169,110,0.05);
+      font-size: 0.82rem;
+      color: #8a8480;
+      line-height: 1.7;
+    }
+    .insight strong { color: var(--text); font-weight: 500; }
+
+    /* ── COMING SOON CARDS ── */
+    .coming-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+    .coming-card {
+      border: 1px dashed #2a2a2a;
+      border-radius: 4px;
+      padding: 1.8rem 1.6rem;
+      background: rgba(255,255,255,0.01);
+    }
+    .coming-card-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #3a3a3a;
+      margin-bottom: 0.6rem;
+    }
+    .coming-card-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: #3d3d3d;
+      line-height: 1.3;
+    }
+    .coming-card-desc {
+      font-size: 0.76rem;
+      color: #2e2e2e;
+      margin-top: 0.4rem;
+      line-height: 1.6;
+    }
+    .coming-badge {
+      display: inline-block;
+      margin-top: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #333;
+      border: 1px solid #282828;
+      padding: 0.2rem 0.5rem;
+      border-radius: 2px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 2.5rem;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .footer-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+    .footer-links {
+      display: flex; gap: 1.5rem; list-style: none;
+    }
+    .footer-links a {
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--text); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-label { animation: fadeUp 0.5s ease both; }
+    .hero h1    { animation: fadeUp 0.55s 0.08s ease both; }
+    .hero p     { animation: fadeUp 0.55s 0.16s ease both; }
+    .project    { animation: fadeUp 0.5s 0.1s ease both; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      nav { padding: 0 1.2rem; }
+      .nav-links { gap: 1.2rem; }
+      .hero { padding: 120px 1.2rem 60px; }
+      .section { padding: 0 1.2rem 80px; }
+      .project-header { padding: 1.5rem 1.2rem; }
+      .prompts { padding: 1.5rem 1.2rem; }
+      footer { padding: 1.5rem 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="https://curtisvenn.com/index.html">Curtis Venn</a>
+    <ul class="nav-links">
+      <li><a href="https://curtisvenn.com/index.html">Home</a></li>
+      <li><a href="https://curtisvenn.com/resumebuilder.html">Resume Builder</a></li>
+      <li><a href="https://curtisvenn.com/ai.html" class="active">AI Work</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-label">/ AI Work</div>
+    <h1>Prompting with <em>intention</em>,<br>not instruction manuals.</h1>
+    <p>A running log of things I've built, shaped, or accelerated using AI — with the actual prompts included. Less about the tools, more about knowing what to ask for.</p>
+  </div>
+
+  <!-- PROJECTS -->
+  <div class="section">
+    <div class="section-label">Projects</div>
+
+    <!-- PROJECT 01: RESUME BUILDER -->
+    <div class="project">
+      <div class="project-header">
+        <div class="project-meta">
+          <div class="project-tag">01 — Web App</div>
+          <div class="project-title">Resume Builder</div>
+          <div class="project-desc">A live, in-browser resume editor with PDF export, color themes, AI-generated summaries, and a clean two-panel layout. Built using Claude and ChatGPT — no frameworks, just HTML, CSS, and vanilla JS.</div>
+        </div>
+        <a class="project-link" href="https://curtisvenn.com/resumebuilder.html" target="_blank">
+          View Live ↗
+        </a>
+      </div>
+
+      <div class="prompts">
+        <div class="prompts-intro">
+          Here's how the project actually came together — the prompts I used, why I phrased them that way, and what I was trying to get out of each exchange.
+        </div>
+
+        <div class="prompt-stack">
+
+          <!-- PROMPT 1 -->
+          <div class="prompt-block role-user">
+            <div class="prompt-role">
+              <span class="prompt-role-label">My Prompt</span>
+              <span class="prompt-tool">Claude</span>
+            </div>
+            <div class="prompt-body"><span class="hl">Build me a resume builder</span> that works entirely in the browser. Two-panel layout — editable form on the left, live preview on the right. The preview should update in real time as I type. No backend, no frameworks. Include: personal info, work experience, education, and skills. Make the design clean and modern.</div>
+          </div>
+
+          <div class="prompt-block role-result">
+            <div class="prompt-role">
+              <span class="prompt-role-label">What I got</span>
+            </div>
+            <div class="prompt-body">A working two-panel layout with form inputs wired to a live preview via JavaScript event listeners. Clean typography, structured sections. Functional from the first output — I didn't have to explain the layout twice.</div>
+          </div>
+
+          <div class="insight">
+            <strong>Why this worked:</strong> I gave it the constraints upfront ("no backend, no frameworks") so it didn't over-engineer it, and I led with the interaction pattern ("live preview as you type") so the JS structure was right from the start. Specific inputs → fewer revision loops.
+          </div>
+
+          <!-- PROMPT 2 -->
+          <div class="prompt-block role-user">
+            <div class="prompt-role">
+              <span class="prompt-role-label">My Prompt</span>
+              <span class="prompt-tool">Claude</span>
+            </div>
+            <div class="prompt-body">Add <span class="hl">accent color themes</span> — at least 6 options the user can pick from. The color should apply to the resume preview: headers, dividers, name styling. Keep the selector clean, nothing flashy. Also add <span class="hl">auto-save to localStorage</span> so nothing is lost on refresh.</div>
+          </div>
+
+          <div class="prompt-block role-result">
+            <div class="prompt-role">
+              <span class="prompt-role-label">What I got</span>
+            </div>
+            <div class="prompt-body">Color picker with 8 named themes (Amber, Cobalt, Forest, etc.) using CSS custom properties. localStorage save/load wired to every input change. The preview updated instantly on theme switch.</div>
+          </div>
+
+          <div class="insight">
+            <strong>Why this worked:</strong> I bundled two related features in one prompt because they both touch the same data layer. Asking for them separately would've created two rounds of code that might conflict. Knowing when to combine requests matters as much as knowing how to phrase them.
+          </div>
+
+          <!-- PROMPT 3 -->
+          <div class="prompt-block role-user">
+            <div class="prompt-role">
+              <span class="prompt-role-label">My Prompt</span>
+              <span class="prompt-tool">ChatGPT</span>
+            </div>
+            <div class="prompt-body">I want an <span class="hl2">"AI Write" button</span> next to the summary field. When clicked, it should call the Anthropic API using the user's entered name, title, and work experience, and return a 2–3 sentence professional summary. Show a loading state while it runs. Keep the button small and inline.</div>
+          </div>
+
+          <div class="prompt-block role-result">
+            <div class="prompt-role">
+              <span class="prompt-role-label">What I got</span>
+            </div>
+            <div class="prompt-body">Async fetch call to the Anthropic messages endpoint, pulling live values from the form fields to build the prompt dynamically. Loading spinner inline with the button. Populated the textarea on success.</div>
+          </div>
+
+          <div class="insight">
+            <strong>Why this worked:</strong> I told it exactly where the data was coming from ("the user's entered name, title, and work experience") so it knew to read from the DOM, not hardcode anything. I also specified the UX detail I cared about ("show a loading state") so I didn't have to come back for it.
+          </div>
+
+          <!-- PROMPT 4 -->
+          <div class="prompt-block role-user">
+            <div class="prompt-role">
+              <span class="prompt-role-label">My Prompt</span>
+              <span class="prompt-tool">Claude</span>
+            </div>
+            <div class="prompt-body">Add a <span class="hl">PDF download</span> using the browser's print API — no third-party libraries. Style the print view so only the resume preview renders, full-width, with no UI chrome. The accent color should carry through to the printed version.</div>
+          </div>
+
+          <div class="prompt-block role-result">
+            <div class="prompt-role">
+              <span class="prompt-role-label">What I got</span>
+            </div>
+            <div class="prompt-body">@media print CSS that hides all controls and expands the preview to full width. window.print() wired to the download button. The CSS custom property for accent color was already in scope so it rendered correctly in the print dialog.</div>
+          </div>
+
+          <div class="insight">
+            <strong>Why this worked:</strong> Specifying "no third-party libraries" was the key constraint — it forced an elegant native solution rather than adding a dependency. The reminder about accent color wasn't obvious; it only works because the CSS variable architecture was already set up from the themes prompt.
+          </div>
+
+        </div><!-- /prompt-stack -->
+      </div><!-- /prompts -->
+    </div><!-- /project -->
+
+
+    <!-- COMING SOON -->
+    <div class="section-label" style="margin-top: 1rem;">Coming Up</div>
+    <div class="coming-grid">
+
+      <div class="coming-card">
+        <div class="coming-card-tag">02 — Content</div>
+        <div class="coming-card-title">AI-Assisted Photography Listings</div>
+        <div class="coming-card-desc">Using structured prompts to generate consistent, on-brand shoot descriptions for portfolio and pricing pages.</div>
+        <div class="coming-badge">In Progress</div>
+      </div>
+
+      <div class="coming-card">
+        <div class="coming-card-tag">03 — Workflow</div>
+        <div class="coming-card-title">Client Email Templates</div>
+        <div class="coming-card-desc">A prompt system for generating booking follow-ups, inquiry responses, and shoot briefs without losing voice.</div>
+        <div class="coming-badge">Planned</div>
+      </div>
+
+      <div class="coming-card">
+        <div class="coming-card-tag">04 — Tool</div>
+        <div class="coming-card-title">Shoot Planner</div>
+        <div class="coming-card-desc">An interactive location + lighting planner built with AI helping suggest timing, angles, and gear based on conditions.</div>
+        <div class="coming-badge">Planned</div>
+      </div>
+
+    </div>
+
+  </div><!-- /section -->
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-name">Curtis Venn</div>
+    <ul class="footer-links">
+      <li><a href="https://curtisvenn.com/index.html">Home</a></li>
+      <li><a href="https://curtisvenn.com/pricing.html">Pricing</a></li>
+      <li><a href="https://curtisvenn.com/resumebuilder.html">Resume Builder</a></li>
+      <li><a href="https://curtisvenn.com/ai.html">AI Work</a></li>
+    </ul>
+  </footer>
+
+</body>
+</html>
