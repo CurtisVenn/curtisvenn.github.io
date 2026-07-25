@@ -1,199 +1,528 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fastback Moto | Next Level Adventure</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <style>
-        .hero-bg {
-            background-linear: linear-gradient(rgba(0,0,0,0.4), rgba(15,23,42,1)), url('https://fastbackmoto.com/wp-content/uploads/2025/02/1A3A9129-scaled.jpg');
-            background-size: cover;
-            background-position: center;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fastback Moto — Powersports Service &amp; Sales | Woods Cross, UT</title>
+<meta name="description" content="Family-owned powersports quick service center in Woods Cross, Utah. Every year, make, and model — honest diagnostics, fair prices, fast turnaround.">
+<link rel="icon" href="https://fastbackmoto.com/wp-content/uploads/2025/02/cropped-Logo-No-Words-270x270.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+/* ══════════════════════════════════════════════════════════════
+   FASTBACK MOTO — DESIGN SYSTEM
+   Monochrome "shop spec-sheet" system built around the B/W logo.
+   THE ENTIRE ACCENT COLOR IS ONE VARIABLE. Change --accent below
+   and the whole site re-skins (KTM orange, red, anything).
+   DIVI NOTE: these tokens map 1:1 to Divi → Theme Customizer
+   (colors) and Theme Builder global fonts.
+   ══════════════════════════════════════════════════════════════ */
+:root{
+  --ink:#151515;          /* near-black — headers, footer, hero  */
+  --panel:#1e2022;        /* charcoal panels/cards on dark       */
+  --paper:#f3f3f1;        /* workshop-white section background   */
+  --card:#ffffff;         /* cards on light                      */
+  --line:#dcdcd6;         /* hairlines on light                  */
+  --line-dk:#33363a;      /* hairlines on dark                   */
+  --mute:#6d706d;         /* secondary text on light             */
+  --mute-dk:#9a9d9a;      /* secondary text on dark              */
+  --accent:#ffb400;       /* ⚡ bolt amber — CHANGE ME to reskin  */
+  --accent-ink:#151515;   /* text that sits on the accent        */
+  --disp:'Saira Condensed',sans-serif;
+  --body:'Barlow',sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);color:var(--ink);background:var(--paper);line-height:1.6;font-size:16px}
+img{max-width:100%;display:block}
+a{color:inherit}
+
+/* ── type roles ─────────────────────────────────────────────── */
+.eyebrow{font-family:var(--mono);font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--mute);display:flex;align-items:center;gap:.6rem;margin-bottom:.9rem}
+.eyebrow::before{content:"";width:26px;height:2px;background:var(--accent)}
+.dark .eyebrow{color:var(--mute-dk)}
+.h-disp{font-family:var(--disp);font-weight:700;text-transform:uppercase;line-height:.95;letter-spacing:.01em}
+.h-xl{font-size:clamp(2.6rem,6vw,4.6rem)}
+.h-lg{font-size:clamp(2rem,4vw,3rem)}
+.h-md{font-size:clamp(1.35rem,2.4vw,1.7rem)}
+.lead{font-size:1.06rem;color:var(--mute);max-width:56ch}
+.dark .lead{color:var(--mute-dk)}
+.mono{font-family:var(--mono)}
+
+/* ── layout ─────────────────────────────────────────────────── */
+.cx{max-width:1180px;margin:0 auto;padding:0 1.4rem}
+.sec{padding:4.5rem 0}
+.sec-tight{padding:3rem 0}
+.dark{background:var(--ink);color:#f2f2ef}
+.rule{border:0;border-top:1px solid var(--line)}
+
+/* ── buttons ────────────────────────────────────────────────── */
+.btn{display:inline-flex;align-items:center;gap:.55rem;font-family:var(--disp);font-weight:600;text-transform:uppercase;letter-spacing:.06em;font-size:.95rem;padding:.8rem 1.7rem;text-decoration:none;border:2px solid var(--ink);transition:all .18s ease;cursor:pointer;background:none}
+.btn-solid{background:var(--ink);color:#fff}
+.btn-solid:hover{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn-ghost{color:var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:#fff}
+.dark .btn{border-color:#f2f2ef}
+.dark .btn-solid{background:#f2f2ef;color:var(--ink)}
+.dark .btn-solid:hover{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.dark .btn-ghost{color:#f2f2ef}
+.dark .btn-ghost:hover{background:#f2f2ef;color:var(--ink)}
+.btn-sm{font-size:.8rem;padding:.55rem 1.2rem}
+
+/* ── header (DIVI: Theme Builder global header) ─────────────── */
+.topbar{background:var(--ink);border-bottom:1px solid var(--line-dk);font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;color:var(--mute-dk)}
+.topbar .cx{display:flex;justify-content:space-between;align-items:center;padding-top:.45rem;padding-bottom:.45rem}
+.topbar a{color:var(--mute-dk);text-decoration:none}
+.topbar a:hover{color:var(--accent)}
+.topbar .soc{display:flex;gap:.9rem;font-size:.85rem}
+header.nav{background:var(--ink);position:sticky;top:0;z-index:60;border-bottom:1px solid var(--line-dk)}
+.nav .cx{display:flex;align-items:center;justify-content:space-between;height:74px}
+.brand img{height:44px;width:auto}
+nav.links{display:flex;gap:2rem;align-items:center}
+nav.links a{font-family:var(--disp);font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.92rem;color:#f2f2ef;text-decoration:none;padding:.3rem 0;border-bottom:2px solid transparent}
+nav.links a:hover,nav.links a.on{border-bottom-color:var(--accent);color:#fff}
+.nav-cta{margin-left:.6rem}
+.burger{display:none;background:none;border:0;color:#fff;font-size:1.5rem;cursor:pointer}
+.mmenu{display:none;background:var(--ink);border-bottom:1px solid var(--line-dk)}
+.mmenu a{display:block;padding:.9rem 1.4rem;color:#f2f2ef;text-decoration:none;font-family:var(--disp);text-transform:uppercase;letter-spacing:.08em;border-top:1px solid var(--line-dk)}
+.mmenu.open{display:block}
+
+/* ── review ticker (signature element) ──────────────────────── */
+.ticker{background:var(--accent);color:var(--accent-ink);overflow:hidden;padding:.65rem 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink)}
+.ticker-track{display:flex;gap:3rem;width:max-content;animation:tick 55s linear infinite}
+.ticker:hover .ticker-track{animation-play-state:paused}
+.tk{display:flex;align-items:center;gap:.7rem;font-family:var(--mono);font-size:.78rem;letter-spacing:.02em;white-space:nowrap}
+.tk b{font-weight:600}
+.tk .bolt{font-size:.9rem}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.ticker-track{animation:none;flex-wrap:wrap;width:auto}}
+
+/* ── hero ───────────────────────────────────────────────────── */
+.hero{position:relative;min-height:78vh;display:flex;align-items:flex-end;color:#fff;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:#222 center/cover no-repeat;filter:grayscale(35%) contrast(1.05)}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(21,21,21,.55) 0%,rgba(21,21,21,.25) 45%,rgba(21,21,21,.92) 100%)}
+.hero .cx{position:relative;z-index:2;padding-bottom:4rem;padding-top:6rem;width:100%}
+.hero-tag{font-family:var(--mono);font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem}
+.hero p{max-width:52ch;color:#d8d8d4;margin:1.2rem 0 1.8rem}
+.hero-ctas{display:flex;gap:1rem;flex-wrap:wrap}
+.hero-meta{display:flex;gap:2.2rem;margin-top:2.4rem;flex-wrap:wrap;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;color:var(--mute-dk);text-transform:uppercase}
+.hero-meta b{display:block;color:#fff;font-size:.85rem;margin-top:.15rem}
+
+/* ── cards & grids ──────────────────────────────────────────── */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:2.6rem;align-items:center}
+.card{background:var(--card);border:1px solid var(--line);padding:1.6rem;text-decoration:none;display:block;transition:transform .18s ease,border-color .18s ease}
+.card:hover{transform:translateY(-3px);border-color:var(--ink)}
+.spec{font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.price-tag{font-family:var(--mono);font-weight:600;font-size:.95rem}
+
+/* vehicle selector */
+.veh{background:var(--card);border:1px solid var(--line);padding:1.4rem 1.2rem 1.2rem;text-align:center;text-decoration:none;transition:all .18s ease;position:relative}
+.veh:hover{border-color:var(--ink);transform:translateY(-3px)}
+.veh img{height:96px;object-fit:contain;margin:0 auto .8rem;filter:grayscale(100%);transition:filter .25s ease}
+.veh:hover img{filter:grayscale(0)}
+.veh h3{font-family:var(--disp);font-weight:600;text-transform:uppercase;letter-spacing:.06em;font-size:1.05rem}
+.veh .spec{margin-top:.2rem}
+
+/* service cards */
+.svc h3{font-family:var(--disp);font-weight:600;text-transform:uppercase;font-size:1.25rem;letter-spacing:.03em;margin:.7rem 0 .4rem}
+.svc p{color:var(--mute);font-size:.94rem}
+.svc .go{font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;margin-top:1rem;display:inline-block}
+.svc:hover .go{color:var(--accent-ink);background:var(--accent);padding:.15rem .45rem}
+.svc-ic{width:44px;height:44px;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:1.15rem}
+
+/* review cards */
+.rev{background:var(--panel);border:1px solid var(--line-dk);padding:1.5rem;display:flex;flex-direction:column;gap:.9rem}
+.rev .stars{color:var(--accent);letter-spacing:.15em;font-size:.8rem}
+.rev p{color:#cfcfca;font-size:.94rem;font-style:italic}
+.rev .who{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mute-dk)}
+
+/* inventory cards */
+.unit{background:var(--card);border:1px solid var(--line);text-decoration:none;display:flex;flex-direction:column;transition:all .18s ease}
+.unit:hover{border-color:var(--ink);transform:translateY(-3px)}
+.unit-img{aspect-ratio:4/3;background:#e7e7e3 center/cover no-repeat;position:relative}
+.unit-img .badge{position:absolute;top:.7rem;left:.7rem;font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;background:var(--ink);color:#fff;padding:.25rem .55rem}
+.unit-img .badge.new{background:var(--accent);color:var(--accent-ink)}
+.unit-img .badge.incoming{background:#fff;color:var(--ink);border:1px solid var(--ink)}
+.unit-body{padding:1.1rem 1.2rem 1.3rem}
+.unit-body h3{font-family:var(--disp);font-weight:600;text-transform:uppercase;font-size:1.15rem;letter-spacing:.02em}
+.unit-row{display:flex;justify-content:space-between;align-items:baseline;margin-top:.5rem}
+
+/* filter pills */
+.pills{display:flex;gap:.6rem;flex-wrap:wrap}
+.pill{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--ink);background:none;padding:.45rem 1rem;cursor:pointer;transition:all .15s ease}
+.pill.on,.pill:hover{background:var(--ink);color:#fff}
+
+/* tables (labor rates) */
+.tbl{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line)}
+.tbl th{font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;text-align:left;padding:.8rem 1rem;border-bottom:2px solid var(--ink);color:var(--mute)}
+.tbl td{padding:.75rem 1rem;border-bottom:1px solid var(--line);font-size:.94rem}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td:last-child{font-family:var(--mono);font-weight:600;white-space:nowrap;text-align:right}
+
+/* forms */
+.fld{display:flex;flex-direction:column;gap:.35rem;margin-bottom:1rem}
+.fld label{font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.fld input,.fld select,.fld textarea{font-family:var(--body);font-size:.95rem;padding:.7rem .9rem;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+.fld input:focus,.fld select:focus,.fld textarea:focus{outline:2px solid var(--accent);outline-offset:0;border-color:var(--ink)}
+
+/* page hero (interior pages) */
+.phero{background:var(--ink);color:#fff;padding:4rem 0 3rem;border-bottom:4px solid var(--accent)}
+.phero .lead{color:var(--mute-dk)}
+
+/* ── footer (DIVI: Theme Builder global footer) ─────────────── */
+footer{background:var(--ink);color:#e8e8e4;border-top:4px solid var(--accent)}
+.fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:2.2rem;padding:3.5rem 0 2.5rem}
+.fcol h4{font-family:var(--disp);font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:.95rem;margin-bottom:1rem;color:#fff}
+.fcol a{color:var(--mute-dk);text-decoration:none;display:block;padding:.22rem 0;font-size:.92rem}
+.fcol a:hover{color:var(--accent)}
+.fcol .spec{color:var(--mute-dk)}
+.fbrand img{height:52px;margin-bottom:1rem}
+.fbrand p{color:var(--mute-dk);font-size:.9rem;max-width:32ch}
+.fsoc{display:flex;gap:.8rem;margin-top:1.2rem}
+.fsoc a{width:40px;height:40px;border:1px solid var(--line-dk);display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all .15s ease}
+.fsoc a:hover{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.hrs{display:grid;grid-template-columns:auto 1fr;gap:.15rem 1rem;font-size:.88rem}
+.hrs .d{color:var(--mute-dk)}
+.hrs .closed{color:var(--accent)}
+.fbot{border-top:1px solid var(--line-dk);padding:1.1rem 0;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;color:var(--mute-dk)}
+.fbot a{color:var(--mute-dk);text-decoration:none;margin-left:1.2rem}
+.fbot a:hover{color:var(--accent)}
+
+/* reveal on scroll */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s ease}
+.rv.in{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+/* focus visibility */
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ── responsive ─────────────────────────────────────────────── */
+@media (max-width:940px){
+  .grid4{grid-template-columns:repeat(2,1fr)}
+  .grid3{grid-template-columns:repeat(2,1fr)}
+  .grid2{grid-template-columns:1fr}
+  .fgrid{grid-template-columns:1fr 1fr}
+  nav.links{display:none}
+  .burger{display:block}
+}
+@media (max-width:600px){
+  .grid3,.grid4{grid-template-columns:1fr}
+  .fgrid{grid-template-columns:1fr}
+  .topbar .contact-line{display:none}
+  .hero{min-height:70vh}
+}
+
+</style>
 </head>
-<body class="bg-slate-900 text-slate-100 font-sans tracking-wide">
+<body>
 
-    <!-- Premium Navigation Header -->
-    <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <a href="#" class="flex items-center gap-3">
-                <img src="https://fastbackmoto.com/wp-content/uploads/2025/02/cropped-Logo-No-Words-32x32.png" alt="Logo" class="w-10 h-10">
-                <span class="text-xl font-black tracking-tighter text-amber-500">FASTBACK MOTO</span>
-            </a>
-            
-            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold tracking-wider uppercase">
-                <div class="relative group">
-                    <button class="hover:text-amber-500 py-6 flex items-center gap-1 cursor-pointer">Explore Bikes ▾</button>
-                    <!-- Mega Dropdown Menu to fix their 38 pages menu clutter -->
-                    <div class="absolute top-full left-0 w-80 bg-slate-950 border border-slate-800 rounded-xl p-4 shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                        <div class="grid grid-cols-1 gap-4">
-                            <div>
-                                <h4 class="text-xs text-slate-500 font-bold border-b border-slate-800 pb-1 mb-2">By Fleet Status</h4>
-                                <a href="#inventory" onclick="filterCondition('new')" class="block text-sm py-1 text-slate-300 hover:text-amber-400">New Arrivals</a>
-                                <a href="#inventory" onclick="filterCondition('used')" class="block text-sm py-1 text-slate-300 hover:text-amber-400">Certified Used</a>
-                                <a href="#inventory" onclick="filterCondition('incoming')" class="block text-sm py-1 text-slate-300 hover:text-amber-400">Incoming Inventory</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <a href="#services" class="hover:text-amber-500 transition">Services</a>
-                <a href="#about" class="hover:text-amber-500 transition">About us</a>
-            </nav>
+<!-- ═══ TOP BAR ═══ DIVI: Theme Builder header, top row (text + social follow modules) -->
+<div class="topbar">
+  <div class="cx">
+    <span class="contact-line"><a href="tel:3857772536"><i class="fas fa-phone"></i> 385-777-2536</a> &nbsp;·&nbsp; <a href="mailto:info@fastbackmoto.com">info@fastbackmoto.com</a></span>
+    <span>Woods Cross, UT · Mon–Fri 9–6 · Sat 9–5</span>
+    <span class="soc">
+      <a href="https://www.facebook.com/fastbackmoto/" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://www.instagram.com/fastbackmoto/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+    </span>
+  </div>
+</div>
 
-            <a href="#contact" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-sm uppercase px-6 py-3 rounded-lg transition tracking-wider">
-                Get in Touch
-            </a>
+<!-- ═══ NAV ═══ DIVI: Theme Builder header, menu row -->
+<header class="nav">
+  <div class="cx">
+    <a class="brand" href="index.html"><img src="https://fastbackmoto.com/wp-content/uploads/2025/05/TITLE-4.png" alt="Fastback Moto"></a>
+    <nav class="links">
+      <a href="index.html" class="on">Home</a>
+      <a href="services.html">Services</a>
+      <a href="inventory.html">Inventory</a>
+      <a href="contact.html">Contact</a>
+      <a class="btn btn-solid btn-sm nav-cta" href="https://fastbackmoto.setmore.com/" target="_blank" rel="noopener">Book Service</a>
+    </nav>
+    <button class="burger" onclick="document.getElementById('mm').classList.toggle('open')" aria-label="Menu"><i class="fas fa-bars"></i></button>
+  </div>
+  <div class="mmenu" id="mm">
+    <a href="index.html">Home</a><a href="services.html">Services</a><a href="inventory.html">Inventory</a><a href="contact.html">Contact</a><a href="https://fastbackmoto.setmore.com/" target="_blank" rel="noopener">⚡ Book Service</a>
+  </div>
+</header>
+
+<!-- ═══ HERO ═══ DIVI: fullwidth section, background image + overlay. Service-first: booking is the primary CTA. -->
+<section class="hero">
+  <div class="hero-bg" style="background-image:url('https://fastbackmoto.com/wp-content/uploads/2025/07/1A3A0675-scaled.jpg')"></div>
+  <div class="cx">
+    <div class="hero-tag">⚡ Family Owned · Woods Cross, Utah</div>
+    <h1 class="h-disp h-xl">Your Powersports<br>Quick Service Center</h1>
+    <p>Every year, make, and model — dirt, street, cruiser, ATV and side-by-side. Honest diagnostics, upfront pricing, and a shop that treats your machine like it's ours.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-solid" href="https://fastbackmoto.setmore.com/" target="_blank" rel="noopener"><i class="fas fa-wrench"></i> Book a Service</a>
+      <a class="btn btn-ghost" href="inventory.html">Bikes for Sale</a>
+    </div>
+    <div class="hero-meta">
+      <span>Specialty<b>Service &amp; Repair</b></span>
+      <span>We Work On<b>All Years · Makes · Models</b></span>
+      <span>Turnaround<b>Fast &amp; Communicated</b></span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ REVIEW TICKER ═══ Signature element. Real Google review pull-quotes. DIVI: code module (paste this block). -->
+<div class="ticker" aria-label="Customer reviews">
+  <div class="ticker-track" id="tick"></div>
+</div>
+
+<!-- ═══ VEHICLE SELECTOR ═══ DIVI: regular section, 4-column row of image+text modules -->
+<section class="sec">
+  <div class="cx">
+    <div class="eyebrow rv">Service, Matched To Your Ride</div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;flex-wrap:wrap;margin-bottom:2rem">
+      <h2 class="h-disp h-lg rv">What Are You Riding?</h2>
+      <a class="btn btn-ghost btn-sm rv" href="services.html">Full Service Menu →</a>
+    </div>
+    <div class="grid4">
+      <a class="veh rv" href="services.html#dirt"><img src="https://fastbackmoto.com/wp-content/uploads/2025/04/2024-RXB-250-H0.png" alt="Dirt bike" onerror="this.style.display='none'"><h3>Dirt Bike</h3><div class="spec">MX · Enduro · Trail</div></a>
+      <a class="veh rv d1" href="services.html#sport"><img src="https://fastbackmoto.com/wp-content/uploads/2025/04/Lifan-Mini.png" alt="Sport bike" onerror="this.style.display='none'"><h3>Sport &amp; Street</h3><div class="spec">Sport · Naked · ADV</div></a>
+      <a class="veh rv d2" href="services.html#cruiser"><img src="https://fastbackmoto.com/wp-content/uploads/2025/05/Honda-Shadow-1.png" alt="Cruiser" onerror="this.style.display='none'"><h3>Cruiser</h3><div class="spec">V-Twin · Touring</div></a>
+      <a class="veh rv d3" href="services.html#utv"><div style="height:96px;display:flex;align-items:center;justify-content:center;font-size:2.6rem;margin-bottom:.8rem"><i class="fas fa-truck-monster"></i></div><h3>UTV / ATV</h3><div class="spec">SxS · Quad · Snow</div></a>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ═══ PRIORITY SERVICES ═══ DIVI: regular section, 3-column row of blurb modules -->
+<section class="sec">
+  <div class="cx">
+    <div class="eyebrow rv">Fastback Priority Services</div>
+    <h2 class="h-disp h-lg rv" style="margin-bottom:2rem">In, Out, Back Riding</h2>
+    <div class="grid3">
+      <a class="card svc rv" href="service-detail.html">
+        <div class="svc-ic"><i class="fas fa-circle-notch"></i></div>
+        <h3>Tires &amp; Wheels</h3>
+        <p>Mount and balance done same-day whenever we can — carry-in or on the bike.</p>
+        <span class="go">View Details →</span>
+      </a>
+      <a class="card svc rv d1" href="service-detail.html">
+        <div class="svc-ic"><i class="fas fa-oil-can"></i></div>
+        <h3>Oil Change</h3>
+        <p>Full synthetic or conventional, correct spec for your machine and riding style.</p>
+        <span class="go">View Details →</span>
+      </a>
+      <a class="card svc rv d2" href="service-detail.html">
+        <div class="svc-ic"><i class="fas fa-clipboard-check"></i></div>
+        <h3>Seasonal Inspection</h3>
+        <p>Pre-season or post-storage — fuel system, engine, oil, exhaust, and battery. $130.</p>
+        <span class="go">View Details →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ABOUT ═══ DIVI: regular section, 2-column row (image | text) -->
+<section class="sec dark">
+  <div class="cx grid2">
+    <div class="rv">
+      <img src="https://fastbackmoto.com/wp-content/uploads/2025/07/17A2110-1-scaled.jpg" alt="Inside the Fastback Moto shop" style="border:1px solid var(--line-dk)" onerror="this.style.display='none'">
+    </div>
+    <div class="rv d1">
+      <div class="eyebrow">The Fastback Family</div>
+      <h2 class="h-disp h-lg">A Shop Run<br>By Riders</h2>
+      <p class="lead" style="margin:1.2rem 0">Fastback Moto is a small, family-owned powersports shop — not a volume dealership. That's the point. Every machine that rolls through the door gets set up by people who ride, with honest diagnostics, fair pricing, and a call before we do anything you didn't ask for.</p>
+      <p class="lead" style="margin-bottom:1.6rem">We sell bikes too — a small, hand-picked floor of new and used units, most of which come straight through our own service bay.</p>
+      <a class="btn btn-solid" href="contact.html">Come Say Hi</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ INVENTORY TEASER ═══ DIVI: regular section, 3-column row. Cards render from inventory.js (code module in Divi). -->
+<section class="sec">
+  <div class="cx">
+    <div class="eyebrow rv">For Sale · Small Floor, Hand-Picked</div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;flex-wrap:wrap;margin-bottom:2rem">
+      <h2 class="h-disp h-lg rv">On The Floor Right Now</h2>
+      <a class="btn btn-ghost btn-sm rv" href="inventory.html">Full Inventory →</a>
+    </div>
+    <div class="grid3" id="featured"></div>
+    <p class="spec rv" style="margin-top:1.4rem">We're not a volume dealer — when a unit is here, it's because we'd ride it ourselves.</p>
+  </div>
+</section>
+
+<!-- ═══ REVIEWS ═══ DIVI: dark section, 3-column row of testimonial/code modules -->
+<section class="sec dark">
+  <div class="cx">
+    <div class="eyebrow rv">Straight From Google</div>
+    <h2 class="h-disp h-lg rv" style="margin-bottom:2rem">Word Gets Around</h2>
+    <div class="grid3">
+      <div class="rev rv"><div class="stars">★★★★★</div><p>"This isn't a volume shop — it's precision work."</p><div class="who">Robert H. · Google Review</div></div>
+      <div class="rev rv d1"><div class="stars">★★★★★</div><p>"Qualified personnel that do quality work and don't drain your wallet."</p><div class="who">Travis C. · Google Review</div></div>
+      <div class="rev rv d2"><div class="stars">★★★★★</div><p>"Very friendly, knowledgeable, and transparent. They charge fair prices as well."</p><div class="who">Joe W. · Google Review</div></div>
+    </div>
+    <div class="rv" style="margin-top:1.8rem">
+      <a class="btn btn-ghost btn-sm" href="https://g.page/r/CX6qgArgAXynEAE/review" target="_blank" rel="noopener"><i class="fab fa-google"></i> Read All Reviews</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA BAND ═══ DIVI: fullwidth CTA module -->
+<section class="sec-tight" style="background:var(--accent);color:var(--accent-ink)">
+  <div class="cx" style="display:flex;justify-content:space-between;align-items:center;gap:1.5rem;flex-wrap:wrap">
+    <h2 class="h-disp h-md">⚡ Riding season doesn't wait. Neither do we.</h2>
+    <a class="btn btn-solid" href="https://fastbackmoto.setmore.com/" target="_blank" rel="noopener">Book a Service</a>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ DIVI: Theme Builder global footer -->
+<footer>
+  <div class="cx">
+    <div class="fgrid">
+      <div class="fcol fbrand">
+        <img src="https://fastbackmoto.com/wp-content/uploads/2025/05/TITLE-4.png" alt="Fastback Moto">
+        <p>Family-owned powersports service &amp; sales. Every year, make, and model.</p>
+        <div class="fsoc">
+          <a href="https://www.facebook.com/fastbackmoto/" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/fastbackmoto/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://g.page/r/CX6qgArgAXynEAE/review" target="_blank" rel="noopener" aria-label="Google Reviews"><i class="fab fa-google"></i></a>
         </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero-bg min-h-[85vh] flex items-center relative px-6">
-        <div class="max-w-4xl mx-auto text-center md:text-left md:ml-20 z-10">
-            <span class="text-amber-400 uppercase font-bold tracking-widest text-sm bg-amber-400/10 px-4 py-1.5 rounded-full">Next Level Adventure</span>
-            <h1 class="text-5xl md:text-7xl font-black mt-4 leading-none tracking-tight">
-                GEAR UP FOR <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">THE RIDE</span>
-            </h1>
-            <p class="mt-6 text-lg text-slate-300 max-w-xl">
-                Skip the static catalogs. Explore our precision dirt, enduro, street, and electric adventure fleets optimized for your exact performance skill level.
-            </p>
-            <div class="mt-8 flex flex-wrap gap-4 justify-center md:justify-start">
-                <a href="#inventory" class="bg-gradient-to-r from-amber-500 to-orange-500 hover:brightness-110 text-slate-950 font-extrabold px-8 py-4 rounded-xl transition shadow-xl shadow-orange-950/20 uppercase tracking-wider">
-                    Browse All Inventory
-                </a>
-                <a href="#services" class="border border-slate-700 hover:border-slate-500 bg-slate-900/40 backdrop-blur px-8 py-4 rounded-xl font-bold transition uppercase tracking-wider">
-                    Our Services
-                </a>
-            </div>
+      </div>
+      <div class="fcol">
+        <h4>Shop</h4>
+        <a href="services.html">Services &amp; Rates</a>
+        <a href="inventory.html">Unit Inventory</a>
+        <a href="contact.html">Request an Estimate</a>
+        <a href="https://fastbackmoto.setmore.com/" target="_blank" rel="noopener">Book Online</a>
+      </div>
+      <div class="fcol">
+        <h4>Hours</h4>
+        <div class="hrs">
+          <span class="d">Mon–Fri</span><span>9:00a – 6:00p</span>
+          <span class="d">Saturday</span><span>9:00a – 5:00p</span>
+          <span class="d">Sunday</span><span class="closed">Closed</span>
         </div>
-    </section>
+      </div>
+      <div class="fcol">
+        <h4>Find Us</h4>
+        <a href="tel:3857772536"><i class="fas fa-phone"></i> 385-777-2536 (call or text)</a>
+        <a href="mailto:info@fastbackmoto.com"><i class="fas fa-envelope"></i> info@fastbackmoto.com</a>
+        <a href="https://maps.google.com/?q=Fastback+Moto+1187+S+Redwood+Rd+Woods+Cross+UT" target="_blank" rel="noopener"><i class="fas fa-location-dot"></i> 1187 S Redwood Rd, Woods Cross, UT 84087</a>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>© 2026 Fastback Moto · Woods Cross, Utah ⚡</span>
+      <span><a href="https://fastbackmoto.com/terms-conditions/" target="_blank" rel="noopener">Terms</a><a href="https://fastbackmoto.com/privacy-policy/" target="_blank" rel="noopener">Privacy</a></span>
+    </div>
+  </div>
+</footer>
 
-    <!-- Interactive Fleet Experience Section -->
-    <section id="inventory" class="max-w-7xl mx-auto px-6 py-24">
-        <div class="flex flex-col md:flex-row items-start md:items-end justify-between mb-12 gap-6">
-            <div>
-                <h2 class="text-3xl font-black tracking-tight uppercase md:text-4xl">Live Inventory Vault</h2>
-                <p class="text-slate-400 mt-2">Dynamic sorting mechanism condensing their structural bloat into an instantly clean interactive viewport.</p>
-            </div>
-            
-            <!-- Dynamic Controls Layout -->
-            <div class="flex flex-wrap gap-2 bg-slate-950 p-2 border border-slate-800 rounded-xl">
-                <button onclick="filterCondition('all')" id="btn-all" class="px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider bg-amber-500 text-slate-950 cursor-pointer transition">All</button>
-                <button onclick="filterCondition('new')" id="btn-new" class="px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-slate-200 cursor-pointer transition">New</button>
-                <button onclick="filterCondition('used')" id="btn-used" class="px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-slate-200 cursor-pointer transition">Used</button>
-                <button onclick="filterCondition('incoming')" id="btn-incoming" class="px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-slate-200 cursor-pointer transition">Incoming</button>
-            </div>
-        </div>
+<script>
+/* ═══════════════════════════════════════════════════════════
+   FASTBACK MOTO — INVENTORY DATA
+   This is the ONLY file that changes day-to-day.
+   Edit it by hand or use admin.html (the easy way).
+   "status": "New" | "Used" | "Incoming"
+   Units below are seeded from real Fastback listings.
+   ═══════════════════════════════════════════════════════════ */
+const INVENTORY = [
+  {
+    "id": "ktm-freeride-exc-2021",
+    "year": 2021,
+    "make": "KTM",
+    "model": "Freeride E-XC",
+    "type": "Electric Enduro",
+    "status": "Used",
+    "price": 4900,
+    "miles": "Low hours",
+    "photo": "https://fastbackmoto.com/wp-content/uploads/2025/04/2024-RXB-250-H0.png",
+    "blurb": "Silent, torquey, trail-ready electric enduro. Fully inspected in our shop."
+  },
+  {
+    "id": "cake-kalk-and",
+    "year": 2023,
+    "make": "Cake",
+    "model": "Kalk&",
+    "type": "Electric Dual Sport",
+    "status": "New",
+    "price": 11500,
+    "miles": "0 mi",
+    "photo": "",
+    "blurb": "Street-legal electric dual sport. Instant torque, featherweight build, registers as a 125 equivalent."
+  },
+  {
+    "id": "polaris-rzr-xp1000-2014",
+    "year": 2014,
+    "make": "Polaris",
+    "model": "RZR XP 1000 — 2 Door",
+    "type": "Side x Side",
+    "status": "Used",
+    "price": 13000,
+    "miles": "Serviced here",
+    "photo": "",
+    "blurb": "Clean XP 1000 that came through our own service bay. Ready for the dunes."
+  },
+  {
+    "id": "polaris-rzr-xp900-2012",
+    "year": 2012,
+    "make": "Polaris",
+    "model": "RZR XP 900 — 2 Door",
+    "type": "Side x Side",
+    "status": "Used",
+    "price": 11000,
+    "miles": "Well maintained",
+    "photo": "",
+    "blurb": "Proven XP 900 platform. Full seasonal inspection completed before listing."
+  },
+  {
+    "id": "honda-shadow-incoming",
+    "year": 2007,
+    "make": "Honda",
+    "model": "Shadow 750",
+    "type": "Cruiser",
+    "status": "Incoming",
+    "price": 0,
+    "miles": "In prep",
+    "photo": "https://fastbackmoto.com/wp-content/uploads/2025/05/Honda-Shadow-1.png",
+    "blurb": "Currently in our shop being gone through front to back. Call to get first look."
+  }
+];
 
-        <!-- Inventory Multi-Grid Framework -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Unit 1 -->
-            <div class="bike-card bg-slate-950 border border-slate-800/80 rounded-2xl overflow-hidden group hover:border-slate-700 transition duration-300" data-condition="new">
-                <div class="h-64 overflow-hidden relative bg-slate-900">
-                    <span class="absolute top-4 left-4 bg-emerald-500 text-slate-950 text-[10px] font-black uppercase px-2.5 py-1 rounded-md z-10">In Stock</span>
-                    <div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition duration-500" style="background-image: url('https://fastbackmoto.com/wp-content/uploads/2025/03/1.jpg');"></div>
-                </div>
-                <div class="p-6">
-                    <span class="text-amber-400 text-xs font-bold uppercase tracking-widest">New Enduro Fleet</span>
-                    <h3 class="text-xl font-bold mt-1 group-hover:text-amber-400 transition">Orion Pro Series</h3>
-                    <div class="mt-4 pt-4 border-t border-slate-900 flex justify-between items-center text-sm text-slate-400">
-                        <span>Terrain: Off-Road</span>
-                        <span class="font-bold text-slate-200">Manual 5-Speed</span>
-                    </div>
-                </div>
-            </div>
+</script>
+<script>
+/* Review ticker — short pull-quotes from real Google reviews (duplicated for seamless loop) */
+const QUOTES=[
+  ["This isn't a volume shop — it's precision work.","Robert H."],
+  ["Quality work and don't drain your wallet.","Travis C."],
+  ["Very good and honest people… my go-to spot.","Troy W."],
+  ["Friendly, knowledgeable, and transparent.","Joe W."],
+  ["Great team, very communicative through the entire process.","Trevor P."],
+  ["Excellent communication… would definitely recommend.","Brandon W."]
+];
+const tick=document.getElementById('tick');
+tick.innerHTML=[...QUOTES,...QUOTES].map(q=>`<span class="tk"><span class="bolt">⚡</span>"${q[0]}" <b>— ${q[1]}, ★★★★★</b></span>`).join('');
 
-            <!-- Unit 2 -->
-            <div class="bike-card bg-slate-950 border border-slate-800/80 rounded-2xl overflow-hidden group hover:border-slate-700 transition duration-300" data-condition="used">
-                <div class="h-64 overflow-hidden relative bg-slate-900">
-                    <span class="absolute top-4 left-4 bg-amber-500 text-slate-950 text-[10px] font-black uppercase px-2.5 py-1 rounded-md z-10">Pre-Owned</span>
-                    <div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition duration-500" style="background-image: url('https://fastbackmoto.com/wp-content/uploads/2025/03/2.jpg');"></div>
-                </div>
-                <div class="p-6">
-                    <span class="text-amber-400 text-xs font-bold uppercase tracking-widest">Certified Used</span>
-                    <h3 class="text-xl font-bold mt-1 group-hover:text-amber-400 transition">Apex Street Fighter</h3>
-                    <div class="mt-4 pt-4 border-t border-slate-900 flex justify-between items-center text-sm text-slate-400">
-                        <span>Terrain: Asphalt</span>
-                        <span class="font-bold text-slate-200">Low Miles</span>
-                    </div>
-                </div>
-            </div>
+/* Featured inventory — first 3 units from inventory.js */
+const feat=document.getElementById('featured');
+INVENTORY.slice(0,3).forEach((u,i)=>{
+  const price=u.price>0?'$'+u.price.toLocaleString():'Call for price';
+  const img=u.photo?`style="background-image:url('${u.photo}');background-size:contain;background-repeat:no-repeat;background-position:center"`:'';
+  feat.innerHTML+=`<a class="unit rv ${i?'d'+i:''}" href="inventory.html">
+    <div class="unit-img" ${img}><span class="badge ${u.status.toLowerCase()}">${u.status}</span></div>
+    <div class="unit-body"><h3>${u.year} ${u.make} ${u.model}</h3>
+    <div class="unit-row"><span class="spec">${u.type}</span><span class="price-tag">${price}</span></div></div></a>`;
+});
 
-            <!-- Unit 3 -->
-            <div class="bike-card bg-slate-950 border border-slate-800/80 rounded-2xl overflow-hidden group hover:border-slate-700 transition duration-300" data-condition="incoming">
-                <div class="h-64 overflow-hidden relative bg-slate-900">
-                    <span class="absolute top-4 left-4 bg-blue-500 text-slate-100 text-[10px] font-black uppercase px-2.5 py-1 rounded-md z-10">Accepting Deposits</span>
-                    <div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition duration-500" style="background-image: url('https://fastbackmoto.com/wp-content/uploads/2025/03/3.jpg');"></div>
-                </div>
-                <div class="p-6">
-                    <span class="text-amber-400 text-xs font-bold uppercase tracking-widest">Incoming Transit</span>
-                    <h3 class="text-xl font-bold mt-1 group-hover:text-amber-400 transition">Volt Adventure E-Enduro</h3>
-                    <div class="mt-4 pt-4 border-t border-slate-900 flex justify-between items-center text-sm text-slate-400">
-                        <span>Terrain: All-Terrain</span>
-                        <span class="font-bold text-slate-200">Pure Electric</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section id="services" class="bg-slate-950 border-t border-b border-slate-800 py-24">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center max-w-2xl mx-auto mb-16">
-                <h2 class="text-3xl font-black uppercase tracking-tight md:text-4xl">Master Tech Services</h2>
-                <p class="text-slate-400 mt-3">From routine track tune-ups to complete overhaul rebuilds.</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div>
-                    <img src="https://fastbackmoto.com/wp-content/uploads/2025/03/Service-Banner.png" class="rounded-2xl border border-slate-800 shadow-xl" alt="Service Bay">
-                </div>
-                <div class="space-y-6">
-                    <div class="flex gap-4">
-                        <div class="bg-amber-500/10 text-amber-400 w-12 h-12 rounded-xl flex items-center justify-center shrink-0 font-bold">01</div>
-                        <div>
-                            <h3 class="text-lg font-bold uppercase tracking-wide">Performance Engine Optimization</h3>
-                            <p class="text-slate-400 text-sm mt-1">Advanced track setups built for extreme high-altitude trail demands.</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-4">
-                        <div class="bg-amber-500/10 text-amber-400 w-12 h-12 rounded-xl flex items-center justify-center shrink-0 font-bold">02</div>
-                        <div>
-                            <h3 class="text-lg font-bold uppercase tracking-wide">Suspension & Tuning</h3>
-                            <p class="text-slate-400 text-sm mt-1">Custom sag adjustment calibrated exactly to rider weight classifications.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Core Scripting For Dynamic Filtering Showcase -->
-    <script>
-        function filterCondition(condition) {
-            const cards = document.querySelectorAll('.bike-card');
-            const buttons = ['all', 'new', 'used', 'incoming'];
-            
-            // Render Class Toggles For Active Buttons
-            buttons.forEach(btn => {
-                const target = document.getElementById(`btn-${btn}`);
-                if(btn === condition) {
-                    target.className = "px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider bg-amber-500 text-slate-950 cursor-pointer transition";
-                } else {
-                    target.className = "px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-slate-200 cursor-pointer transition";
-                }
-            });
-
-            // Target DOM Filtering Toggles
-            cards.forEach(card => {
-                if (condition === 'all' || card.getAttribute('data-condition') === condition) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-    </script>
+/* Scroll reveal */
+/* Scroll reveal — with failsafes so content can never stay hidden */
+function revealAll(){document.querySelectorAll('.rv').forEach(el=>el.classList.add('in'))}
+try{
+  if('IntersectionObserver' in window){
+    const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}}),{threshold:.08});
+    document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+    setTimeout(revealAll,1500); /* failsafe: everything visible within 1.5s regardless */
+  }else{revealAll()}
+}catch(e){revealAll()}
+</script>
 </body>
 </html>
