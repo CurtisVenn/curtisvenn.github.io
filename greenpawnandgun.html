@@ -191,6 +191,24 @@
   .foot a { color: #c9ccd3; text-decoration: none; }
   .foot a:hover { color: var(--accent); }
   .foot-links { display: flex; gap: 20px; }
+
+  /* Phone tweaks */
+  @media (max-width: 560px) {
+    section { padding: 60px 0; }
+    .nav { height: 60px; }
+    .logo-mark { width: 34px; height: 34px; font-size: 1rem; }
+    .logo-name { font-size: 1.05rem; white-space: nowrap; }
+    .nav-call { padding: 8px 14px; }
+    .hero { padding: 64px 0 60px; }
+    .hero p { font-size: 1.05rem; margin-bottom: 26px; }
+    .hero-ctas .btn { width: 100%; justify-content: center; }
+    .hero-meta { margin-top: 32px; gap: 18px; }
+    .trust ul { justify-content: flex-start; flex-direction: column; align-items: center; gap: 6px; }
+    .services-grid, .steps { margin-top: 32px; }
+    .card, .step { padding: 24px 22px; }
+    .map, .map iframe { min-height: 280px; }
+    .foot { flex-direction: column; align-items: flex-start; }
+  }
 </style>
 </head>
 <body>
