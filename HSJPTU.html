@@ -114,6 +114,10 @@
     textarea:focus, input:focus { outline: none; border-color: var(--red); box-shadow: 0 0 0 3px rgba(255,45,45,.18); }
     .prefix { font-family: 'JetBrains Mono', monospace; color: var(--red); font-size: .9rem; margin-bottom: 8px; }
     .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+    .field { margin-top: 16px; }
+    .req { color: var(--red); }
+    input.invalid { border-color: var(--amber); box-shadow: 0 0 0 3px rgba(255,176,32,.18); }
+    .hint.invalid { color: var(--amber); }
     .hint { font-size: .78rem; color: var(--muted); margin-top: 6px; }
     .count { text-align: right; font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: var(--muted); margin-top: 6px; }
 
@@ -217,16 +221,16 @@
             <button type="button">how much DMT is in a frog</button>
           </div>
 
-          <div class="row">
-            <div>
-              <label for="name">Your name / handle</label>
-              <input id="name" name="name" type="text" maxlength="80" placeholder="Optional. 'A guy' is fine.">
-            </div>
-            <div>
-              <label for="contact">Where should Jamie reply?</label>
-              <input id="contact" name="contact" type="text" maxlength="120" placeholder="Email, IG, carrier pigeon">
-              <div class="hint">Optional, but otherwise the answer goes into the void.</div>
-            </div>
+          <div class="field">
+            <label for="contact">Where should Jamie reply? <span class="req">*</span></label>
+            <input id="contact" name="contact" type="text" maxlength="120" required
+              placeholder="you@email.com or @yourIG">
+            <div class="hint" id="contactHint">Required. Email gets the fastest reply. Carrier pigeons are no longer accepted.</div>
+          </div>
+
+          <div class="field">
+            <label for="name">Your name / handle</label>
+            <input id="name" name="name" type="text" maxlength="80" placeholder="Optional. 'A guy' is fine.">
           </div>
 
           <!-- honeypot for bots -->
@@ -265,7 +269,7 @@
 
   <script>
     const $ = (id) => document.getElementById(id);
-    const q = $('question'), count = $('count');
+    const q = $('question'), count = $('count'), contact = $('contact');
 
     // Rotating placeholders
     const placeholders = [
@@ -285,6 +289,7 @@
     }, 3500);
 
     q.addEventListener('input', () => count.textContent = q.value.length);
+    contact.addEventListener('input', () => { contact.classList.remove('invalid'); $('contactHint').classList.remove('invalid'); });
 
     document.querySelectorAll('.chips button').forEach(b =>
       b.addEventListener('click', () => { q.value = b.textContent; q.dispatchEvent(new Event('input')); q.focus(); })
@@ -316,6 +321,13 @@
         q.placeholder = "Jamie can't pull up nothing. Well, he can, but it's a blank page.";
         return;
       }
+      if (!contact.value.trim()) {
+        contact.classList.add('invalid');
+        $('contactHint').classList.add('invalid');
+        $('contactHint').textContent = "Jamie needs somewhere to send it. Email or IG, please.";
+        contact.focus();
+        return;
+      }
 
       const btn = $('submitBtn');
       btn.disabled = true; btn.textContent = 'Pulling it up...';
@@ -324,7 +336,12 @@
       const sending = demo ? Promise.resolve() : fetch(FORM_ENDPOINT, {
         method: 'POST',
         headers: { 'Accept': 'application/json' },
-        body: new FormData(e.target),
+        body: (() => {
+          const fd = new FormData(e.target);
+          const c = contact.value.trim();
+          if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(c)) fd.append('email', c); // lets you hit Reply in the email
+          return fd;
+        })(),
       }).then(r => { sent = r.ok; }).catch(() => { sent = false; });
 
       $('formBody').style.display = 'none';
@@ -343,9 +360,7 @@
 
       if (demo || sent) {
         $('resultTitle').textContent = "Jamie's on it.";
-        $('resultText').textContent = $('contact').value.trim()
-          ? "Your request is in the queue. Jamie will reply when he finds it (or something close)."
-          : "Your request is in the queue. You didn't leave contact info, so the answer will be whispered into the wind.";
+        $('resultText').textContent = "Your request is in the queue. Jamie will reply when he finds it (or something close).";
       } else {
         $('resultTitle').textContent = "Jamie dropped the laptop.";
         $('resultText').textContent = "Your request didn't go through. Try again, or yell it louder.";
@@ -355,6 +370,7 @@
 
     $('again').addEventListener('click', () => {
       $('intake').reset(); count.textContent = '0';
+      contact.classList.remove('invalid'); $('contactHint').classList.remove('invalid');
       $('result').classList.remove('show');
       $('formBody').style.display = '';
       q.focus();
