@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HSJPTU | Holy Sh*t Jamie, Pull That Up</title>
+  <meta name="description" content="Ask a question. A real human named not-Jamie will Google it for you. Eventually.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ─────────────────────────────────────────────
+       SETUP: GitHub Pages can't receive form posts,
+       so paste a form endpoint here (e.g. create a free
+       form at formspree.io and paste its URL:
+       "https://formspree.io/f/xxxxxxx").
+       Leave it empty and the page runs in demo mode.
+       ───────────────────────────────────────────── */
+  </style>
+  <script>
+    const FORM_ENDPOINT = "";
+  </script>
+
+  <style>
+    :root {
+      --bg:      #0b0b0c;
+      --panel:   #151517;
+      --line:    #2a2a2e;
+      --text:    #f3efe8;
+      --muted:   #8d8a85;
+      --red:     #ff2d2d;
+      --red-dim: #5a1414;
+      --amber:   #ffb020;
+      --green:   #3ddc84;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-image:
+        radial-gradient(ellipse at 50% -10%, rgba(255,45,45,0.14), transparent 55%),
+        repeating-linear-gradient(90deg, rgba(255,255,255,0.015) 0 1px, transparent 1px 80px);
+    }
+    body::after { /* scanlines */
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 50;
+      background: repeating-linear-gradient(0deg, rgba(0,0,0,0.18) 0 1px, transparent 1px 3px);
+      opacity: .35;
+    }
+
+    .wrap { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
+
+    /* Top bar */
+    .topbar {
+      display: flex; justify-content: space-between; align-items: center; gap: 12px;
+      font-family: 'JetBrains Mono', monospace; font-size: .78rem; color: var(--muted);
+      margin-bottom: 40px;
+    }
+    .topbar a { color: var(--muted); text-decoration: none; }
+    .topbar a:hover { color: var(--text); }
+    .on-air {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 2px solid var(--red); color: var(--red);
+      padding: 4px 10px; border-radius: 4px; letter-spacing: .2em; font-weight: 600;
+      animation: glow 2.4s ease-in-out infinite;
+    }
+    .on-air .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); }
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 6px rgba(255,45,45,.5), inset 0 0 6px rgba(255,45,45,.3); }
+      50%      { box-shadow: 0 0 18px rgba(255,45,45,.9), inset 0 0 10px rgba(255,45,45,.5); }
+    }
+
+    /* Hero */
+    h1 {
+      font-family: 'Anton', sans-serif; font-weight: 400;
+      font-size: clamp(2.6rem, 11vw, 5.4rem); line-height: .92;
+      text-transform: uppercase; letter-spacing: .01em;
+    }
+    h1 .bleep {
+      background: var(--red); color: var(--bg); padding: 0 .12em; display: inline-block;
+      transform: rotate(-2deg);
+    }
+    h1 .small { display: block; font-size: .42em; color: var(--muted); letter-spacing: .08em; margin-top: 10px; }
+    .tagline { margin-top: 18px; font-size: 1.1rem; color: #cfcac2; max-width: 560px; line-height: 1.5; }
+    .tagline em { color: var(--amber); font-style: normal; }
+
+    /* Status strip */
+    .status {
+      margin: 28px 0 22px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+      font-family: 'JetBrains Mono', monospace; font-size: .74rem;
+    }
+    .status div { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; }
+    .status b { display: block; color: var(--muted); font-weight: 400; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .1em; font-size: .68rem; }
+    .status .ok { color: var(--green); }
+    .status .warn { color: var(--amber); }
+
+    /* Form card */
+    .card {
+      background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+      padding: 22px; position: relative;
+    }
+    label { display: block; font-size: .8rem; color: var(--muted); text-transform: uppercase; letter-spacing: .12em; margin-bottom: 8px; }
+    textarea, input {
+      width: 100%; background: #0e0e10; color: var(--text);
+      border: 1px solid var(--line); border-radius: 8px;
+      font: inherit; font-size: 1.05rem; padding: 14px 14px;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    textarea { min-height: 130px; resize: vertical; font-size: 1.15rem; line-height: 1.45; }
+    textarea:focus, input:focus { outline: none; border-color: var(--red); box-shadow: 0 0 0 3px rgba(255,45,45,.18); }
+    .prefix { font-family: 'JetBrains Mono', monospace; color: var(--red); font-size: .9rem; margin-bottom: 8px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+    .hint { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+    .count { text-align: right; font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: var(--muted); margin-top: 6px; }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .chips button {
+      background: transparent; color: #cfcac2; border: 1px dashed var(--line);
+      border-radius: 999px; padding: 6px 12px; font: inherit; font-size: .82rem; cursor: pointer;
+    }
+    .chips button:hover { border-color: var(--amber); color: var(--amber); }
+
+    .submit {
+      margin-top: 20px; width: 100%;
+      font-family: 'Anton', sans-serif; font-size: 1.5rem; letter-spacing: .04em; text-transform: uppercase;
+      color: #fff; background: var(--red); border: none; border-radius: 10px; padding: 16px;
+      cursor: pointer; box-shadow: 0 6px 0 var(--red-dim); transition: transform .08s, box-shadow .08s;
+    }
+    .submit:hover { filter: brightness(1.08); }
+    .submit:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--red-dim); }
+    .submit:disabled { opacity: .6; cursor: wait; }
+
+    .fine { margin-top: 14px; font-size: .75rem; color: var(--muted); text-align: center; }
+
+    /* Result panel */
+    .result { display: none; text-align: center; padding: 10px 0; }
+    .result.show { display: block; }
+    .monitor {
+      font-family: 'JetBrains Mono', monospace; text-align: left;
+      background: #050506; border: 1px solid var(--line); border-radius: 8px;
+      padding: 16px; font-size: .85rem; line-height: 1.7; color: var(--green); min-height: 170px;
+    }
+    .monitor .q { color: var(--text); }
+    .monitor .err { color: var(--amber); }
+    .cursor { display: inline-block; width: 8px; height: 1em; background: var(--green); vertical-align: -2px; animation: blink 1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+    .result h2 { font-family: 'Anton', sans-serif; font-weight: 400; font-size: 2rem; text-transform: uppercase; margin: 22px 0 6px; }
+    .result p { color: #cfcac2; }
+    .again { margin-top: 18px; background: transparent; color: var(--text); border: 1px solid var(--line); border-radius: 8px; padding: 10px 18px; font: inherit; cursor: pointer; }
+    .again:hover { border-color: var(--text); }
+
+    /* Disclaimers */
+    .disclaimers { margin-top: 40px; }
+    .disclaimers h3 { font-family: 'Anton', sans-serif; font-weight: 400; text-transform: uppercase; font-size: 1.3rem; letter-spacing: .04em; margin-bottom: 14px; }
+    .disclaimers ol { list-style: none; counter-reset: d; display: grid; gap: 10px; }
+    .disclaimers li {
+      counter-increment: d; background: var(--panel); border-left: 3px solid var(--red);
+      border-radius: 0 8px 8px 0; padding: 12px 14px 12px 46px; position: relative; color: #cfcac2; font-size: .95rem; line-height: 1.45;
+    }
+    .disclaimers li::before {
+      content: counter(d, decimal-leading-zero); position: absolute; left: 14px; top: 12px;
+      font-family: 'JetBrains Mono', monospace; color: var(--red); font-size: .8rem;
+    }
+
+    .sr { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+    footer { margin-top: 48px; text-align: center; font-size: .75rem; color: var(--muted); line-height: 1.6; }
+
+    @media (max-width: 560px) {
+      .row { grid-template-columns: 1fr; }
+      .status { grid-template-columns: 1fr; }
+      .card { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <div class="topbar">
+      <a href="index.html">&larr; curtisvenn.com</a>
+      <span class="on-air"><span class="dot"></span>ON AIR</span>
+    </div>
+
+    <h1>
+      Holy <span class="bleep">sh*t</span><br>
+      Jamie, pull<br>that up.
+      <span class="small">HSJPTU &middot; beta (very)</span>
+    </h1>
+
+    <p class="tagline">
+      Ask anything. A real, live human will Google it for you and get back to you.
+      It's like AI, except it's <em>one guy</em> with a laptop and questionable Wi-Fi.
+    </p>
+
+    <div class="status">
+      <div><b>Jamie status</b><span class="ok" id="jamieStatus">&#9679; Online-ish</span></div>
+      <div><b>Est. response</b><span class="warn" id="eta">4 min &ndash; 6 weeks</span></div>
+      <div><b>Accuracy</b><span>Vibes-based</span></div>
+    </div>
+
+    <div class="card">
+      <form id="intake" novalidate>
+        <div id="formBody">
+          <div class="prefix">&gt; "Jamie, pull up&hellip;"</div>
+          <label for="question" class="sr">Your request</label>
+          <textarea id="question" name="question" maxlength="500" required
+            placeholder="that video of the chimp that can do sign language"></textarea>
+          <div class="count"><span id="count">0</span>/500</div>
+
+          <div class="chips" aria-label="Example requests">
+            <button type="button">how big a moose actually is</button>
+            <button type="button">is that true about octopuses</button>
+            <button type="button">the guy who fought a bear</button>
+            <button type="button">how much DMT is in a frog</button>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="name">Your name / handle</label>
+              <input id="name" name="name" type="text" maxlength="80" placeholder="Optional. 'A guy' is fine.">
+            </div>
+            <div>
+              <label for="contact">Where should Jamie reply?</label>
+              <input id="contact" name="contact" type="text" maxlength="120" placeholder="Email, IG, carrier pigeon">
+              <div class="hint">Optional, but otherwise the answer goes into the void.</div>
+            </div>
+          </div>
+
+          <!-- honeypot for bots -->
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+
+          <button class="submit" type="submit" id="submitBtn">Pull that up</button>
+          <p class="fine">By submitting you agree that Jamie may say "it's entirely possible."</p>
+        </div>
+
+        <div class="result" id="result" aria-live="polite">
+          <div class="monitor" id="monitor"></div>
+          <h2 id="resultTitle">Request received.</h2>
+          <p id="resultText">Jamie has been notified. Probably.</p>
+          <button type="button" class="again" id="again">Pull up something else</button>
+        </div>
+      </form>
+    </div>
+
+    <section class="disclaimers">
+      <h3>Results may vary</h3>
+      <ol>
+        <li>Jamie is not AI. Jamie is not even Jamie. Jamie is a man who also has a day job.</li>
+        <li>All research is conducted on the first page of Google. The second page is for professionals.</li>
+        <li>If the answer is a YouTube video, it will be the wrong YouTube video first.</li>
+        <li>"I'm looking for it" is a valid response and may be the only response.</li>
+        <li>Jamie reserves the right to pull up something adjacent and say "close enough."</li>
+        <li>Not medical, legal, financial, or chimp-related advice. Especially chimp-related.</li>
+      </ol>
+    </section>
+
+    <footer>
+      HSJPTU is a joke. Questions are read by a real person, so don't send anything private.<br>
+      Not affiliated with any podcast, Jamie, or the concept of research.
+    </footer>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const q = $('question'), count = $('count');
+
+    // Rotating placeholders
+    const placeholders = [
+      'that video of the chimp that can do sign language',
+      'how many calories are in an entire elk',
+      'the stat about how many people have ever lived',
+      'whether that guy really ran 200 miles',
+      'a picture of the biggest crocodile ever caught',
+      'what year the pyramids were built. no wait, the other pyramids',
+    ];
+    let pi = 0;
+    setInterval(() => {
+      if (document.activeElement !== q && !q.value) {
+        pi = (pi + 1) % placeholders.length;
+        q.placeholder = placeholders[pi];
+      }
+    }, 3500);
+
+    q.addEventListener('input', () => count.textContent = q.value.length);
+
+    document.querySelectorAll('.chips button').forEach(b =>
+      b.addEventListener('click', () => { q.value = b.textContent; q.dispatchEvent(new Event('input')); q.focus(); })
+    );
+
+    // Silly live status
+    const statuses = ['● Online-ish', '● Getting coffee', '● Typing...', '● On page 2 of Google', '● Online-ish', '● Looking for it'];
+    let si = 0;
+    setInterval(() => { si = (si + 1) % statuses.length; $('jamieStatus').textContent = statuses[si]; }, 4200);
+
+    const wait = (ms) => new Promise(r => setTimeout(r, ms));
+    const esc = (s) => s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+    async function typeLines(lines) {
+      const m = $('monitor');
+      m.innerHTML = '';
+      for (const line of lines) {
+        m.innerHTML += line + '<br>';
+        m.innerHTML = m.innerHTML.replace('<span class="cursor"></span>', '') + '<span class="cursor"></span>';
+        await wait(500 + Math.random() * 500);
+      }
+    }
+
+    $('intake').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const question = q.value.trim();
+      if (!question) {
+        q.focus();
+        q.placeholder = "Jamie can't pull up nothing. Well, he can, but it's a blank page.";
+        return;
+      }
+
+      const btn = $('submitBtn');
+      btn.disabled = true; btn.textContent = 'Pulling it up...';
+
+      let sent = false, demo = !FORM_ENDPOINT;
+      const sending = demo ? Promise.resolve() : fetch(FORM_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(e.target),
+      }).then(r => { sent = r.ok; }).catch(() => { sent = false; });
+
+      $('formBody').style.display = 'none';
+      $('result').classList.add('show');
+
+      const anim = typeLines([
+        '<span class="q">&gt; jamie, pull up "' + esc(question) + '"</span>',
+        '[ok] waking jamie up',
+        '[ok] opening new tab',
+        '[..] typing it into google with one finger',
+        '[..] scrolling past the ads',
+        '<span class="err">[!!] found it. no wait, that\'s a different chimp</span>',
+        '[ok] adding to the queue',
+      ]);
+      await Promise.all([sending, anim]);
+
+      if (demo || sent) {
+        $('resultTitle').textContent = "Jamie's on it.";
+        $('resultText').textContent = $('contact').value.trim()
+          ? "Your request is in the queue. Jamie will reply when he finds it (or something close)."
+          : "Your request is in the queue. You didn't leave contact info, so the answer will be whispered into the wind.";
+      } else {
+        $('resultTitle').textContent = "Jamie dropped the laptop.";
+        $('resultText').textContent = "Your request didn't go through. Try again, or yell it louder.";
+      }
+      btn.disabled = false; btn.textContent = 'Pull that up';
+    });
+
+    $('again').addEventListener('click', () => {
+      $('intake').reset(); count.textContent = '0';
+      $('result').classList.remove('show');
+      $('formBody').style.display = '';
+      q.focus();
+    });
+  </script>
+</body>
+</html>
