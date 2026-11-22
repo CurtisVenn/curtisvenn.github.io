@@ -453,22 +453,73 @@
       </div>
     </div>
 
+    <!-- ══ 04 CAMERA ROLL CALL ══ -->
+    <div class="project-block">
+      <div class="project-top">
+        <div class="project-number">04</div>
+        <div class="project-title-wrap">
+          <div class="project-label label-green">iPhone App · Claude Code</div>
+          <div class="project-name">Camera Roll Call</div>
+        </div>
+        <a class="project-cta" href="https://curtisvenn.com/camera-roll-call/" target="_blank">View App ↗</a>
+      </div>
+
+      <p class="project-summary">
+        A party game for iPhone: everyone in the room joins with a 4-letter code, approves a few random photos or videos from their own camera roll, then races to guess whose each one is. Up to 16 players, phone to phone, with no accounts, no servers and no ads. I'd never written Swift before this. I brought the idea and the rules; Claude Code wrote the app, ran it on simulators, and took it from an idea to TestFlight and App Store submission under the Plain and Simple name.
+      </p>
+
+      <div class="approach-label">Approach</div>
+      <div class="approach-grid">
+
+        <div class="approach-entry full">
+          <div class="entry-step">Principles First</div>
+          <div class="entry-idea">Before any screens, I wrote down the <strong>non-negotiables: free, private, same room only</strong>. Nothing leaves your phone until you approve it, no backend, no sign-up. Those went into a project brief the AI read at the start of every session, along with the decisions already made so they didn't get relitigated.</div>
+          <div class="entry-why">A written brief is the difference between a collaborator and a slot machine. When the AI knows the principles, it makes the hundred small calls (what to store, what to send, what to say in the privacy policy) the way I would.</div>
+        </div>
+
+        <div class="approach-entry">
+          <div class="entry-step">Working End to End</div>
+          <div class="entry-idea">I asked for a <strong>playable game before a polished one</strong>. The AI ran several iPhone simulators side by side so they found each other and played full games, which caught real bugs long before a real phone was involved. When real phones did fail to connect, it reproduced the failure on simulators and fixed it.</div>
+          <div class="entry-why">For a multiplayer game, nothing is true until two devices actually talk. Asking it to prove things worked, not just compile, kept the feedback loop honest.</div>
+        </div>
+
+        <div class="approach-entry">
+          <div class="entry-step">Players Decide</div>
+          <div class="entry-idea">One standing rule: <strong>if it's a game option, put it in settings</strong>. Rounds, timers, scoring, photo or video mode, and filters are all up to the host, plus presets for a quick game. The AI saved that rule and applied it to every feature after.</div>
+          <div class="entry-why">Every group plays differently. A rule stated once beats re-asking for the same thing on each feature.</div>
+        </div>
+
+        <div class="approach-entry">
+          <div class="entry-step">Scaling Up</div>
+          <div class="entry-idea">Started at 8 players. When I asked for 16, I added the <strong>constraint that no single phone should do all the work</strong>. The result: the host role rotates to the next player between games, and everyone stays in the room.</div>
+          <div class="entry-why">Stating the real worry (one phone overheating as the hub) rather than only the number produced a better design than "make it bigger" would have.</div>
+        </div>
+
+        <div class="approach-entry">
+          <div class="entry-step">Shipping It</div>
+          <div class="entry-idea">The AI handled signing, TestFlight, screenshots, the App Store listing and reviewer notes through Apple's API, under a <strong>hard scope rule: touch this app and nothing else</strong> on the shared developer account.</div>
+          <div class="entry-why">Giving AI access to real accounts is fine when the boundaries are explicit, written down, and checked before every change.</div>
+        </div>
+
+      </div>
+    </div>
+
     <!-- ══ COMING UP ══ -->
     <div class="coming-section">
       <div class="coming-header">Coming Up</div>
       <div class="coming-grid">
         <div class="coming-card">
-          <div class="coming-num">04</div>
+          <div class="coming-num">05</div>
           <div class="coming-title">Client Comms System</div>
           <div class="coming-desc">Prompt templates for booking follow-ups, shoot briefs, and delivery emails that hold a consistent voice without starting from scratch each time.</div>
         </div>
         <div class="coming-card">
-          <div class="coming-num">05</div>
+          <div class="coming-num">06</div>
           <div class="coming-title">Shoot Planner Tool</div>
           <div class="coming-desc">An interactive planner that takes location, time of day, and shoot type and surfaces lighting conditions, gear suggestions, and angle ideas.</div>
         </div>
         <div class="coming-card">
-          <div class="coming-num">06</div>
+          <div class="coming-num">07</div>
           <div class="coming-title">AI Listing Copy</div>
           <div class="coming-desc">A structured prompt system for generating consistent, on-brand descriptions across portfolio categories and the pricing page.</div>
         </div>
